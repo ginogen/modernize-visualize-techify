@@ -19,7 +19,7 @@ const Services = () => {
   const services: Service[] = [
     {
       id: 1,
-      icon: <Code className="w-8 h-8 text-primary" />,
+      icon: <Code className="w-8 h-8 text-neonGreen" />,
       title: "Custom Software Development",
       description: "Tailored software solutions designed to address your specific business needs and challenges.",
       features: [
@@ -32,7 +32,7 @@ const Services = () => {
     },
     {
       id: 2,
-      icon: <Bot className="w-8 h-8 text-primary" />,
+      icon: <Bot className="w-8 h-8 text-neonGreen" />,
       title: "AI & Chatbot Development",
       description: "Intelligent conversational interfaces that engage customers and automate support processes.",
       features: [
@@ -45,7 +45,7 @@ const Services = () => {
     },
     {
       id: 3,
-      icon: <Database className="w-8 h-8 text-primary" />,
+      icon: <Database className="w-8 h-8 text-neonGreen" />,
       title: "Data Management Solutions",
       description: "Comprehensive data solutions to help you collect, analyze, and leverage business insights.",
       features: [
@@ -58,7 +58,7 @@ const Services = () => {
     },
     {
       id: 4,
-      icon: <Server className="w-8 h-8 text-primary" />,
+      icon: <Server className="w-8 h-8 text-neonGreen" />,
       title: "Cloud & DevOps Services",
       description: "Streamline your development processes and enhance application performance in the cloud.",
       features: [
@@ -76,16 +76,16 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="section-padding bg-secondary/30">
+    <section id="services" className="section-padding bg-tech-pattern bg-secondary/20">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
-          <p className="text-sm md:text-base font-medium px-4 py-2 rounded-full bg-primary/10 text-primary inline-block mb-4">
+          <p className="text-sm md:text-base font-mono font-medium px-4 py-2 rounded-full bg-neonGreen/10 text-neonGreen inline-block mb-4">
             Our Services
           </p>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
+          <h2 className="text-3xl md:text-4xl font-mono font-bold mb-6">
             Transforming Ideas into Powerful Solutions
           </h2>
-          <p className="text-foreground/70 text-lg">
+          <p className="text-foreground/70 text-lg font-mono">
             We offer a comprehensive range of technology services to help businesses innovate and grow
           </p>
         </div>
@@ -95,7 +95,7 @@ const Services = () => {
             <div 
               key={service.id}
               className={`glass rounded-xl overflow-hidden transition-all duration-300 ${
-                activeService === service.id ? 'ring-2 ring-primary/50 shadow-glow' : 'hover:translate-y-[-5px]'
+                activeService === service.id ? 'ring-2 ring-neonGreen/50 shadow-glow' : 'hover:translate-y-[-5px]'
               }`}
             >
               <div 
@@ -115,8 +115,8 @@ const Services = () => {
                     }`} />
                   </Button>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                <p className="text-foreground/70 mb-2">{service.description}</p>
+                <h3 className="text-xl font-mono font-semibold mb-3">{service.title}</h3>
+                <p className="text-foreground/70 font-mono mb-2">{service.description}</p>
               </div>
 
               <AnimatePresence>
@@ -129,12 +129,12 @@ const Services = () => {
                     className="px-6 pb-6"
                   >
                     <div className="pt-4 border-t border-border">
-                      <h4 className="font-semibold mb-3">Key Features:</h4>
+                      <h4 className="font-mono font-semibold mb-3">Key Features:</h4>
                       <ul className="space-y-2">
                         {service.features.map((feature, index) => (
                           <li key={index} className="flex items-center">
-                            <div className="w-1.5 h-1.5 rounded-full bg-primary mr-2"></div>
-                            <span className="text-foreground/80">{feature}</span>
+                            <div className="w-1.5 h-1.5 rounded-full bg-neonGreen mr-2"></div>
+                            <span className="text-foreground/80 font-mono">{feature}</span>
                           </li>
                         ))}
                       </ul>
@@ -147,7 +147,7 @@ const Services = () => {
         </div>
 
         <div className="text-center mt-16">
-          <Button className="button-glow" asChild>
+          <Button className="button-glow bg-neonGreen text-black hover:bg-neonGreen/80 font-mono" asChild>
             <Link to="/services">
               View All Services <ArrowRight className="ml-2 h-4 w-4" />
             </Link>

@@ -48,9 +48,9 @@ const Header = () => {
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         <Link
           to="/"
-          className="flex items-center space-x-2 text-xl md:text-2xl font-display font-semibold"
+          className="flex items-center space-x-2 text-xl md:text-2xl font-mono font-semibold"
         >
-          <CircuitBoard className="text-primary h-7 w-7 animate-pulse-soft" />
+          <CircuitBoard className="text-neonGreen h-7 w-7 animate-pulse-soft" />
           <span className="text-gradient">Builders AI</span>
         </Link>
         
@@ -61,12 +61,12 @@ const Header = () => {
               <Link
                 key={item.label}
                 to={item.path}
-                className="px-4 py-2 text-foreground/80 hover:text-primary rounded-md transition-colors duration-200"
+                className="px-4 py-2 text-foreground/80 hover:text-neonGreen font-mono rounded-md transition-colors duration-200"
               >
                 {item.label}
               </Link>
             ))}
-            <Button className="ml-4 button-glow">Get Started</Button>
+            <Button className="ml-4 button-glow bg-neonGreen text-black hover:bg-neonGreen/80 font-mono">Get Started</Button>
           </nav>
         )}
         
@@ -90,13 +90,13 @@ const Header = () => {
               <Link
                 key={item.label}
                 to={item.path}
-                className="px-4 py-3 text-lg font-medium text-foreground/80 hover:text-primary transition-colors duration-200 w-full text-center"
+                className="px-4 py-3 text-lg font-mono font-medium text-foreground/80 hover:text-neonGreen transition-colors duration-200 w-full text-center"
                 onClick={() => setIsOpen(false)}
               >
                 {item.label}
               </Link>
             ))}
-            <Button className="mt-4 w-full button-glow" onClick={() => setIsOpen(false)}>
+            <Button className="mt-4 w-full button-glow bg-neonGreen text-black hover:bg-neonGreen/80 font-mono" onClick={() => setIsOpen(false)}>
               Get Started
             </Button>
           </nav>
