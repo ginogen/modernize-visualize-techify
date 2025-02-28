@@ -21,13 +21,36 @@ const Portfolio = () => {
   const [active, setActive] = useState(0);
   const [width, setWidth] = useState(0);
   const [videoPlaying, setVideoPlaying] = useState(false);
+  const [viewportEntered, setViewportEntered] = useState(false);
   const carousel = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLIFrameElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (carousel.current) {
       setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
     }
+    
+    // Set up intersection observer for triggering animations when section enters viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setViewportEntered(true);
+          observer.unobserve(entries[0].target);
+        }
+      },
+      { threshold: 0.2 }
+    );
+    
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
 
   const projects: Project[] = [
@@ -100,10 +123,42 @@ const Portfolio = () => {
     setVideoPlaying(true);
   };
 
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.8, 
+        ease: "easeOut",
+        when: "beforeChildren",
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+
   return (
-    <section id="portfolio" className="section-padding bg-darkBlue text-white">
-      <div className="container mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
+    <section 
+      id="portfolio" 
+      className="section-padding bg-darkBlue text-white overflow-hidden"
+      ref={sectionRef}
+    >
+      <motion.div 
+        className="container mx-auto"
+        initial="hidden"
+        animate={viewportEntered ? "visible" : "hidden"}
+        variants={sectionVariants}
+      >
+        <motion.div className="text-center max-w-3xl mx-auto mb-16" variants={itemVariants}>
           <p className="text-sm md:text-base font-medium px-4 py-2 rounded-full bg-neonGreen/10 text-neonGreen inline-block mb-4">
             Our Portfolio
           </p>
@@ -113,10 +168,13 @@ const Portfolio = () => {
           <p className="text-white/70 text-lg">
             Explore our successful projects and see how we've helped businesses transform their operations
           </p>
-        </div>
+        </motion.div>
 
         <div className="relative overflow-hidden px-4 py-8">
-          <div className="absolute top-1/2 left-4 z-10 transform -translate-y-1/2">
+          <motion.div 
+            variants={itemVariants}
+            className="absolute top-1/2 left-4 z-10 transform -translate-y-1/2"
+          >
             <Button 
               variant="ghost" 
               size="icon" 
@@ -125,9 +183,12 @@ const Portfolio = () => {
             >
               <ArrowLeft className="h-5 w-5 text-white" />
             </Button>
-          </div>
+          </motion.div>
 
-          <div className="absolute top-1/2 right-4 z-10 transform -translate-y-1/2">
+          <motion.div 
+            variants={itemVariants}
+            className="absolute top-1/2 right-4 z-10 transform -translate-y-1/2"
+          >
             <Button 
               variant="ghost" 
               size="icon" 
@@ -136,9 +197,13 @@ const Portfolio = () => {
             >
               <ArrowRight className="h-5 w-5 text-white" />
             </Button>
-          </div>
+          </motion.div>
 
-          <div className="overflow-hidden" ref={carousel}>
+          <motion.div 
+            className="overflow-hidden" 
+            ref={carousel}
+            variants={itemVariants}
+          >
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
@@ -152,10 +217,13 @@ const Portfolio = () => {
                   <div className="absolute -right-3 -top-3 bg-neonGreen/10 w-full h-full rounded-xl"></div>
                   
                   {projects[active].media.type === "image" ? (
-                    <img 
+                    <motion.img 
                       src={projects[active].media.url} 
                       alt={projects[active].title} 
                       className="w-full h-[350px] object-cover rounded-xl z-10 relative shadow-md"
+                      initial={{ scale: 0.95, opacity: 0.5 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.4 }}
                     />
                   ) : (
                     videoPlaying ? (
@@ -169,19 +237,38 @@ const Portfolio = () => {
                       />
                     ) : (
                       <div className="relative w-full h-[350px] rounded-xl z-10 shadow-md overflow-hidden">
-                        <img 
+                        <motion.img 
                           src={projects[active].media.thumbnail} 
                           alt={projects[active].title} 
                           className="w-full h-full object-cover"
+                          initial={{ scale: 0.95, opacity: 0.5 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ duration: 0.4 }}
                         />
-                        <div 
+                        <motion.div 
                           className="absolute inset-0 bg-black/40 flex items-center justify-center cursor-pointer transition-all hover:bg-black/60"
                           onClick={handlePlayVideo}
+                          whileHover={{ backgroundColor: "rgba(0,0,0,0.6)" }}
                         >
-                          <div className="w-16 h-16 rounded-full bg-neonGreen/80 flex items-center justify-center animate-pulse-soft">
+                          <motion.div 
+                            className="w-16 h-16 rounded-full bg-neonGreen/80 flex items-center justify-center"
+                            animate={{ 
+                              scale: [1, 1.1, 1],
+                              boxShadow: [
+                                "0 0 0 0 rgba(74, 222, 128, 0.7)",
+                                "0 0 0 10px rgba(74, 222, 128, 0)",
+                                "0 0 0 0 rgba(74, 222, 128, 0)"
+                              ]
+                            }}
+                            transition={{ 
+                              duration: 2, 
+                              repeat: Infinity,
+                              repeatType: "loop"
+                            }}
+                          >
                             <Play className="h-8 w-8 text-darkBlue" fill="currentColor" />
-                          </div>
-                        </div>
+                          </motion.div>
+                        </motion.div>
                       </div>
                     )
                   )}
@@ -190,7 +277,12 @@ const Portfolio = () => {
                     {projects[active].category}
                   </div>
                 </div>
-                <div className="w-full lg:w-1/2 flex flex-col justify-center">
+                <motion.div 
+                  className="w-full lg:w-1/2 flex flex-col justify-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
                   <h3 className="text-2xl md:text-3xl font-mono font-bold mb-4">
                     {projects[active].title}
                   </h3>
@@ -205,12 +297,15 @@ const Portfolio = () => {
                     </Button>
                     <Button variant="outline" className="border-neonGreen text-neonGreen hover:bg-neonGreen/10">Case Study</Button>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             </AnimatePresence>
-          </div>
+          </motion.div>
 
-          <div className="flex justify-center mt-8 gap-2">
+          <motion.div 
+            className="flex justify-center mt-8 gap-2"
+            variants={itemVariants}
+          >
             {projects.map((_, index) => (
               <button
                 key={index}
@@ -224,10 +319,13 @@ const Portfolio = () => {
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
-          </div>
+          </motion.div>
         </div>
 
-        <div className="text-center mt-8">
+        <motion.div 
+          className="text-center mt-8"
+          variants={itemVariants}
+        >
           <Button 
             variant="outline" 
             className="border-neonGreen text-neonGreen hover:bg-neonGreen/10"
@@ -237,8 +335,8 @@ const Portfolio = () => {
               View All Projects <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

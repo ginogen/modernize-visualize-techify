@@ -165,7 +165,7 @@ const Services = () => {
       transition: {
         duration: 0.8,
         repeat: Infinity,
-        repeatType: "loop"
+        repeatType: "loop" as const
       }
     }
   };
@@ -301,8 +301,6 @@ const Services = () => {
             <Button 
               className="button-glow bg-neonGreen text-darkBlue hover:bg-neonGreen/80 font-mono" 
               asChild
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               <Link to="/services">
                 View All Services <ArrowRight className="ml-2 h-4 w-4" />

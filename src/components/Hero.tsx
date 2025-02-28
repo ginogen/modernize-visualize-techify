@@ -1,150 +1,172 @@
 
-import { useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Code, Bot, Database, ArrowDown } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { ArrowRight, BrainCircuit, Code, Bot, Puzzle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
+  const [isTyping, setIsTyping] = useState(true);
+  const [typedText, setTypedText] = useState("");
+  const fullText = "Transform Your Business with Custom AI Solutions";
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!heroRef.current) return;
-      
-      const elements = heroRef.current.querySelectorAll('.parallax-element');
-      
-      elements.forEach((el) => {
-        const htmlEl = el as HTMLElement;
-        const speed = parseFloat(htmlEl.dataset.speed || "0.05");
-        const x = (window.innerWidth - e.pageX * speed) / 100;
-        const y = (window.innerHeight - e.pageY * speed) / 100;
-        
-        htmlEl.style.transform = `translateX(${x}px) translateY(${y}px)`;
-      });
-    };
+    if (typedText.length < fullText.length) {
+      const timeout = setTimeout(() => {
+        setTypedText(fullText.substring(0, typedText.length + 1));
+      }, 50);
+      return () => clearTimeout(timeout);
+    } else {
+      setIsTyping(false);
+    }
+  }, [typedText]);
 
-    document.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 }
+    }
+  };
 
   return (
-    <div ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 bg-tech-pattern">
-      {/* Background Elements */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute -top-20 -left-20 w-72 h-72 bg-neonGreen/20 rounded-full blur-3xl opacity-70 parallax-element" data-speed="0.03"></div>
-        <div className="absolute top-1/3 -right-20 w-80 h-80 bg-neonGreen/20 rounded-full blur-3xl opacity-60 parallax-element" data-speed="0.05"></div>
-        <div className="absolute bottom-10 left-1/4 w-60 h-60 bg-green-400/20 rounded-full blur-3xl opacity-60 parallax-element" data-speed="0.02"></div>
-      </div>
-
-      {/* Floating Icons */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="absolute top-1/4 left-1/5 p-4 glass rounded-2xl parallax-element animate-float"
-        data-speed="0.04"
-      >
-        <Code className="text-neonGreen w-8 h-8" />
-      </motion.div>
+    <section id="hero" className="min-h-screen flex flex-col justify-center bg-darkBlue text-white overflow-hidden">
+      <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
       
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="absolute bottom-1/3 right-1/4 p-4 glass rounded-2xl parallax-element animate-float"
-        style={{animationDelay: "2s"}}
-        data-speed="0.06"
-      >
-        <Bot className="text-neonGreen w-8 h-8" />
-      </motion.div>
-      
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-        className="absolute top-2/3 left-1/3 p-4 glass rounded-2xl parallax-element animate-float"
-        style={{animationDelay: "1s"}}
-        data-speed="0.08"
-      >
-        <Database className="text-neonGreen w-8 h-8" />
-      </motion.div>
+      <div className="container mx-auto px-4 py-24 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="flex flex-col justify-center"
+          >
+            <motion.div variants={itemVariants} className="mb-4">
+              <span className="px-4 py-2 rounded-full bg-neonGreen/10 text-neonGreen text-sm md:text-base font-mono inline-block">
+                AI-Powered Solutions
+              </span>
+            </motion.div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col items-center text-center max-w-4xl mx-auto"
-        >
-          <p className="text-sm md:text-base font-mono font-medium px-4 py-2 rounded-full bg-neonGreen/10 text-neonGreen mb-4">
-            Innovative Software & Bot Solutions
-          </p>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-mono font-bold mb-6 text-balance">
-            Transform Your Business with <span className="text-gradient">AI-Powered</span> Solutions
-          </h1>
-          <p className="text-lg md:text-xl font-mono text-foreground/80 max-w-3xl mb-8 text-balance">
-            We design and develop custom software solutions and intelligent bots that automate processes, enhance customer experiences, and drive growth for businesses of all sizes.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 mt-2">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, delay: 0.4 }}
+            <motion.h1 
+              variants={itemVariants} 
+              className="text-4xl md:text-5xl lg:text-6xl font-mono font-bold mb-6 leading-tight"
             >
-              <Button className="button-glow px-6 py-6 bg-neonGreen text-darkBlue hover:bg-neonGreen/80 font-mono" asChild>
+              {typedText}
+              {isTyping && (
+                <motion.span
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ repeat: Infinity, duration: 0.8 }}
+                  className="inline-block w-2 h-8 bg-neonGreen ml-1"
+                ></motion.span>
+              )}
+            </motion.h1>
+
+            <motion.p 
+              variants={itemVariants}
+              className="text-xl text-white/70 mb-8 max-w-xl font-mono"
+            >
+              We build custom AI and software solutions that help businesses automate processes, gain insights, and drive growth.
+            </motion.p>
+
+            <motion.div variants={itemVariants} className="flex flex-wrap gap-4">
+              <Button className="button-glow bg-neonGreen text-darkBlue hover:bg-neonGreen/80 font-mono" asChild>
                 <Link to="/contact">
-                  Get Started <ArrowRight className="ml-2 h-5 w-5" />
+                  Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button variant="outline" className="border-neonGreen text-neonGreen hover:bg-neonGreen/10" asChild>
+                <Link to="/services">
+                  Explore Services
                 </Link>
               </Button>
             </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, delay: 0.4 }}
-            >
-              <Button variant="outline" className="px-6 py-6 font-mono border-neonGreen text-neonGreen hover:bg-neonGreen/10" asChild>
-                <Link to="/portfolio">
-                  View Our Work
-                </Link>
-              </Button>
-            </motion.div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* Technology Showcase */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-5xl mx-auto animate-fade-in"
-        >
-          {["AI/ML", "Chatbots", "Custom Software", "Web Apps", "Automation"].map((tech, index) => (
-            <motion.div 
-              key={tech}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.5 + (index * 0.1) }}
-              className="glass p-4 rounded-lg text-center transition-all hover:scale-105 hover:shadow-glow"
-            >
-              <p className="font-mono font-medium">{tech}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-        
-        {/* Scroll Down Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <Button variant="ghost" size="sm" className="rounded-full opacity-70 hover:opacity-100">
-            <ArrowDown className="h-5 w-5 text-neonGreen" />
-          </Button>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative"
+          >
+            <div className="w-full h-full absolute -right-4 top-4 border-2 border-neonGreen/30 rounded-xl"></div>
+            <div className="relative overflow-hidden rounded-xl">
+              <div className="bg-gradient-to-r from-neonGreen/10 to-blue-500/10 p-8 rounded-xl border border-white/10 backdrop-blur-sm">
+                <div className="grid grid-cols-2 gap-8">
+                  <div className="col-span-2 mb-2">
+                    <div className="flex space-x-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-darkBlue/60 p-4 rounded-lg border border-white/10">
+                    <BrainCircuit className="text-neonGreen mb-2 w-8 h-8" />
+                    <h3 className="text-lg font-mono font-semibold mb-1">AI Integration</h3>
+                    <p className="text-white/70 text-sm font-mono">Connect AI models to your business workflows</p>
+                  </div>
+                  
+                  <div className="bg-darkBlue/60 p-4 rounded-lg border border-white/10">
+                    <Code className="text-neonGreen mb-2 w-8 h-8" />
+                    <h3 className="text-lg font-mono font-semibold mb-1">Custom Development</h3>
+                    <p className="text-white/70 text-sm font-mono">Tailored solutions for your needs</p>
+                  </div>
+                  
+                  <div className="bg-darkBlue/60 p-4 rounded-lg border border-white/10">
+                    <Bot className="text-neonGreen mb-2 w-8 h-8" />
+                    <h3 className="text-lg font-mono font-semibold mb-1">Chatbot Creation</h3>
+                    <p className="text-white/70 text-sm font-mono">Intelligent conversational interfaces</p>
+                  </div>
+                  
+                  <div className="bg-darkBlue/60 p-4 rounded-lg border border-white/10">
+                    <Puzzle className="text-neonGreen mb-2 w-8 h-8" />
+                    <h3 className="text-lg font-mono font-semibold mb-1">Process Automation</h3>
+                    <p className="text-white/70 text-sm font-mono">Streamline workflows with AI</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+      
+      {/* Animated Particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 rounded-full bg-neonGreen/30"
+            initial={{ 
+              x: Math.random() * 100 + "%", 
+              y: Math.random() * 100 + "%", 
+              opacity: Math.random() * 0.5 + 0.3 
+            }}
+            animate={{ 
+              y: [null, Math.random() * 100 + "%"], 
+              opacity: [null, Math.random() * 0.5]
+            }}
+            transition={{ 
+              repeat: Infinity, 
+              repeatType: "reverse", 
+              duration: Math.random() * 10 + 10,
+            }}
+          />
+        ))}
+      </div>
+    </section>
   );
 };
 
