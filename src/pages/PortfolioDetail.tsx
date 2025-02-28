@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Globe, Calendar, Users, BarChart3, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Globe, Calendar, Users, BarChart3, CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
