@@ -420,100 +420,105 @@ const AIWorkflow = () => {
           </svg>
 
           {/* Render service nodes */}
-          {services.map((service) => (
-            <motion.div
-              key={service.id}
-              className={`absolute flex flex-col items-center ${service.id === 'ai' ? 'z-20' : 'z-10'}`}
-              style={{
-                left: `${service.position.x}%`,
-                top: `${service.position.y}%`,
-                transform: "translate(-50%, -50%)"
-              }}
-              variants={nodeVariants}
-              whileHover={{ scale: 1.1 }}
-              animate={service.id === 'ai' ? "pulse" : undefined}
-              variants={service.id === 'ai' ? pulseVariants : undefined}
-            >
-              <motion.div 
-                className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-lg ${service.id === 'ai' ? 'shadow-indigo-500/50' : ''}`}
-                style={{ 
-                  backgroundColor: service.id === 'ai' ? service.color : 'rgba(17, 24, 39, 0.8)', 
-                  backdropFilter: 'blur(8px)',
-                  border: `2px solid ${service.color}`
+          {services.map((service) => {
+            // Create separate variants for each service
+            const serviceSpecificPulseVariants = service.id === 'ai' ? pulseVariants : undefined;
+            
+            return (
+              <motion.div
+                key={service.id}
+                className={`absolute flex flex-col items-center ${service.id === 'ai' ? 'z-20' : 'z-10'}`}
+                style={{
+                  left: `${service.position.x}%`,
+                  top: `${service.position.y}%`,
+                  transform: "translate(-50%, -50%)"
                 }}
-                animate={
-                  service.id === 'ai' 
-                    ? { 
-                        boxShadow: [
-                          `0 0 0 rgba(99, 102, 241, 0.4)`,
-                          `0 0 20px rgba(99, 102, 241, 0.6)`,
-                          `0 0 0 rgba(99, 102, 241, 0.4)`
-                        ] 
-                      }
-                    : {}
-                }
-                transition={
-                  service.id === 'ai' 
-                    ? { 
-                        repeat: Infinity, 
-                        duration: 2
-                      } 
-                    : {}
-                }
+                variants={nodeVariants}
+                whileHover={{ scale: 1.1 }}
+                animate={service.id === 'ai' ? "pulse" : undefined}
+                variants={serviceSpecificPulseVariants}
               >
-                <div className="text-white">
-                  {service.icon}
-                </div>
-                
-                {service.id === 'ai' && (
-                  <motion.div
-                    className="absolute w-full h-full rounded-full"
-                    animate={{
-                      boxShadow: [
-                        '0 0 0 0px rgba(99, 102, 241, 0.6)',
-                        '0 0 0 10px rgba(99, 102, 241, 0)'
-                      ],
-                      scale: [1, 1.2, 1]
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  />
-                )}
-
-                {/* Add a small pulse indication when a connection is active */}
-                {activeConnections.some(conn => conn.startsWith(service.id) || conn.endsWith(service.id)) && (
-                  <motion.div
-                    className="absolute w-full h-full rounded-full"
-                    animate={{
-                      boxShadow: [
-                        `0 0 0 0px ${service.color}99`,
-                        `0 0 0 5px ${service.color}00`
-                      ],
-                    }}
-                    transition={{
-                      duration: 1,
-                      repeat: Infinity,
-                      ease: "easeOut"
-                    }}
-                  />
-                )}
-              </motion.div>
-              
-              <div className="mt-2 text-center">
-                <motion.span 
-                  className="text-xs md:text-sm font-medium bg-black/30 text-white px-2 py-1 rounded-full backdrop-blur-sm whitespace-nowrap"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
+                <motion.div 
+                  className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-lg ${service.id === 'ai' ? 'shadow-indigo-500/50' : ''}`}
+                  style={{ 
+                    backgroundColor: service.id === 'ai' ? service.color : 'rgba(17, 24, 39, 0.8)', 
+                    backdropFilter: 'blur(8px)',
+                    border: `2px solid ${service.color}`
+                  }}
+                  animate={
+                    service.id === 'ai' 
+                      ? { 
+                          boxShadow: [
+                            `0 0 0 rgba(99, 102, 241, 0.4)`,
+                            `0 0 20px rgba(99, 102, 241, 0.6)`,
+                            `0 0 0 rgba(99, 102, 241, 0.4)`
+                          ] 
+                        }
+                      : {}
+                  }
+                  transition={
+                    service.id === 'ai' 
+                      ? { 
+                          repeat: Infinity, 
+                          duration: 2
+                        } 
+                      : {}
+                  }
                 >
-                  {service.label}
-                </motion.span>
-              </div>
-            </motion.div>
-          ))}
+                  <div className="text-white">
+                    {service.icon}
+                  </div>
+                  
+                  {service.id === 'ai' && (
+                    <motion.div
+                      className="absolute w-full h-full rounded-full"
+                      animate={{
+                        boxShadow: [
+                          '0 0 0 0px rgba(99, 102, 241, 0.6)',
+                          '0 0 0 10px rgba(99, 102, 241, 0)'
+                        ],
+                        scale: [1, 1.2, 1]
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  )}
+
+                  {/* Add a small pulse indication when a connection is active */}
+                  {activeConnections.some(conn => conn.startsWith(service.id) || conn.endsWith(service.id)) && (
+                    <motion.div
+                      className="absolute w-full h-full rounded-full"
+                      animate={{
+                        boxShadow: [
+                          `0 0 0 0px ${service.color}99`,
+                          `0 0 0 5px ${service.color}00`
+                        ],
+                      }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "easeOut"
+                      }}
+                    />
+                  )}
+                </motion.div>
+                
+                <div className="mt-2 text-center">
+                  <motion.span 
+                    className="text-xs md:text-sm font-medium bg-black/30 text-white px-2 py-1 rounded-full backdrop-blur-sm whitespace-nowrap"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    {service.label}
+                  </motion.span>
+                </div>
+              </motion.div>
+            );
+          })}
           
           {/* Flowing data particles for visual effect */}
           <div className="absolute inset-0 z-0">
