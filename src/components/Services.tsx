@@ -4,6 +4,7 @@ import { Bot, Code, Database, Server, ArrowRight, Puzzle, Layers, Cpu } from "lu
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import CodeTerminal from "./CodeTerminal";
 
 interface Service {
   id: number;
@@ -173,6 +174,9 @@ const Services = () => {
   return (
     <section id="services" className="section-padding bg-darkBlue text-white">
       <div className="container mx-auto">
+        {/* Terminal Animation Component */}
+        <CodeTerminal />
+
         <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -221,7 +225,7 @@ const Services = () => {
               initial="hidden"
               animate={visibleSections.includes(service.id) ? "show" : "hidden"}
               variants={item}
-              whileHover="hover"
+              whileHover={cardHover}
               whileTap={{ scale: 0.98 }}
             >
               <div 
