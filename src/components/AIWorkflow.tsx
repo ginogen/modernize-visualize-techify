@@ -422,7 +422,7 @@ const AIWorkflow = () => {
           {/* Render service nodes */}
           {services.map((service) => {
             // Create separate variants for each service
-            const serviceSpecificPulseVariants = service.id === 'ai' ? pulseVariants : undefined;
+            const serviceSpecificPulseVariants = service.id === 'ai' ? pulseVariants : {};
             
             return (
               <motion.div
@@ -436,7 +436,7 @@ const AIWorkflow = () => {
                 variants={nodeVariants}
                 whileHover={{ scale: 1.1 }}
                 animate={service.id === 'ai' ? "pulse" : undefined}
-                variants={serviceSpecificPulseVariants}
+                {...(service.id === 'ai' ? serviceSpecificPulseVariants : {})}
               >
                 <motion.div 
                   className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-lg ${service.id === 'ai' ? 'shadow-indigo-500/50' : ''}`}
