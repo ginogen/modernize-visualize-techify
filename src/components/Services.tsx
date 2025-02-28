@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Bot, Code, Database, Server, ArrowRight, Puzzle, Robot, Layers, Cpu } from "lucide-react";
+import { Bot, Code, Database, Server, ArrowRight, Puzzle, Layers, Cpu } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
