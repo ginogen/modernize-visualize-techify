@@ -1,7 +1,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -9,14 +9,20 @@ interface Project {
   id: number;
   title: string;
   category: string;
-  image: string;
+  media: {
+    type: "image" | "video";
+    url: string;
+    thumbnail?: string;
+  };
   description: string;
 }
 
 const Portfolio = () => {
   const [active, setActive] = useState(0);
   const [width, setWidth] = useState(0);
+  const [videoPlaying, setVideoPlaying] = useState(false);
   const carousel = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     if (carousel.current) {
@@ -27,60 +33,84 @@ const Portfolio = () => {
   const projects: Project[] = [
     {
       id: 1,
-      title: "E-Commerce AI Assistant",
+      title: "AI Customer Service Chatbot",
       category: "Chatbot",
-      image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop",
-      description: "An intelligent shopping assistant that helps customers find products and answer questions in real-time."
+      media: {
+        type: "video",
+        url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        thumbnail: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop"
+      },
+      description: "An intelligent chatbot that handles customer inquiries, processes returns, and provides product recommendations 24/7."
     },
     {
       id: 2,
-      title: "Financial Data Platform",
+      title: "Financial Market Analysis Platform",
       category: "Software",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
-      description: "A comprehensive analytics dashboard that processes and visualizes complex financial data."
+      media: {
+        type: "image",
+        url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"
+      },
+      description: "Real-time market data analysis platform with predictive modeling and custom alert systems for financial institutions."
     },
     {
       id: 3,
-      title: "Healthcare Patient Portal",
+      title: "Healthcare Patient Management System",
       category: "Web Application",
-      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop",
-      description: "A secure patient management system that connects patients with healthcare providers."
+      media: {
+        type: "video",
+        url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        thumbnail: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"
+      },
+      description: "A comprehensive solution for healthcare providers to manage patient records, scheduling, and telehealth services securely."
     },
     {
       id: 4,
-      title: "Logistics Automation System",
+      title: "Logistics Optimization Software",
       category: "Software",
-      image: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=2070&auto=format&fit=crop",
-      description: "An end-to-end logistics platform that optimizes shipping routes and inventory management."
+      media: {
+        type: "image",
+        url: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=2070&auto=format&fit=crop"
+      },
+      description: "Advanced logistics platform that optimizes delivery routes, reduces transportation costs, and improves sustainability metrics."
     },
     {
       id: 5,
-      title: "Retail Customer Support Bot",
+      title: "Retail Inventory Management Bot",
       category: "Chatbot",
-      image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2070&auto=format&fit=crop",
-      description: "A conversational AI that handles customer inquiries and support tickets 24/7."
+      media: {
+        type: "video",
+        url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        thumbnail: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2070&auto=format&fit=crop"
+      },
+      description: "AI-powered inventory management system that forecasts demand, automates reordering, and prevents stockouts."
     }
   ];
 
   const handleNext = () => {
     setActive(prev => (prev === projects.length - 1 ? 0 : prev + 1));
+    setVideoPlaying(false);
   };
 
   const handlePrev = () => {
     setActive(prev => (prev === 0 ? projects.length - 1 : prev - 1));
+    setVideoPlaying(false);
+  };
+
+  const handlePlayVideo = () => {
+    setVideoPlaying(true);
   };
 
   return (
-    <section id="portfolio" className="section-padding">
+    <section id="portfolio" className="section-padding bg-darkBlue text-white">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
-          <p className="text-sm md:text-base font-medium px-4 py-2 rounded-full bg-primary/10 text-primary inline-block mb-4">
+          <p className="text-sm md:text-base font-medium px-4 py-2 rounded-full bg-neonGreen/10 text-neonGreen inline-block mb-4">
             Our Portfolio
           </p>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
+          <h2 className="text-3xl md:text-4xl font-mono font-bold mb-6">
             Showcasing Our Best Work
           </h2>
-          <p className="text-foreground/70 text-lg">
+          <p className="text-white/70 text-lg">
             Explore our successful projects and see how we've helped businesses transform their operations
           </p>
         </div>
@@ -90,10 +120,10 @@ const Portfolio = () => {
             <Button 
               variant="ghost" 
               size="icon" 
-              className="rounded-full bg-white/80 shadow-md hover:bg-white"
+              className="rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20"
               onClick={handlePrev}
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft className="h-5 w-5 text-white" />
             </Button>
           </div>
 
@@ -101,10 +131,10 @@ const Portfolio = () => {
             <Button 
               variant="ghost" 
               size="icon" 
-              className="rounded-full bg-white/80 shadow-md hover:bg-white"
+              className="rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20"
               onClick={handleNext}
             >
-              <ArrowRight className="h-5 w-5" />
+              <ArrowRight className="h-5 w-5 text-white" />
             </Button>
           </div>
 
@@ -119,30 +149,61 @@ const Portfolio = () => {
                 className="flex flex-col lg:flex-row items-center gap-8 py-6"
               >
                 <div className="w-full lg:w-1/2 relative">
-                  <div className="absolute -right-3 -top-3 bg-primary/10 w-full h-full rounded-xl"></div>
-                  <img 
-                    src={projects[active].image} 
-                    alt={projects[active].title} 
-                    className="w-full h-[350px] object-cover rounded-xl z-10 relative shadow-md"
-                  />
+                  <div className="absolute -right-3 -top-3 bg-neonGreen/10 w-full h-full rounded-xl"></div>
+                  
+                  {projects[active].media.type === "image" ? (
+                    <img 
+                      src={projects[active].media.url} 
+                      alt={projects[active].title} 
+                      className="w-full h-[350px] object-cover rounded-xl z-10 relative shadow-md"
+                    />
+                  ) : (
+                    videoPlaying ? (
+                      <iframe
+                        ref={videoRef}
+                        src={`${projects[active].media.url}?autoplay=1`}
+                        title={projects[active].title}
+                        className="w-full h-[350px] rounded-xl z-10 relative shadow-md"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    ) : (
+                      <div className="relative w-full h-[350px] rounded-xl z-10 shadow-md overflow-hidden">
+                        <img 
+                          src={projects[active].media.thumbnail} 
+                          alt={projects[active].title} 
+                          className="w-full h-full object-cover"
+                        />
+                        <div 
+                          className="absolute inset-0 bg-black/40 flex items-center justify-center cursor-pointer transition-all hover:bg-black/60"
+                          onClick={handlePlayVideo}
+                        >
+                          <div className="w-16 h-16 rounded-full bg-neonGreen/80 flex items-center justify-center animate-pulse-soft">
+                            <Play className="h-8 w-8 text-darkBlue" fill="currentColor" />
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  )}
+                  
                   <div className="absolute top-4 left-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
                     {projects[active].category}
                   </div>
                 </div>
                 <div className="w-full lg:w-1/2 flex flex-col justify-center">
-                  <h3 className="text-2xl md:text-3xl font-display font-bold mb-4">
+                  <h3 className="text-2xl md:text-3xl font-mono font-bold mb-4">
                     {projects[active].title}
                   </h3>
-                  <p className="text-foreground/70 text-lg mb-6">
+                  <p className="text-white/70 text-lg mb-6">
                     {projects[active].description}
                   </p>
                   <div className="flex gap-4">
-                    <Button className="button-glow" asChild>
+                    <Button className="button-glow bg-neonGreen text-darkBlue hover:bg-neonGreen/80 font-mono" asChild>
                       <Link to={`/portfolio/${projects[active].id}`}>
                         View Details
                       </Link>
                     </Button>
-                    <Button variant="outline">Case Study</Button>
+                    <Button variant="outline" className="border-neonGreen text-neonGreen hover:bg-neonGreen/10">Case Study</Button>
                   </div>
                 </div>
               </motion.div>
@@ -153,9 +214,12 @@ const Portfolio = () => {
             {projects.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setActive(index)}
+                onClick={() => {
+                  setActive(index);
+                  setVideoPlaying(false);
+                }}
                 className={`w-3 h-3 rounded-full transition-all ${
-                  active === index ? "bg-primary w-6" : "bg-primary/30"
+                  active === index ? "bg-neonGreen w-6" : "bg-neonGreen/30"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -164,7 +228,11 @@ const Portfolio = () => {
         </div>
 
         <div className="text-center mt-8">
-          <Button variant="outline" asChild>
+          <Button 
+            variant="outline" 
+            className="border-neonGreen text-neonGreen hover:bg-neonGreen/10"
+            asChild
+          >
             <Link to="/portfolio">
               View All Projects <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
