@@ -218,11 +218,10 @@ const Services = () => {
               className={`service-card glass rounded-xl overflow-hidden transition-all duration-500 bg-white/5 ${
                 activeService === service.id ? 'ring-2 ring-neonGreen/50 shadow-glow' : ''
               }`}
-              variants={item}
               initial="hidden"
               animate={visibleSections.includes(service.id) ? "show" : "hidden"}
+              variants={item}
               whileHover="hover"
-              variants={cardHover}
               whileTap={{ scale: 0.98 }}
             >
               <div 
