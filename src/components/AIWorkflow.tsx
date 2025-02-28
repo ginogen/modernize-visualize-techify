@@ -31,7 +31,7 @@ const AIWorkflow = () => {
   const chatRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
 
-  // Define the service nodes
+  // Define the service nodes - posiciones ajustadas para estar más juntas
   const services: ServiceNode[] = [
     {
       id: "ai",
@@ -44,49 +44,49 @@ const AIWorkflow = () => {
       id: "shopify",
       label: "Shopify",
       icon: <ShoppingCart size={24} />,
-      position: { x: 20, y: 10 },
+      position: { x: 30, y: 25 },
       color: "#10b981"
     },
     {
       id: "mercadopago",
       label: "MercadoPago",
       icon: <CreditCard size={24} />,
-      position: { x: 85, y: 15 },
+      position: { x: 70, y: 25 },
       color: "#3b82f6"
     },
     {
       id: "paypal",
       label: "PayPal",
       icon: <Zap size={24} />,
-      position: { x: 15, y: 75 },
+      position: { x: 30, y: 75 },
       color: "#ec4899"
     },
     {
       id: "googlesheets",
       label: "Google Sheets",
       icon: <Table size={24} />,
-      position: { x: 80, y: 85 },
+      position: { x: 70, y: 75 },
       color: "#f59e0b"
     },
     {
       id: "cloud",
       label: "Cloud Services",
       icon: <Cloud size={24} />,
-      position: { x: 50, y: 90 },
+      position: { x: 50, y: 80 },
       color: "#8b5cf6"
     },
     {
       id: "analytics",
       label: "Analytics",
       icon: <LineChart size={24} />,
-      position: { x: 85, y: 50 },
+      position: { x: 70, y: 50 },
       color: "#ef4444"
     },
     {
       id: "chat",
       label: "Chat",
       icon: <MessageSquare size={24} />,
-      position: { x: 15, y: 30 },
+      position: { x: 30, y: 50 },
       color: "#0ea5e9"
     }
   ];
@@ -199,14 +199,14 @@ const AIWorkflow = () => {
     const toX = to.position.x;
     const toY = to.position.y;
 
-    // Calculate control points for a curved path
+    // Calculamos puntos de control para crear una curva más suave
     const midX = (fromX + toX) / 2;
     const midY = (fromY + toY) / 2;
 
-    // Add some curve variation based on the nodes' positions
-    const curveVariation = ((fromX - toX) * 0.2) + ((fromY - toY) * 0.2);
+    // Añadimos una pequeña variación a la curva basada en las posiciones
+    const curveVariation = ((fromX - toX) * 0.1) + ((fromY - toY) * 0.1);
     
-    // If it's a connection from/to AI, make it more direct
+    // Para conexiones desde/hacia AI, hacemos que sea más directa
     const isAIConnection = from.id === "ai" || to.id === "ai";
     const controlPoint = isAIConnection 
       ? { x: midX, y: midY }
@@ -338,8 +338,23 @@ const AIWorkflow = () => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
+          {/* Fondo suave para el área de los nodos */}
+          <div className="absolute inset-0 bg-gradient-radial from-indigo-500/10 via-transparent to-transparent rounded-xl opacity-30"></div>
+          
           {/* Draw connections between services */}
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            {/* Círculo central que conecta todo */}
+            <circle 
+              cx="50" 
+              cy="50" 
+              r="20" 
+              fill="none" 
+              stroke="rgba(99, 102, 241, 0.1)" 
+              strokeWidth="1" 
+              strokeDasharray="2 2"
+              className="animate-pulse"
+            />
+            
             {connections.map((connection) => {
               const fromNode = services.find(s => s.id === connection.from)!;
               const toNode = services.find(s => s.id === connection.to)!;
@@ -353,7 +368,8 @@ const AIWorkflow = () => {
                     d={getPath(fromNode, toNode)}
                     fill="none"
                     stroke="rgba(255, 255, 255, 0.1)"
-                    strokeWidth="2"
+                    strokeWidth="1.5"
+                    strokeDasharray="3 3"
                   />
                   
                   {/* Animated path */}
@@ -364,7 +380,7 @@ const AIWorkflow = () => {
                         fill="none"
                         stroke={connectionColor}
                         strokeWidth="2"
-                        strokeDasharray="4 2"
+                        strokeDasharray="3 2"
                         className="animate-pulse"
                       >
                         <animate 
@@ -379,37 +395,68 @@ const AIWorkflow = () => {
                       <motion.circle
                         cx="0"
                         cy="0"
-                        r="3"
+                        r="2.5"
                         fill={connectionColor}
                         initial={{ offset: 0 }}
                         animate={{ offset: 1 }}
                         transition={{
-                          duration: 2,
+                          duration: 1.5,
                           ease: "easeInOut",
                           repeat: Infinity,
                         }}
                       >
                         <animateMotion
-                          dur="2s"
+                          dur="1.5s"
                           repeatCount="indefinite"
                           path={getPath(fromNode, toNode)}
                         />
                       </motion.circle>
                       
-                      {/* Arrow indicator */}
+                      {/* Efecto de estela detrás de la partícula principal */}
                       <motion.circle
                         cx="0"
                         cy="0"
-                        r="2"
-                        fill="white"
+                        r="1.5"
+                        fill={`${connectionColor}80`}
+                        initial={{ offset: 0 }}
+                        animate={{ offset: 1 }}
+                        transition={{
+                          duration: 1.5,
+                          ease: "easeInOut",
+                          repeat: Infinity,
+                          delay: 0.1
+                        }}
                       >
                         <animateMotion
-                          dur="2s"
+                          dur="1.5s"
                           repeatCount="indefinite"
                           path={getPath(fromNode, toNode)}
-                          keyPoints="0.9;1"
+                          keyPoints="0.05;1"
                           keyTimes="0;1"
-                          calcMode="linear"
+                        />
+                      </motion.circle>
+                      
+                      {/* Segunda estela más pequeña */}
+                      <motion.circle
+                        cx="0"
+                        cy="0"
+                        r="1"
+                        fill={`${connectionColor}40`}
+                        initial={{ offset: 0 }}
+                        animate={{ offset: 1 }}
+                        transition={{
+                          duration: 1.5,
+                          ease: "easeInOut",
+                          repeat: Infinity,
+                          delay: 0.2
+                        }}
+                      >
+                        <animateMotion
+                          dur="1.5s"
+                          repeatCount="indefinite"
+                          path={getPath(fromNode, toNode)}
+                          keyPoints="0.1;1"
+                          keyTimes="0;1"
                         />
                       </motion.circle>
                     </>
@@ -439,7 +486,7 @@ const AIWorkflow = () => {
                 {...(service.id === 'ai' ? serviceSpecificPulseVariants : {})}
               >
                 <motion.div 
-                  className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-lg ${service.id === 'ai' ? 'shadow-indigo-500/50' : ''}`}
+                  className={`w-16 h-16 md:w-18 md:h-18 rounded-full flex items-center justify-center shadow-lg ${service.id === 'ai' ? 'shadow-indigo-500/50' : ''}`}
                   style={{ 
                     backgroundColor: service.id === 'ai' ? service.color : 'rgba(17, 24, 39, 0.8)', 
                     backdropFilter: 'blur(8px)',
@@ -487,7 +534,7 @@ const AIWorkflow = () => {
                     />
                   )}
 
-                  {/* Add a small pulse indication when a connection is active */}
+                  {/* Indicación de pulso cuando una conexión está activa */}
                   {activeConnections.some(conn => conn.startsWith(service.id) || conn.endsWith(service.id)) && (
                     <motion.div
                       className="absolute w-full h-full rounded-full"
@@ -520,12 +567,15 @@ const AIWorkflow = () => {
             );
           })}
           
-          {/* Flowing data particles for visual effect */}
+          {/* Partículas flotantes adicionales para efecto visual */}
           <div className="absolute inset-0 z-0">
-            {Array.from({ length: 30 }).map((_, i) => (
+            {Array.from({ length: 40 }).map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-1 h-1 bg-white/30 rounded-full"
+                className="absolute w-1 h-1 rounded-full"
+                style={{
+                  backgroundColor: `rgba(${Math.floor(Math.random() * 150 + 100)}, ${Math.floor(Math.random() * 150 + 100)}, ${Math.floor(Math.random() * 255)}, ${Math.random() * 0.5 + 0.3})`
+                }}
                 initial={{
                   x: Math.random() * 100 + "%",
                   y: Math.random() * 100 + "%",
@@ -554,3 +604,4 @@ const AIWorkflow = () => {
 };
 
 export default AIWorkflow;
+
