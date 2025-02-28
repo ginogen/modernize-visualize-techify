@@ -7,6 +7,7 @@ import Portfolio from "@/components/Portfolio";
 import Testimonials from "@/components/Testimonials";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
+import AIWorkflow from "@/components/AIWorkflow";
 
 const Index = () => {
   useEffect(() => {
@@ -54,6 +55,7 @@ const Index = () => {
       <main>
         <Hero />
         <Services />
+        <AIWorkflow />
         <Portfolio />
         <Testimonials />
         <CTA />
