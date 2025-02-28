@@ -1,0 +1,161 @@
+
+import { useState } from "react";
+import { Bot, Code, Database, Server, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+
+interface Service {
+  id: number;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  features: string[];
+}
+
+const Services = () => {
+  const [activeService, setActiveService] = useState<number | null>(null);
+
+  const services: Service[] = [
+    {
+      id: 1,
+      icon: <Code className="w-8 h-8 text-primary" />,
+      title: "Custom Software Development",
+      description: "Tailored software solutions designed to address your specific business needs and challenges.",
+      features: [
+        "Web & Mobile Applications",
+        "Enterprise Solutions",
+        "SaaS Products",
+        "API Integrations",
+        "Legacy System Modernization"
+      ]
+    },
+    {
+      id: 2,
+      icon: <Bot className="w-8 h-8 text-primary" />,
+      title: "AI & Chatbot Development",
+      description: "Intelligent conversational interfaces that engage customers and automate support processes.",
+      features: [
+        "Customer Service Bots",
+        "NLP-Powered Interactions",
+        "Multi-Platform Deployment",
+        "Analytics & Reporting",
+        "Continuous Learning Models"
+      ]
+    },
+    {
+      id: 3,
+      icon: <Database className="w-8 h-8 text-primary" />,
+      title: "Data Management Solutions",
+      description: "Comprehensive data solutions to help you collect, analyze, and leverage business insights.",
+      features: [
+        "Database Architecture",
+        "Data Warehousing",
+        "Business Intelligence",
+        "Data Migration",
+        "Real-time Analytics"
+      ]
+    },
+    {
+      id: 4,
+      icon: <Server className="w-8 h-8 text-primary" />,
+      title: "Cloud & DevOps Services",
+      description: "Streamline your development processes and enhance application performance in the cloud.",
+      features: [
+        "Cloud Migration",
+        "CI/CD Implementation",
+        "Infrastructure Automation",
+        "Scalability Solutions",
+        "Monitoring & Security"
+      ]
+    }
+  ];
+
+  const toggleService = (id: number) => {
+    setActiveService(activeService === id ? null : id);
+  };
+
+  return (
+    <section id="services" className="section-padding bg-secondary/30">
+      <div className="container mx-auto">
+        <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
+          <p className="text-sm md:text-base font-medium px-4 py-2 rounded-full bg-primary/10 text-primary inline-block mb-4">
+            Our Services
+          </p>
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
+            Transforming Ideas into Powerful Solutions
+          </h2>
+          <p className="text-foreground/70 text-lg">
+            We offer a comprehensive range of technology services to help businesses innovate and grow
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {services.map((service) => (
+            <div 
+              key={service.id}
+              className={`glass rounded-xl overflow-hidden transition-all duration-300 ${
+                activeService === service.id ? 'ring-2 ring-primary/50 shadow-glow' : 'hover:translate-y-[-5px]'
+              }`}
+            >
+              <div 
+                className="p-6 cursor-pointer" 
+                onClick={() => toggleService(service.id)}
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="p-3 rounded-lg glass">
+                    {service.icon}
+                  </div>
+                  <Button variant="ghost" size="icon" onClick={(e) => {
+                    e.stopPropagation();
+                    toggleService(service.id);
+                  }}>
+                    <ArrowRight className={`w-5 h-5 transition-transform duration-300 ${
+                      activeService === service.id ? 'rotate-90' : ''
+                    }`} />
+                  </Button>
+                </div>
+                <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
+                <p className="text-foreground/70 mb-2">{service.description}</p>
+              </div>
+
+              <AnimatePresence>
+                {activeService === service.id && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="px-6 pb-6"
+                  >
+                    <div className="pt-4 border-t border-border">
+                      <h4 className="font-semibold mb-3">Key Features:</h4>
+                      <ul className="space-y-2">
+                        {service.features.map((feature, index) => (
+                          <li key={index} className="flex items-center">
+                            <div className="w-1.5 h-1.5 rounded-full bg-primary mr-2"></div>
+                            <span className="text-foreground/80">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center mt-16">
+          <Button className="button-glow" asChild>
+            <Link to="/services">
+              View All Services <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Services;
