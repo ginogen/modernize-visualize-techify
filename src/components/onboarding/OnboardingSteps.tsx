@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 import { useToast } from "@/hooks/use-toast";
@@ -55,6 +56,7 @@ const OnboardingSteps: React.FC = () => {
       
       // Guardar contraseña generada en sessionStorage
       sessionStorage.setItem("generatedPassword", generatedPassword);
+      console.log("Contraseña guardada en sessionStorage:", generatedPassword);
       
       // Simular login y redireccionar al portal
       setTimeout(() => {

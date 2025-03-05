@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -36,9 +37,17 @@ const ClientPortal: React.FC = () => {
     }
     
     setClientData(JSON.parse(savedData));
+    
+    // Asegurarse de que la contraseña generada se recupere correctamente
     if (generatedPassword) {
+      console.log("Contraseña recuperada:", generatedPassword);
       setPassword(generatedPassword);
+    } else {
+      console.log("No se encontró la contraseña generada en sessionStorage");
+      // Si no hay contraseña, podemos establecer un valor por defecto o mostrar un mensaje
+      setPassword("(Contraseña no disponible)");
     }
+    
     setLoading(false);
   }, []);
 
