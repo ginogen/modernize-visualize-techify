@@ -1,5 +1,5 @@
 
-import { Message, MessageRole } from "./types";
+import { Message, MessageRole, MessageType } from "./types";
 
 // Initial system messages and welcome message
 export const initialMessages: Message[] = [
@@ -21,7 +21,7 @@ export const initialMessages: Message[] = [
 4. **Objetivos del chatbot**: ¿Qué problemas debe resolver? ¿En qué procesos ayudar?
 5. **Tono deseado**: ¿Formal, amigable, técnico, cercano?
 
-Comencemos: ¿puedes contarme sobre tu negocio y por qué necesitas un chatbot?`,
+Puedes responder escribiendo o usando el micrófono para hablar directamente. Comencemos: ¿puedes contarme sobre tu negocio y por qué necesitas un chatbot?`,
     timestamp: new Date().toISOString(),
   },
 ];
@@ -56,14 +56,26 @@ const followUpQuestions = {
   ],
 };
 
-// Generate AI response based on conversation history
-export const generateResponse = async (messageHistory: Message[], lastUserMessage: string): Promise<string> => {
+// Generate AI response based on conversation history using OpenAI
+export const generateResponse = async (
+  messageHistory: Message[], 
+  lastUserMessage: string,
+  apiKey?: string
+): Promise<string> => {
   console.log("Generating response for:", lastUserMessage);
   console.log("Message history length:", messageHistory.length);
   
-  // In a real implementation, this would call an API
-  // For now, we'll simulate a response based on the conversation state
+  // Use OpenAI if API key is provided
+  if (apiKey) {
+    try {
+      return await generateOpenAIResponse(messageHistory, lastUserMessage, apiKey);
+    } catch (error) {
+      console.error("Error with OpenAI, falling back to simulated response:", error);
+      // Continue with fallback if OpenAI fails
+    }
+  }
   
+  // Fallback to simulated response
   await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
   
   const messagesFromUser = messageHistory.filter(m => m.role === MessageRole.USER);
@@ -100,6 +112,60 @@ export const generateResponse = async (messageHistory: Message[], lastUserMessag
   
   // Final summary and next steps
   return generateFinalSummary(businessInfo, processInfo, systemsInfo);
+};
+
+// Use OpenAI API to generate responses
+const generateOpenAIResponse = async (
+  messageHistory: Message[], 
+  lastUserMessage: string,
+  apiKey: string
+): Promise<string> => {
+  const systemMessage = `Eres un asistente especializado en ayudar a definir los requisitos para la implementación de chatbots personalizados. 
+Tu objetivo es obtener la siguiente información:
+1. Detalles del negocio o servicio: sector, productos, servicios, público objetivo
+2. Procesos clave: atención al cliente, procesos de venta, flujos de trabajo
+3. Sistemas actuales: CMS (Wordpress, Shopify), CRM, ERP, sistemas de pago, herramientas de agenda
+4. Objetivos del chatbot: problemas a resolver, procesos a optimizar
+5. Tono y estilo deseado: formal, amigable, técnico, cercano
+
+Haz preguntas de seguimiento para profundizar en cada área. Después de obtener suficiente información, informa al usuario que estás listo para generar un documento de especificaciones.`;
+
+  // Format messages for OpenAI
+  const formattedMessages = [
+    { role: "system", content: systemMessage },
+    ...messageHistory.map(msg => ({
+      role: msg.role.toLowerCase() as "system" | "user" | "assistant",
+      content: msg.content
+    }))
+  ];
+
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: formattedMessages,
+        temperature: 0.7,
+        max_tokens: 500
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("OpenAI API error:", errorData);
+      throw new Error(`OpenAI API Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.choices[0].message.content;
+  } catch (error) {
+    console.error("Error calling OpenAI:", error);
+    throw error;
+  }
 };
 
 // Helper functions to simulate AI understanding

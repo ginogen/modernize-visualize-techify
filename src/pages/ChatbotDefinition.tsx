@@ -20,6 +20,9 @@ const ChatbotDefinition: React.FC = () => {
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Comparta información detallada sobre su negocio para ayudarnos a definir su chatbot ideal
             </p>
+            <p className="text-sm text-muted-foreground max-w-3xl mx-auto mt-2">
+              Puede escribir o usar la función de audio para hablar directamente con el asistente
+            </p>
           </div>
           
           <div className="h-[calc(100%-80px)]">

@@ -1,8 +1,9 @@
 
 import React from "react";
-import { User, Bot } from "lucide-react";
+import { User, Bot, Volume2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Message, MessageRole } from "./types";
+import { Message, MessageRole, MessageType } from "./types";
+import { Button } from "@/components/ui/button";
 
 interface ChatMessageProps {
   message: Message;
@@ -10,6 +11,14 @@ interface ChatMessageProps {
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const isUser = message.role === MessageRole.USER;
+  const hasAudio = message.audioUrl && message.type === MessageType.AUDIO;
+  
+  const playAudio = () => {
+    if (message.audioUrl) {
+      const audio = new Audio(message.audioUrl);
+      audio.play();
+    }
+  };
   
   return (
     <div
@@ -33,6 +42,20 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
         )}
       >
         <div className="whitespace-pre-wrap break-words">{message.content}</div>
+        
+        {message.audioUrl && (
+          <div className="mt-2">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={playAudio}
+              className="h-6 p-1 text-xs flex items-center gap-1"
+            >
+              <Volume2 className="h-3 w-3" />
+              {hasAudio ? "Reproducir audio" : "Escuchar respuesta"}
+            </Button>
+          </div>
+        )}
       </div>
       
       {isUser && (
