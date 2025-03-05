@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 import { useToast } from "@/hooks/use-toast";
@@ -43,8 +42,8 @@ const OnboardingSteps: React.FC = () => {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       // Generar contraseña automática
-      const autoPassword = Math.random().toString(36).slice(-8);
-      console.log("Contraseña generada:", autoPassword);
+      const generatedPassword = Math.random().toString(36).substring(2, 10);
+      console.log("Contraseña generada:", generatedPassword);
       
       toast({
         title: "¡Registro exitoso!",
@@ -53,6 +52,9 @@ const OnboardingSteps: React.FC = () => {
       
       // Guardar datos en sessionStorage para usarlos en el portal
       sessionStorage.setItem("clientData", JSON.stringify(formData));
+      
+      // Guardar contraseña generada en sessionStorage
+      sessionStorage.setItem("generatedPassword", generatedPassword);
       
       // Simular login y redireccionar al portal
       setTimeout(() => {

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -6,21 +5,25 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle2, CreditCard, FileText, User } from "lucide-react";
+import { CheckCircle2, CreditCard, Eye, EyeOff, FileText, LogOut, User, CircuitBoard } from "lucide-react";
 import { OnboardingFormData } from "@/contexts/OnboardingContext";
+import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 
 const ClientPortal: React.FC = () => {
   const [clientData, setClientData] = useState<OnboardingFormData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
   
   useEffect(() => {
     // Cargar datos del cliente
     const savedData = sessionStorage.getItem("clientData");
+    const generatedPassword = sessionStorage.getItem("generatedPassword");
     
     if (!savedData) {
       toast({
@@ -33,13 +36,29 @@ const ClientPortal: React.FC = () => {
     }
     
     setClientData(JSON.parse(savedData));
+    if (generatedPassword) {
+      setPassword(generatedPassword);
+    }
     setLoading(false);
   }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("clientData");
+    sessionStorage.removeItem("generatedPassword");
+    toast({
+      title: "Sesión cerrada",
+      description: "Ha cerrado sesión correctamente.",
+    });
+    navigate("/onboarding");
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   if (loading) {
     return (
       <div className="flex flex-col min-h-screen">
-        <Header />
         <div className="flex-grow flex items-center justify-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
         </div>
@@ -50,7 +69,22 @@ const ClientPortal: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <header className="py-4 px-6 bg-background border-b">
+        <div className="container mx-auto flex items-center justify-between">
+          <Link
+            to="/"
+            className="flex items-center space-x-2 text-xl md:text-2xl font-mono font-semibold"
+          >
+            <CircuitBoard className="text-neonGreen h-7 w-7 animate-pulse-soft" />
+            <span className="text-gradient">Builders AI</span>
+          </Link>
+          
+          <Button variant="ghost" onClick={handleLogout} className="flex items-center gap-2">
+            <LogOut size={16} />
+            Cerrar sesión
+          </Button>
+        </div>
+      </header>
       
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8 bg-background">
         <motion.div
@@ -114,6 +148,28 @@ const ClientPortal: React.FC = () => {
                         <div>
                           <dt className="text-sm font-medium text-muted-foreground">Email</dt>
                           <dd className="mt-1 text-base">{clientData?.email}</dd>
+                        </div>
+                        <div>
+                          <dt className="text-sm font-medium text-muted-foreground">Contraseña</dt>
+                          <dd className="mt-1 text-base relative">
+                            <div className="flex items-center">
+                              <Input 
+                                type={showPassword ? "text" : "password"} 
+                                value={password} 
+                                className="pr-10" 
+                                readOnly
+                              />
+                              <Button 
+                                type="button" 
+                                variant="ghost" 
+                                size="icon" 
+                                className="absolute right-0 top-0"
+                                onClick={toggleShowPassword}
+                              >
+                                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                              </Button>
+                            </div>
+                          </dd>
                         </div>
                         {clientData?.website && (
                           <div>
