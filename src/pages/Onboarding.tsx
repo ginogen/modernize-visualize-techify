@@ -3,15 +3,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { OnboardingProvider } from "@/contexts/OnboardingContext";
 import OnboardingSteps from "@/components/onboarding/OnboardingSteps";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 const Onboarding: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      
-      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8 bg-background">
+    <div className="flex flex-col min-h-screen bg-background">
+      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -32,8 +28,6 @@ const Onboarding: React.FC = () => {
           </OnboardingProvider>
         </motion.div>
       </main>
-      
-      <Footer />
     </div>
   );
 };
