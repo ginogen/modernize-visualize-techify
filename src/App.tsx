@@ -12,6 +12,8 @@ import AIChatbots from "./pages/ServiceDetail/AIChatbots";
 import Portfolio from "./pages/Portfolio";
 import PortfolioDetail from "./pages/PortfolioDetail";
 import About from "./pages/About";
+import Onboarding from "./pages/Onboarding";
+import ClientPortal from "./pages/ClientPortal";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,8 @@ const App = () => (
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/portfolio/:id" element={<PortfolioDetail />} />
           <Route path="/about" element={<About />} />
+          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/client-portal" element={<ClientPortal />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
