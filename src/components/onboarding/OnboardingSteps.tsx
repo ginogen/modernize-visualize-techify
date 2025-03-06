@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 import { useToast } from "@/hooks/use-toast";
@@ -33,18 +32,16 @@ const OnboardingSteps: React.FC = () => {
       return;
     }
     
-    // Si llegamos al final, enviar datos
     setIsSubmitting(true);
     
     try {
       console.log("Enviando datos:", formData);
       
-      // Llamar a la función de edge para crear el usuario
-      const response = await fetch(`${supabase.supabaseUrl}/functions/v1/create-client`, {
+      const response = await fetch("https://vlkcjmhppcwfcgnwjbvc.supabase.co/functions/v1/create-client", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.SUPABASE_ANON_KEY || supabase.supabaseKey}`,
+          "Authorization": `Bearer ${process.env.SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsa2NqbWhwcGN3ZmNnbndqYnZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNjkwMjQsImV4cCI6MjA1Njg0NTAyNH0.9-lV_9vidAiczSivLkLSN_8gbLbb2b4mdnUAtQW9Kuc"}`,
         },
         body: JSON.stringify({ formData }),
       });
@@ -62,17 +59,14 @@ const OnboardingSteps: React.FC = () => {
         description: "Su cuenta ha sido creada correctamente.",
       });
       
-      // Guardar datos en sessionStorage para usarlos en el portal
       sessionStorage.setItem("clientData", JSON.stringify({
         ...formData,
         id: userId
       }));
       
-      // Guardar contraseña generada en sessionStorage
       sessionStorage.setItem("generatedPassword", generatedPassword);
       console.log("Contraseña generada:", generatedPassword);
       
-      // Simular login y redireccionar al portal
       setTimeout(() => {
         navigate("/client-portal");
       }, 1000);
