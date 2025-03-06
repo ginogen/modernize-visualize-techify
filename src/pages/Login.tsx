@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +9,8 @@ import { Loader2, LogIn, CircuitBoard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -15,6 +18,7 @@ const Login: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const checkSession = async () => {
@@ -44,8 +48,8 @@ const Login: React.FC = () => {
     
     if (!email || !password) {
       toast({
-        title: "Formulario incompleto",
-        description: "Por favor ingrese su correo electrónico y contraseña.",
+        title: t("form.incomplete"),
+        description: t("form.incomplete.message"),
         variant: "destructive",
       });
       return;
@@ -65,8 +69,8 @@ const Login: React.FC = () => {
       
       if (data.user) {
         toast({
-          title: "¡Inicio de sesión exitoso!",
-          description: "Bienvenido a su portal de cliente.",
+          title: t("login.success"),
+          description: t("login.welcome"),
         });
         
         const { data: profileData, error: profileError } = await supabase
@@ -84,10 +88,10 @@ const Login: React.FC = () => {
     } catch (error: any) {
       console.error("Error de inicio de sesión:", error);
       toast({
-        title: "Error de inicio de sesión",
+        title: t("login.error"),
         description: error.message === "Invalid login credentials" 
-          ? "Credenciales inválidas. Por favor verifique su correo electrónico y contraseña."
-          : "Hubo un problema al iniciar sesión. Intente nuevamente.",
+          ? t("invalid.credentials")
+          : t("login.problem"),
         variant: "destructive",
       });
     } finally {
@@ -98,7 +102,7 @@ const Login: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <header className="py-4 px-6 border-b">
-        <div className="container mx-auto">
+        <div className="container mx-auto flex justify-between items-center">
           <Link
             to="/"
             className="flex items-center space-x-2 text-xl md:text-2xl font-mono font-semibold"
@@ -106,26 +110,27 @@ const Login: React.FC = () => {
             <CircuitBoard className="text-neonGreen h-7 w-7 animate-pulse-soft" />
             <span className="text-gradient">Builders AI</span>
           </Link>
+          <LanguageToggle />
         </div>
       </header>
       
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
         <Card className="w-full max-w-md mx-auto">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Portal del Cliente</CardTitle>
+            <CardTitle className="text-2xl font-bold">{t("client.portal")}</CardTitle>
             <CardDescription>
-              Ingrese sus credenciales para acceder a su portal
+              {t("client.portal.description")}
             </CardDescription>
           </CardHeader>
           
           <form onSubmit={handleLogin}>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Correo electrónico</Label>
+                <Label htmlFor="email">{t("email")}</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="email@ejemplo.com"
+                  placeholder={t("email.placeholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={isLoading}
@@ -133,7 +138,7 @@ const Login: React.FC = () => {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password">Contraseña</Label>
+                <Label htmlFor="password">{t("password")}</Label>
                 <Input
                   id="password"
                   type="password"
@@ -153,12 +158,12 @@ const Login: React.FC = () => {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Iniciando sesión...
+                    {t("logging.in")}
                   </>
                 ) : (
                   <>
                     <LogIn className="mr-2 h-4 w-4" />
-                    Iniciar sesión
+                    {t("login")}
                   </>
                 )}
               </Button>
