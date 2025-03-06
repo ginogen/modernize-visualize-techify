@@ -2,7 +2,7 @@
 import React from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
-import { Languages } from "lucide-react";
+import { Globe } from "lucide-react";
 
 const LanguageToggle: React.FC = () => {
   const { language, setLanguage } = useLanguage();
@@ -18,7 +18,7 @@ const LanguageToggle: React.FC = () => {
       onClick={toggleLanguage}
       className="flex items-center gap-1 px-2"
     >
-      <Languages className="w-4 h-4" />
+      <Globe className="w-4 h-4" />
       <span>{language.toUpperCase()}</span>
     </Button>
   );

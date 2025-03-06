@@ -4,11 +4,14 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Menu, X, CircuitBoard } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
 
 const Header = () => {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { t } = useLanguage();
 
   const handleScroll = () => {
     if (window.scrollY > 20) {
@@ -30,11 +33,11 @@ const Header = () => {
   };
 
   const navItems = [
-    { label: "Home", path: "/" },
-    { label: "Services", path: "/services" },
-    { label: "Portfolio", path: "/portfolio" },
-    { label: "About", path: "/about" },
-    { label: "Contact", path: "/contact" },
+    { label: t("nav.home"), path: "/" },
+    { label: t("nav.services"), path: "/services" },
+    { label: t("nav.portfolio"), path: "/portfolio" },
+    { label: t("nav.about"), path: "/about" },
+    { label: t("nav.contact"), path: "/contact" },
   ];
 
   return (
@@ -66,15 +69,21 @@ const Header = () => {
                 {item.label}
               </Link>
             ))}
-            <Button className="ml-4 button-glow bg-neonGreen text-black hover:bg-neonGreen/80 font-mono">Get Started</Button>
+            <LanguageToggle />
+            <Button className="ml-4 button-glow bg-neonGreen text-black hover:bg-neonGreen/80 font-mono">
+              {t("nav.get.started")}
+            </Button>
           </nav>
         )}
         
         {/* Mobile Navigation Toggle */}
         {isMobile && (
-          <button onClick={toggleMenu} className="md:hidden p-2 text-foreground" aria-label="Toggle menu">
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="flex items-center">
+            <LanguageToggle />
+            <button onClick={toggleMenu} className="ml-2 md:hidden p-2 text-foreground" aria-label="Toggle menu">
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         )}
       </div>
       
@@ -97,7 +106,7 @@ const Header = () => {
               </Link>
             ))}
             <Button className="mt-4 w-full button-glow bg-neonGreen text-black hover:bg-neonGreen/80 font-mono" onClick={() => setIsOpen(false)}>
-              Get Started
+              {t("nav.get.started")}
             </Button>
           </nav>
         </div>
