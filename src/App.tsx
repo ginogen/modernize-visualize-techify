@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +15,7 @@ import About from "./pages/About";
 import Onboarding from "./pages/Onboarding";
 import ClientPortal from "./pages/ClientPortal";
 import ChatbotDefinition from "./pages/ChatbotDefinition";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,7 @@ function App() {
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/client-portal" element={<ClientPortal />} />
             <Route path="/chatbot-definition" element={<ChatbotDefinition />} />
+            <Route path="/login" element={<Login />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>

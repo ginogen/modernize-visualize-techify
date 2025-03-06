@@ -12,6 +12,7 @@ import { CheckCircle2, CreditCard, Eye, EyeOff, FileText, LogOut, User, CircuitB
 import { OnboardingFormData } from "@/contexts/OnboardingContext";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const ClientPortal: React.FC = () => {
   const [clientData, setClientData] = useState<OnboardingFormData | null>(null);
@@ -22,43 +23,92 @@ const ClientPortal: React.FC = () => {
   const { toast } = useToast();
   
   useEffect(() => {
-    // Cargar datos del cliente
-    const savedData = sessionStorage.getItem("clientData");
-    const generatedPassword = sessionStorage.getItem("generatedPassword");
+    const checkAuth = async () => {
+      // Check if user is authenticated
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        toast({
+          title: "Acceso denegado",
+          description: "Por favor inicie sesión para acceder al portal.",
+          variant: "destructive",
+        });
+        navigate("/login");
+        return;
+      }
+      
+      // Try to get data from sessionStorage first
+      const savedData = sessionStorage.getItem("clientData");
+      const generatedPassword = sessionStorage.getItem("generatedPassword");
+      
+      if (savedData) {
+        setClientData(JSON.parse(savedData));
+      } else {
+        // If not in sessionStorage, fetch from Supabase
+        const { data: profileData, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
+          
+        if (error) {
+          console.error("Error fetching profile:", error);
+          toast({
+            title: "Error",
+            description: "No se pudo cargar la información del perfil.",
+            variant: "destructive",
+          });
+          navigate("/login");
+          return;
+        }
+        
+        if (profileData) {
+          setClientData(profileData as unknown as OnboardingFormData);
+          sessionStorage.setItem("clientData", JSON.stringify(profileData));
+        } else {
+          toast({
+            title: "Perfil no encontrado",
+            description: "No se encontró información de perfil para este usuario.",
+            variant: "destructive",
+          });
+          navigate("/login");
+          return;
+        }
+      }
+      
+      // Set password from sessionStorage if available
+      if (generatedPassword) {
+        setPassword(generatedPassword);
+      } else {
+        setPassword("(Contraseña no disponible)");
+      }
+      
+      setLoading(false);
+    };
     
-    if (!savedData) {
+    checkAuth();
+  }, [navigate, toast]);
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      sessionStorage.removeItem("clientData");
+      sessionStorage.removeItem("generatedPassword");
+      
       toast({
-        title: "Acceso denegado",
-        description: "Por favor complete el proceso de registro primero.",
+        title: "Sesión cerrada",
+        description: "Ha cerrado sesión correctamente.",
+      });
+      
+      navigate("/login");
+    } catch (error) {
+      console.error("Error closing session:", error);
+      toast({
+        title: "Error",
+        description: "Hubo un problema al cerrar sesión. Intente nuevamente.",
         variant: "destructive",
       });
-      navigate("/onboarding");
-      return;
     }
-    
-    setClientData(JSON.parse(savedData));
-    
-    // Asegurarse de que la contraseña generada se recupere correctamente
-    if (generatedPassword) {
-      console.log("Contraseña recuperada:", generatedPassword);
-      setPassword(generatedPassword);
-    } else {
-      console.log("No se encontró la contraseña generada en sessionStorage");
-      // Si no hay contraseña, podemos establecer un valor por defecto o mostrar un mensaje
-      setPassword("(Contraseña no disponible)");
-    }
-    
-    setLoading(false);
-  }, []);
-
-  const handleLogout = () => {
-    sessionStorage.removeItem("clientData");
-    sessionStorage.removeItem("generatedPassword");
-    toast({
-      title: "Sesión cerrada",
-      description: "Ha cerrado sesión correctamente.",
-    });
-    navigate("/onboarding");
   };
 
   const toggleShowPassword = () => {

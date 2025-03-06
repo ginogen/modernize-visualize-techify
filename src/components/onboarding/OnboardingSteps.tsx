@@ -67,6 +67,17 @@ const OnboardingSteps: React.FC = () => {
       sessionStorage.setItem("generatedPassword", generatedPassword);
       console.log("Contraseña generada:", generatedPassword);
       
+      // Now automatically log in the user
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: generatedPassword,
+      });
+      
+      if (signInError) {
+        console.error("Error iniciando sesión automáticamente:", signInError);
+        // Even if login fails, we still redirect to the client portal
+      }
+      
       setTimeout(() => {
         navigate("/client-portal");
       }, 1000);
