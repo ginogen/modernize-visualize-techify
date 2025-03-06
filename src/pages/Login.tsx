@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, LogIn, CircuitBoard, ArrowRight } from "lucide-react";
+import { Loader2, LogIn, CircuitBoard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
@@ -17,7 +16,6 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Check if user is already logged in
   useEffect(() => {
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
@@ -28,7 +26,6 @@ const Login: React.FC = () => {
     
     checkSession();
     
-    // Setup auth state change listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (session) {
@@ -72,7 +69,6 @@ const Login: React.FC = () => {
           description: "Bienvenido a su portal de cliente.",
         });
         
-        // Get the user profile data
         const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('*')
@@ -80,7 +76,6 @@ const Login: React.FC = () => {
           .single();
           
         if (!profileError && profileData) {
-          // Store the profile data in sessionStorage
           sessionStorage.setItem("clientData", JSON.stringify(profileData));
         }
         
@@ -138,15 +133,7 @@ const Login: React.FC = () => {
               </div>
               
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Contraseña</Label>
-                  <Link 
-                    to="/onboarding" 
-                    className="text-sm font-medium text-primary underline-offset-4 hover:underline"
-                  >
-                    ¿No tiene una cuenta?
-                  </Link>
-                </div>
+                <Label htmlFor="password">Contraseña</Label>
                 <Input
                   id="password"
                   type="password"
@@ -157,7 +144,7 @@ const Login: React.FC = () => {
               </div>
             </CardContent>
             
-            <CardFooter className="flex flex-col">
+            <CardFooter>
               <Button 
                 type="submit" 
                 className="w-full"
@@ -175,16 +162,6 @@ const Login: React.FC = () => {
                   </>
                 )}
               </Button>
-              
-              <div className="mt-4 text-center">
-                <Link
-                  to="/onboarding"
-                  className="text-sm font-medium text-primary underline-offset-4 hover:underline inline-flex items-center"
-                >
-                  Registrarse como nuevo cliente
-                  <ArrowRight className="ml-1 h-3 w-3" />
-                </Link>
-              </div>
             </CardFooter>
           </form>
         </Card>
