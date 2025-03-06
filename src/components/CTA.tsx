@@ -3,8 +3,11 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const CTA = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="section-padding bg-darkBlue">
       <div className="container mx-auto">
@@ -31,7 +34,7 @@ const CTA = () => {
                   viewport={{ once: true }}
                   className="text-3xl md:text-4xl lg:text-5xl font-mono font-bold mb-6 text-white"
                 >
-                  Ready to Transform Your Business?
+                  {t("cta.title")}
                 </motion.h2>
                 
                 <motion.p 
@@ -41,7 +44,7 @@ const CTA = () => {
                   viewport={{ once: true }}
                   className="text-lg md:text-xl text-white/80 mb-8 font-mono"
                 >
-                  Let's discuss how our software and bot solutions can help you achieve your business goals. Schedule a free consultation today.
+                  {t("cta.description")}
                 </motion.p>
                 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -53,7 +56,7 @@ const CTA = () => {
                   >
                     <Button className="button-glow px-8 py-6 text-lg bg-neonGreen text-darkBlue hover:bg-neonGreen/80 font-mono" asChild>
                       <Link to="/contact">
-                        Schedule Consultation <ArrowRight className="ml-2 h-5 w-5" />
+                        {t("cta.schedule")} <ArrowRight className="ml-2 h-5 w-5" />
                       </Link>
                     </Button>
                   </motion.div>
@@ -65,7 +68,7 @@ const CTA = () => {
                     viewport={{ once: true }}
                   >
                     <Button variant="outline" className="px-8 py-6 text-lg font-mono border-neonGreen text-neonGreen hover:bg-neonGreen/10">
-                      View Pricing
+                      {t("cta.pricing")}
                     </Button>
                   </motion.div>
                 </div>

@@ -28,6 +28,16 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.description": "Desarrollamos soluciones personalizadas de IA y software que ayudan a las empresas a automatizar procesos, obtener información y impulsar el crecimiento.",
     "hero.get.started": "Comenzar",
     "hero.explore.services": "Explorar Servicios",
+
+    // Services Cards
+    "services.ai.integration": "Integración de IA",
+    "services.ai.integration.desc": "Conecta modelos de IA a tus flujos de trabajo empresariales",
+    "services.custom.dev": "Desarrollo Personalizado",
+    "services.custom.dev.desc": "Soluciones a medida para tus necesidades",
+    "services.chatbot": "Creación de Chatbots",
+    "services.chatbot.desc": "Interfaces conversacionales inteligentes",
+    "services.process.automation": "Automatización de Procesos",
+    "services.process.automation.desc": "Optimiza flujos de trabajo con IA",
     
     // Services Section
     "services.title": "Nuestros Servicios",
@@ -47,6 +57,12 @@ const translations: Record<Language, Record<string, string>> = {
     // Testimonials Section
     "testimonials.title": "Historias de Éxito de Clientes",
     "testimonials.subtitle": "Lo Que Dicen Nuestros Clientes",
+    
+    // CTA Section
+    "cta.title": "¿Listo para Transformar su Negocio?",
+    "cta.description": "Hablemos sobre cómo nuestras soluciones de software e IA pueden ayudarle a alcanzar sus objetivos empresariales. Programe una consulta gratuita hoy.",
+    "cta.schedule": "Agendar Consulta",
+    "cta.pricing": "Ver Precios",
     
     // 404 Page
     "404.title": "404",
@@ -85,6 +101,16 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.description": "We build custom AI and software solutions that help businesses automate processes, gain insights, and drive growth.",
     "hero.get.started": "Get Started",
     "hero.explore.services": "Explore Services",
+
+    // Services Cards
+    "services.ai.integration": "AI Integration",
+    "services.ai.integration.desc": "Connect AI models to your business workflows",
+    "services.custom.dev": "Custom Development",
+    "services.custom.dev.desc": "Tailored solutions for your needs",
+    "services.chatbot": "Chatbot Creation",
+    "services.chatbot.desc": "Intelligent conversational interfaces",
+    "services.process.automation": "Process Automation",
+    "services.process.automation.desc": "Streamline workflows with AI",
     
     // Services Section
     "services.title": "Our Services",
@@ -104,6 +130,12 @@ const translations: Record<Language, Record<string, string>> = {
     // Testimonials Section
     "testimonials.title": "Client Success Stories",
     "testimonials.subtitle": "What Our Clients Say",
+    
+    // CTA Section
+    "cta.title": "Ready to Transform Your Business?",
+    "cta.description": "Let's discuss how our software and bot solutions can help you achieve your business goals. Schedule a free consultation today.",
+    "cta.schedule": "Schedule Consultation",
+    "cta.pricing": "View Pricing",
     
     // 404 Page
     "404.title": "404",

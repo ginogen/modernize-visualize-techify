@@ -8,10 +8,13 @@ import Testimonials from "@/components/Testimonials";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import AIWorkflow from "@/components/AIWorkflow";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
+  const { language } = useLanguage();
+  
   useEffect(() => {
-    // Scroll to top when component mounts
+    // Scroll to top when component mounts or language changes
     window.scrollTo(0, 0);
     
     // Add smooth scrolling between sections
@@ -47,7 +50,7 @@ const Index = () => {
         anchor.removeEventListener('click', () => {});
       });
     };
-  }, []);
+  }, [language]); // Add language as a dependency
 
   return (
     <div className="min-h-screen overflow-x-hidden">

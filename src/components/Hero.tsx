@@ -4,11 +4,13 @@ import { motion } from "framer-motion";
 import { ArrowRight, BrainCircuit, Code, Bot, Puzzle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Hero = () => {
+  const { t } = useLanguage();
   const [isTyping, setIsTyping] = useState(true);
   const [typedText, setTypedText] = useState("");
-  const fullText = "Transform Your Business with Custom AI Solutions";
+  const fullText = t("hero.title");
 
   useEffect(() => {
     if (typedText.length < fullText.length) {
@@ -19,7 +21,7 @@ const Hero = () => {
     } else {
       setIsTyping(false);
     }
-  }, [typedText]);
+  }, [typedText, fullText]);
 
   // Animation variants
   const containerVariants = {
@@ -56,7 +58,7 @@ const Hero = () => {
           >
             <motion.div variants={itemVariants} className="mb-4">
               <span className="px-4 py-2 rounded-full bg-neonGreen/10 text-neonGreen text-sm md:text-base font-mono inline-block">
-                AI-Powered Solutions
+                {t("hero.badge")}
               </span>
             </motion.div>
 
@@ -78,18 +80,18 @@ const Hero = () => {
               variants={itemVariants}
               className="text-xl text-white/70 mb-8 max-w-xl font-mono"
             >
-              We build custom AI and software solutions that help businesses automate processes, gain insights, and drive growth.
+              {t("hero.description")}
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-wrap gap-4">
               <Button className="button-glow bg-neonGreen text-darkBlue hover:bg-neonGreen/80 font-mono" asChild>
                 <Link to="/contact">
-                  Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                  {t("hero.get.started")} <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button variant="outline" className="border-neonGreen text-neonGreen hover:bg-neonGreen/10" asChild>
                 <Link to="/services">
-                  Explore Services
+                  {t("hero.explore.services")}
                 </Link>
               </Button>
             </motion.div>
@@ -115,26 +117,26 @@ const Hero = () => {
                   
                   <div className="bg-darkBlue/60 p-4 rounded-lg border border-white/10">
                     <BrainCircuit className="text-neonGreen mb-2 w-8 h-8" />
-                    <h3 className="text-lg font-mono font-semibold mb-1">AI Integration</h3>
-                    <p className="text-white/70 text-sm font-mono">Connect AI models to your business workflows</p>
+                    <h3 className="text-lg font-mono font-semibold mb-1">{t("services.ai.integration")}</h3>
+                    <p className="text-white/70 text-sm font-mono">{t("services.ai.integration.desc")}</p>
                   </div>
                   
                   <div className="bg-darkBlue/60 p-4 rounded-lg border border-white/10">
                     <Code className="text-neonGreen mb-2 w-8 h-8" />
-                    <h3 className="text-lg font-mono font-semibold mb-1">Custom Development</h3>
-                    <p className="text-white/70 text-sm font-mono">Tailored solutions for your needs</p>
+                    <h3 className="text-lg font-mono font-semibold mb-1">{t("services.custom.dev")}</h3>
+                    <p className="text-white/70 text-sm font-mono">{t("services.custom.dev.desc")}</p>
                   </div>
                   
                   <div className="bg-darkBlue/60 p-4 rounded-lg border border-white/10">
                     <Bot className="text-neonGreen mb-2 w-8 h-8" />
-                    <h3 className="text-lg font-mono font-semibold mb-1">Chatbot Creation</h3>
-                    <p className="text-white/70 text-sm font-mono">Intelligent conversational interfaces</p>
+                    <h3 className="text-lg font-mono font-semibold mb-1">{t("services.chatbot")}</h3>
+                    <p className="text-white/70 text-sm font-mono">{t("services.chatbot.desc")}</p>
                   </div>
                   
                   <div className="bg-darkBlue/60 p-4 rounded-lg border border-white/10">
                     <Puzzle className="text-neonGreen mb-2 w-8 h-8" />
-                    <h3 className="text-lg font-mono font-semibold mb-1">Process Automation</h3>
-                    <p className="text-white/70 text-sm font-mono">Streamline workflows with AI</p>
+                    <h3 className="text-lg font-mono font-semibold mb-1">{t("services.process.automation")}</h3>
+                    <p className="text-white/70 text-sm font-mono">{t("services.process.automation.desc")}</p>
                   </div>
                 </div>
               </div>
