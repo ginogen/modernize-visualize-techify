@@ -9,7 +9,80 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      argentina_info: {
+        Row: {
+          condicion_fiscal: string
+          created_at: string
+          cuit: string
+          id: string
+        }
+        Insert: {
+          condicion_fiscal: string
+          created_at?: string
+          cuit: string
+          id: string
+        }
+        Update: {
+          condicion_fiscal?: string
+          created_at?: string
+          cuit?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "argentina_info_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          address: string
+          business_description: string | null
+          business_name: string
+          city: string
+          country: string
+          created_at: string
+          email: string
+          id: string
+          objective: string | null
+          phone: string | null
+          responsible_name: string
+          website: string | null
+        }
+        Insert: {
+          address: string
+          business_description?: string | null
+          business_name: string
+          city: string
+          country: string
+          created_at?: string
+          email: string
+          id: string
+          objective?: string | null
+          phone?: string | null
+          responsible_name: string
+          website?: string | null
+        }
+        Update: {
+          address?: string
+          business_description?: string | null
+          business_name?: string
+          city?: string
+          country?: string
+          created_at?: string
+          email?: string
+          id?: string
+          objective?: string | null
+          phone?: string | null
+          responsible_name?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

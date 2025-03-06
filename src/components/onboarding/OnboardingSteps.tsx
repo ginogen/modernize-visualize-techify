@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
 import Step1Form from "./Step1Form";
 import Step2Form from "./Step2Form";
+import { supabase } from "@/integrations/supabase/client";
 
 const OnboardingSteps: React.FC = () => {
   const { currentStep, nextStep, prevStep, formData, isStepValid } = useOnboarding();
@@ -36,15 +37,25 @@ const OnboardingSteps: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Simular creación de usuario (en un caso real, llamaríamos a una API)
       console.log("Enviando datos:", formData);
       
-      // Simular tiempo de procesamiento
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Llamar a la función de edge para crear el usuario
+      const response = await fetch(`${supabase.supabaseUrl}/functions/v1/create-client`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${process.env.SUPABASE_ANON_KEY || supabase.supabaseKey}`,
+        },
+        body: JSON.stringify({ formData }),
+      });
       
-      // Generar contraseña automática
-      const generatedPassword = Math.random().toString(36).substring(2, 10);
-      console.log("Contraseña generada:", generatedPassword);
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || "Error al crear el cliente");
+      }
+      
+      const { generatedPassword, userId } = data;
       
       toast({
         title: "¡Registro exitoso!",
@@ -52,11 +63,14 @@ const OnboardingSteps: React.FC = () => {
       });
       
       // Guardar datos en sessionStorage para usarlos en el portal
-      sessionStorage.setItem("clientData", JSON.stringify(formData));
+      sessionStorage.setItem("clientData", JSON.stringify({
+        ...formData,
+        id: userId
+      }));
       
       // Guardar contraseña generada en sessionStorage
       sessionStorage.setItem("generatedPassword", generatedPassword);
-      console.log("Contraseña guardada en sessionStorage:", generatedPassword);
+      console.log("Contraseña generada:", generatedPassword);
       
       // Simular login y redireccionar al portal
       setTimeout(() => {
@@ -66,7 +80,7 @@ const OnboardingSteps: React.FC = () => {
       console.error("Error al enviar datos:", error);
       toast({
         title: "Error",
-        description: "Hubo un problema al procesar su solicitud. Intente nuevamente.",
+        description: error instanceof Error ? error.message : "Hubo un problema al procesar su solicitud. Intente nuevamente.",
         variant: "destructive",
       });
     } finally {
