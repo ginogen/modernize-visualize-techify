@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 type Language = "es" | "en";
@@ -83,6 +82,11 @@ const translations: Record<Language, Record<string, string>> = {
     "form.incomplete.message": "Por favor ingrese su correo electrónico y contraseña.",
     "invalid.credentials": "Credenciales inválidas. Por favor verifique su correo electrónico y contraseña.",
     "login.problem": "Hubo un problema al iniciar sesión. Intente nuevamente.",
+
+    // AI Workflow Section
+    "ai.workflow.title": "Flujo de Trabajo con IA",
+    "ai.workflow.subtitle": "Cómo Implementamos Soluciones de IA",
+    
     // Common
     "email.placeholder": "email@ejemplo.com",
   },
@@ -156,6 +160,11 @@ const translations: Record<Language, Record<string, string>> = {
     "form.incomplete.message": "Please enter your email and password.",
     "invalid.credentials": "Invalid credentials. Please check your email and password.",
     "login.problem": "There was a problem logging in. Please try again.",
+
+    // AI Workflow Section
+    "ai.workflow.title": "AI Workflow",
+    "ai.workflow.subtitle": "How We Implement AI Solutions",
+    
     // Common
     "email.placeholder": "email@example.com",
   }

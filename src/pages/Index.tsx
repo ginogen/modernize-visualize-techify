@@ -7,7 +7,7 @@ import Portfolio from "@/components/Portfolio";
 import Testimonials from "@/components/Testimonials";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
-import AIWorkflow from "@/components/AIWorkflow";
+import AIWorkflowWrapper from "@/components/AIWorkflowWrapper";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
@@ -58,7 +58,7 @@ const Index = () => {
       <main>
         <Hero />
         <Services />
-        <AIWorkflow />
+        <AIWorkflowWrapper />
         <Portfolio />
         <Testimonials />
         <CTA />

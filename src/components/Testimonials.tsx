@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Testimonial {
   id: number;
@@ -16,6 +17,7 @@ interface Testimonial {
 const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [autoplay, setAutoplay] = useState(true);
+  const { t } = useLanguage();
 
   const testimonials: Testimonial[] = [
     {
@@ -85,7 +87,7 @@ const Testimonials = () => {
             viewport={{ once: true }}
             className="text-sm md:text-base font-medium px-4 py-2 rounded-full bg-neonGreen/10 text-neonGreen inline-block mb-4"
           >
-            Client Success Stories
+            {t("testimonials.title")}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -94,7 +96,7 @@ const Testimonials = () => {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-mono font-bold mb-6"
           >
-            What Our Clients Say
+            {t("testimonials.subtitle")}
           </motion.h2>
         </div>
 
