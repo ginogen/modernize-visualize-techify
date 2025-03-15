@@ -10,7 +10,6 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import LanguageToggle from "@/components/LanguageToggle";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -110,7 +109,6 @@ const Login: React.FC = () => {
             <CircuitBoard className="text-neonGreen h-7 w-7 animate-pulse-soft" />
             <span className="text-gradient">Builders AI</span>
           </Link>
-          <LanguageToggle />
         </div>
       </header>
       

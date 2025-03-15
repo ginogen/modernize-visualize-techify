@@ -1,10 +1,10 @@
+
 import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Menu, X, CircuitBoard } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import LanguageToggle from "@/components/LanguageToggle";
 
 const Header = () => {
   const isMobile = useIsMobile();
@@ -63,7 +63,6 @@ const Header = () => {
                 {item.label}
               </Link>
             ))}
-            <LanguageToggle />
             <Button className="ml-4 button-glow bg-neonGreen text-black hover:bg-neonGreen/80 font-mono">
               {t("nav.get.started")}
             </Button>
@@ -72,7 +71,6 @@ const Header = () => {
         
         {isMobile && (
           <div className="flex items-center">
-            <LanguageToggle />
             <button onClick={toggleMenu} className="ml-2 md:hidden p-2 text-foreground" aria-label="Toggle menu">
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
