@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { CircuitBoard, Loader2, AlertTriangle } from "lucide-react";
+import { CircuitBoard, Loader2, AlertTriangle, CheckCircle, ArrowRight, Calendar, DollarSign, Users } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -77,80 +77,262 @@ const Proposal = () => {
     );
   }
 
+  // Formato para la fecha
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  // Dividir el scope en elementos de lista
+  const scopeItems = proposal.scope.split('\n').filter(item => item.trim() !== '');
+
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <Header />
-      
-      <main className="flex-grow container mx-auto py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-8 text-center">
-            <div className="flex justify-center mb-4">
-              <CircuitBoard className="text-neonGreen h-14 w-14 animate-pulse-soft" />
-            </div>
-            <h1 className="text-3xl font-bold mb-2">Propuesta para {proposal.client_name}</h1>
-            <p className="text-lg text-foreground/70">{proposal.service}</p>
+    <div className="min-h-screen bg-gradient-to-b from-background to-accent/20 flex flex-col">
+      {/* Encabezado con barra de progreso */}
+      <div className="w-full bg-background border-b sticky top-0 z-10">
+        <div className="container mx-auto py-4 px-4 flex justify-between items-center">
+          <Link to="/" className="flex items-center gap-2">
+            <CircuitBoard className="h-5 w-5 text-neonGreen" />
+            <span className="font-mono font-bold text-lg">VibeCode</span>
+          </Link>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium hidden md:inline-block">Propuesta para {proposal.client_name}</span>
+            <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              {proposal.status || "Enviada"}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <main className="flex-grow container mx-auto px-4 py-12">
+        {/* Hero Section */}
+        <div className="max-w-5xl mx-auto mb-16 text-center">
+          <div className="inline-flex items-center justify-center p-2 bg-accent rounded-full mb-4">
+            <CircuitBoard className="text-neonGreen h-6 w-6 mr-2" />
+            <span className="text-sm font-medium">Propuesta Personalizada</span>
           </div>
           
-          <div className="space-y-10">
-            <section className="bg-card rounded-lg p-6 shadow-md border">
-              <h2 className="text-2xl font-bold mb-4">Alcance de Funciones</h2>
-              <div className="prose max-w-none dark:prose-invert">
-                {proposal.scope.split('\n').map((paragraph, index) => (
-                  <p key={index} className="mb-4">{paragraph}</p>
-                ))}
-              </div>
-            </section>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-green-400 bg-clip-text text-transparent">
+            {proposal.service}
+          </h1>
+          
+          <p className="text-xl text-foreground/80 max-w-2xl mx-auto mb-8">
+            Creado especialmente para <span className="font-bold">{proposal.client_name}</span> para alcanzar sus objetivos de negocio.
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+            <div className="flex flex-col items-center p-4 rounded-lg border bg-background shadow-sm">
+              <Calendar className="h-10 w-10 text-primary mb-2" />
+              <h3 className="font-medium">Fecha</h3>
+              <p className="text-sm text-foreground/70">{formatDate(proposal.created_at)}</p>
+            </div>
             
-            <section className="bg-card rounded-lg p-6 shadow-md border">
-              <h2 className="text-2xl font-bold mb-4">Video Explicativo</h2>
-              <div className="aspect-w-16 aspect-h-9">
-                <div className="w-full h-0 pb-[56.25%] relative bg-black/5 rounded-md flex items-center justify-center">
-                  <p className="absolute text-foreground/50">Video Demostrativo</p>
-                </div>
-              </div>
-            </section>
+            <div className="flex flex-col items-center p-4 rounded-lg border bg-background shadow-sm">
+              <DollarSign className="h-10 w-10 text-primary mb-2" />
+              <h3 className="font-medium">Inversión</h3>
+              <p className="text-sm text-foreground/70">{proposal.investment}</p>
+            </div>
             
-            <section className="bg-card rounded-lg p-6 shadow-md border">
-              <h2 className="text-2xl font-bold mb-4">Testimonios</h2>
-              <div className="grid gap-6 md:grid-cols-2">
-                <div className="bg-background p-4 rounded-md border">
-                  <p className="italic mb-2">"El servicio superó todas nuestras expectativas. El equipo fue muy profesional y entregaron el proyecto antes de lo esperado."</p>
-                  <p className="font-semibold">- Cliente Satisfecho</p>
-                </div>
-                <div className="bg-background p-4 rounded-md border">
-                  <p className="italic mb-2">"Excelente trabajo. La comunicación fue fluida y el resultado final es exactamente lo que buscábamos."</p>
-                  <p className="font-semibold">- Otro Cliente Feliz</p>
-                </div>
-              </div>
-            </section>
-            
-            <section className="bg-card rounded-lg p-6 shadow-md border">
-              <h2 className="text-2xl font-bold mb-4">Ejemplos de Proyectos</h2>
-              <div className="grid gap-4 md:grid-cols-3">
-                {[1, 2, 3].map((item) => (
-                  <div key={item} className="bg-black/5 rounded-md aspect-video flex items-center justify-center">
-                    <p className="text-foreground/50">Ejemplo {item}</p>
+            <div className="flex flex-col items-center p-4 rounded-lg border bg-background shadow-sm">
+              <Users className="h-10 w-10 text-primary mb-2" />
+              <h3 className="font-medium">Cliente</h3>
+              <p className="text-sm text-foreground/70">{proposal.client_name}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Alcance Section */}
+        <section className="max-w-4xl mx-auto mb-16">
+          <div className="flex items-center mb-8">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-primary/20 text-primary mr-4">
+              <CheckCircle className="h-6 w-6" />
+            </div>
+            <h2 className="text-3xl font-bold">Alcance del Proyecto</h2>
+          </div>
+          
+          <div className="bg-white dark:bg-darkBlue/40 rounded-xl p-8 shadow-lg border">
+            <ul className="space-y-4">
+              {scopeItems.map((item, index) => (
+                <li key={index} className="flex">
+                  <div className="mr-4 mt-1">
+                    <div className="w-5 h-5 rounded-full bg-neonGreen flex items-center justify-center shadow-glow">
+                      <CheckCircle className="h-3 w-3 text-background" />
+                    </div>
                   </div>
-                ))}
-              </div>
-            </section>
+                  <p className="flex-1">{item}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* Benefits Section */}
+        <section className="max-w-4xl mx-auto mb-16 py-10 px-8 bg-gradient-to-br from-primary/5 to-primary/20 rounded-xl border">
+          <h2 className="text-3xl font-bold mb-8 text-center">Beneficios Clave</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-background p-6 rounded-lg shadow-sm border">
+              <h3 className="text-xl font-bold mb-2 flex items-center">
+                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
+                  <span className="text-primary font-bold">1</span>
+                </div>
+                Mayor Eficiencia
+              </h3>
+              <p className="text-foreground/70">Automatización de procesos que ahorra tiempo y recursos para su equipo.</p>
+            </div>
             
-            <section className="bg-card rounded-lg p-6 shadow-md border">
-              <h2 className="text-2xl font-bold mb-4">Inversión</h2>
-              <div className="p-6 bg-background rounded-md border text-center">
-                <p className="text-3xl font-bold mb-2">{proposal.investment}</p>
-                <p className="text-foreground/70">Inversión total para el proyecto</p>
-              </div>
-            </section>
+            <div className="bg-background p-6 rounded-lg shadow-sm border">
+              <h3 className="text-xl font-bold mb-2 flex items-center">
+                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
+                  <span className="text-primary font-bold">2</span>
+                </div>
+                Innovación Tecnológica
+              </h3>
+              <p className="text-foreground/70">Implementación de las últimas tecnologías para mantener su ventaja competitiva.</p>
+            </div>
             
-            <div className="flex justify-center">
+            <div className="bg-background p-6 rounded-lg shadow-sm border">
+              <h3 className="text-xl font-bold mb-2 flex items-center">
+                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
+                  <span className="text-primary font-bold">3</span>
+                </div>
+                Escalabilidad
+              </h3>
+              <p className="text-foreground/70">Soluciones diseñadas para crecer con su negocio sin complicaciones adicionales.</p>
+            </div>
+            
+            <div className="bg-background p-6 rounded-lg shadow-sm border">
+              <h3 className="text-xl font-bold mb-2 flex items-center">
+                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
+                  <span className="text-primary font-bold">4</span>
+                </div>
+                Soporte Continuo
+              </h3>
+              <p className="text-foreground/70">Acompañamiento durante todo el proceso de implementación y más allá.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="max-w-4xl mx-auto mb-16">
+          <h2 className="text-3xl font-bold mb-8 text-center">Lo Que Dicen Nuestros Clientes</h2>
+          
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="bg-background p-6 rounded-lg shadow-md border relative">
+              <div className="absolute -top-3 -left-3 w-10 h-10 bg-neonGreen rounded-full flex items-center justify-center shadow-glow">
+                <span className="text-black text-xl font-bold">"</span>
+              </div>
+              <p className="italic mb-4 pt-4">El servicio superó todas nuestras expectativas. El equipo fue muy profesional y entregaron el proyecto antes de lo esperado.</p>
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-gray-200 mr-3"></div>
+                <div>
+                  <p className="font-semibold">Juan Pérez</p>
+                  <p className="text-sm text-foreground/70">Empresa ABC</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-background p-6 rounded-lg shadow-md border relative">
+              <div className="absolute -top-3 -left-3 w-10 h-10 bg-neonGreen rounded-full flex items-center justify-center shadow-glow">
+                <span className="text-black text-xl font-bold">"</span>
+              </div>
+              <p className="italic mb-4 pt-4">Excelente trabajo. La comunicación fue fluida y el resultado final es exactamente lo que buscábamos para nuestro negocio.</p>
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-gray-200 mr-3"></div>
+                <div>
+                  <p className="font-semibold">María González</p>
+                  <p className="text-sm text-foreground/70">Startup XYZ</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Investment Section */}
+        <section className="max-w-3xl mx-auto mb-16">
+          <div className="bg-background rounded-xl shadow-xl border overflow-hidden">
+            <div className="bg-gradient-to-r from-primary/20 to-primary/5 p-6 text-center">
+              <h2 className="text-3xl font-bold mb-2">Inversión</h2>
+              <p className="text-foreground/70">Un paso hacia el crecimiento de su negocio</p>
+            </div>
+            
+            <div className="p-8 text-center">
+              <p className="text-5xl font-bold mb-4">{proposal.investment}</p>
+              <p className="text-foreground/70 mb-6">Inversión total para implementar la solución completa</p>
+              
+              <ul className="space-y-3 text-left mb-8">
+                <li className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-neonGreen mr-2" />
+                  <span>Desarrollo completo de la solución</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-neonGreen mr-2" />
+                  <span>Soporte técnico prioritario</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-neonGreen mr-2" />
+                  <span>Actualizaciones continuas</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-neonGreen mr-2" />
+                  <span>Capacitación para su equipo</span>
+                </li>
+              </ul>
+              
               <Link to="/onboarding">
-                <Button size="lg" className="button-glow bg-neonGreen text-black hover:bg-neonGreen/80 font-mono text-lg">
-                  Comenzar Ahora
+                <Button size="lg" className="button-glow bg-neonGreen text-black hover:bg-neonGreen/90 font-semibold">
+                  Aceptar Propuesta
+                  <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
             </div>
           </div>
+        </section>
+
+        {/* Next Steps */}
+        <section className="max-w-4xl mx-auto text-center mb-16">
+          <h2 className="text-3xl font-bold mb-6">Próximos Pasos</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-background p-6 rounded-lg shadow-md border">
+              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
+                <span className="text-primary font-bold text-xl">1</span>
+              </div>
+              <h3 className="font-bold text-lg mb-2">Aceptar Propuesta</h3>
+              <p className="text-foreground/70">Confirme su interés para comenzar el proceso</p>
+            </div>
+            
+            <div className="bg-background p-6 rounded-lg shadow-md border">
+              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
+                <span className="text-primary font-bold text-xl">2</span>
+              </div>
+              <h3 className="font-bold text-lg mb-2">Reunión Inicial</h3>
+              <p className="text-foreground/70">Definiremos juntos los detalles del proyecto</p>
+            </div>
+            
+            <div className="bg-background p-6 rounded-lg shadow-md border">
+              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
+                <span className="text-primary font-bold text-xl">3</span>
+              </div>
+              <h3 className="font-bold text-lg mb-2">Desarrollo</h3>
+              <p className="text-foreground/70">Comenzamos a trabajar en su solución personalizada</p>
+            </div>
+          </div>
+        </section>
+        
+        {/* CTA */}
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <Link to="/onboarding">
+            <Button size="lg" className="button-glow bg-neonGreen text-black hover:bg-neonGreen/90 font-semibold">
+              Comenzar Ahora
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+          <p className="mt-4 text-foreground/70">¿Tiene preguntas? Contáctenos directamente</p>
         </div>
       </main>
       
