@@ -122,7 +122,7 @@ const ProposalsTable = () => {
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
-                      <Link to={`/propuesta/${proposal.slug}`} target="_blank">
+                      <Link to={`/propuesta/${proposal.slug}`}>
                         <Button variant="outline" size="sm">
                           <Eye className="h-4 w-4 mr-1" />
                           Ver
