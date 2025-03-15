@@ -20,7 +20,8 @@ const VideoCarousel = () => {
 
   const videoSources = [
     "https://www.tella.tv/video/cm89ib26f00000al2fnttcdg4/embed?b=0&title=0&a=1&loop=0&t=0&muted=0&wt=0",
-    // You can add more video URLs here
+    "https://www.tella.tv/video/cm6hc1xa5001r0aky73z502xr/embed?b=0&title=0&a=1&loop=0&t=0&muted=0&wt=0",
+    "https://www.tella.tv/video/cm6f4bam4001a0bjj05sa1y9m/embed?b=0&title=0&a=1&loop=0&t=0&muted=0&wt=1"
   ];
 
   useEffect(() => {
