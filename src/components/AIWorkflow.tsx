@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { 
@@ -537,7 +536,7 @@ const AIWorkflow = () => {
         </div>
       </motion.div>
       
-      <style jsx>{`
+      <style>{`
         .glassmorphism {
           backdrop-filter: blur(10px);
           background-color: rgba(17, 24, 39, 0.7);
