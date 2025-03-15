@@ -23,6 +23,9 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+// Supabase anon key - hardcoded as fallback
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsa2NqbWhwcGN3ZmNnbndqYnZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNjkwMjQsImV4cCI6MjA1Njg0NTAyNH0.9-lV_9vidAiczSivLkLSN_8gbLbb2b4mdnUAtQW9Kuc";
+
 const RegisterAdmin = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -55,7 +58,7 @@ const RegisterAdmin = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsa2NqbWhwcGN3ZmNnbndqYnZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNjkwMjQsImV4cCI6MjA1Njg0NTAyNH0.9-lV_9vidAiczSivLkLSN_8gbLbb2b4mdnUAtQW9Kuc"}`,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           email: data.email,
