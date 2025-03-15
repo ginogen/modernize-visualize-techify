@@ -40,6 +40,24 @@ serve(async (req) => {
 
     console.log(`Attempting to create admin user: ${email}`);
 
+    // Check if user already exists
+    const { data: existingUser, error: getUserError } = await supabaseAdmin.auth.admin.getUserByEmail(email);
+    
+    if (existingUser) {
+      return new Response(
+        JSON.stringify({ error: 'Ya existe un usuario con este correo electrónico' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
+    
+    if (getUserError && getUserError.message !== 'User not found') {
+      console.error('Error checking existing user:', getUserError);
+      return new Response(
+        JSON.stringify({ error: `Error al verificar usuario existente: ${getUserError.message}` }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
+      );
+    }
+
     // Create the user
     const { data: userData, error: createUserError } = await supabaseAdmin.auth.admin.createUser({
       email,

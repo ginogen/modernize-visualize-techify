@@ -47,7 +47,7 @@ const RegisterAdmin = () => {
       const { email, password, responsibleName, businessName } = data;
 
       // Call the register-admin edge function
-      const { data: responseData, error: functionError } = await supabase.functions.invoke("register-admin", {
+      const response = await supabase.functions.invoke("register-admin", {
         body: {
           email,
           password,
@@ -56,12 +56,14 @@ const RegisterAdmin = () => {
         },
       });
 
-      if (functionError) {
-        throw new Error(functionError.message);
+      // Check for function error response
+      if (response.error) {
+        throw new Error(response.error.message || "Error en la comunicación con el servidor");
       }
 
-      if (responseData?.error) {
-        throw new Error(responseData.error);
+      // Check for application error in the response data
+      if (response.data && response.data.error) {
+        throw new Error(response.data.error);
       }
 
       toast({
@@ -73,7 +75,15 @@ const RegisterAdmin = () => {
       navigate("/login");
     } catch (err: any) {
       console.error("Error registering admin:", err);
-      setError(err.message || "Hubo un error al registrar el administrador");
+      
+      // Handle specific error for existing user
+      if (err.message?.includes("already been registered") || 
+          err.message?.includes("Ya existe un usuario")) {
+        setError("Ya existe un usuario con este correo electrónico. Por favor, utilice otro email.");
+      } else {
+        setError(err.message || "Hubo un error al registrar el administrador");
+      }
+      
       toast({
         title: "Error de registro",
         description: err.message || "Hubo un error al registrar el administrador",
