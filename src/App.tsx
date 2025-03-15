@@ -17,6 +17,10 @@ import Onboarding from "./pages/Onboarding";
 import ClientPortal from "./pages/ClientPortal";
 import ChatbotDefinition from "./pages/ChatbotDefinition";
 import Login from "./pages/Login";
+import AdminDashboard from "./pages/admin/Dashboard";
+import CreateProposal from "./pages/admin/CreateProposal";
+import EditProposal from "./pages/admin/EditProposal";
+import Proposal from "./pages/Proposal";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +44,13 @@ function App() {
               <Route path="/client-portal" element={<ClientPortal />} />
               <Route path="/chatbot-definition" element={<ChatbotDefinition />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/propuesta/:slug" element={<Proposal />} />
+              
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/proposals/create" element={<CreateProposal />} />
+              <Route path="/admin/proposals/edit/:id" element={<EditProposal />} />
+              
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Router>

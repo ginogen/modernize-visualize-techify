@@ -51,6 +51,7 @@ export type Database = {
           objective: string | null
           phone: string | null
           responsible_name: string
+          role: string
           website: string | null
         }
         Insert: {
@@ -65,6 +66,7 @@ export type Database = {
           objective?: string | null
           phone?: string | null
           responsible_name: string
+          role?: string
           website?: string | null
         }
         Update: {
@@ -79,7 +81,47 @@ export type Database = {
           objective?: string | null
           phone?: string | null
           responsible_name?: string
+          role?: string
           website?: string | null
+        }
+        Relationships: []
+      }
+      proposals: {
+        Row: {
+          client_email: string
+          client_name: string
+          created_at: string
+          id: string
+          investment: string
+          scope: string
+          service: string
+          slug: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          client_email: string
+          client_name: string
+          created_at?: string
+          id?: string
+          investment: string
+          scope: string
+          service: string
+          slug: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          client_email?: string
+          client_name?: string
+          created_at?: string
+          id?: string
+          investment?: string
+          scope?: string
+          service?: string
+          slug?: string
+          status?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -109,7 +151,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

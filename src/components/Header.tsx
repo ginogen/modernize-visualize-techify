@@ -2,14 +2,16 @@
 import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
-import { Menu, X, CircuitBoard } from "lucide-react";
+import { Menu, X, CircuitBoard, UserCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const Header = () => {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { t } = useLanguage();
 
   const handleScroll = () => {
@@ -27,12 +29,31 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (sessionData.session) {
+        try {
+          const { data, error } = await supabase.rpc('is_admin');
+          if (!error && data) {
+            setIsAdmin(true);
+          }
+        } catch (error) {
+          console.error("Error checking admin status:", error);
+        }
+      }
+    };
+
+    checkAdmin();
+  }, []);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const navItems = [
     { label: t("nav.home"), path: "/" },
+    ...(isAdmin ? [{ label: "Admin", path: "/admin" }] : []),
   ];
 
   return (
@@ -66,12 +87,22 @@ const Header = () => {
             <Button className="ml-4 button-glow bg-neonGreen text-black hover:bg-neonGreen/80 font-mono">
               {t("nav.get.started")}
             </Button>
+            <Link to="/login" className="ml-2">
+              <Button variant="outline" size="icon">
+                <UserCircle2 className="h-5 w-5" />
+              </Button>
+            </Link>
           </nav>
         )}
         
         {isMobile && (
           <div className="flex items-center">
-            <button onClick={toggleMenu} className="ml-2 md:hidden p-2 text-foreground" aria-label="Toggle menu">
+            <Link to="/login" className="mr-2">
+              <Button variant="outline" size="icon">
+                <UserCircle2 className="h-5 w-5" />
+              </Button>
+            </Link>
+            <button onClick={toggleMenu} className="md:hidden p-2 text-foreground" aria-label="Toggle menu">
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
