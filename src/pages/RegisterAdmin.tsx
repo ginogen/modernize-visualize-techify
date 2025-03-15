@@ -44,26 +44,32 @@ const RegisterAdmin = () => {
     setError(null);
 
     try {
-      const { email, password, responsibleName, businessName } = data;
-
-      // Call the register-admin edge function
-      const response = await supabase.functions.invoke("register-admin", {
-        body: {
-          email,
-          password,
-          responsibleName,
-          businessName,
-        },
+      console.log("Attempting to register admin with data:", {
+        email: data.email,
+        responsibleName: data.responsibleName,
+        businessName: data.businessName,
       });
 
-      // Check for function error response
-      if (response.error) {
-        throw new Error(response.error.message || "Error en la comunicación con el servidor");
-      }
+      // Call the register-admin edge function with fetch directly
+      const response = await fetch(`${supabase.functions.url}/register-admin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabase.auth.anon.key}`,
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+          responsibleName: data.responsibleName,
+          businessName: data.businessName,
+        }),
+      });
 
-      // Check for application error in the response data
-      if (response.data && response.data.error) {
-        throw new Error(response.data.error);
+      const responseData = await response.json();
+
+      // Check for errors in the response
+      if (!response.ok) {
+        throw new Error(responseData.error || "Error al registrar administrador");
       }
 
       toast({
