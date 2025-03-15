@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 type Language = "es" | "en";
@@ -91,6 +90,13 @@ const translations: Record<Language, Record<string, string>> = {
     // Video Section
     "videos.title": "Builders AI en acción",
     
+    // Country Stats Section
+    "countries.title": "Países que atendemos",
+    "countries.subtitle": "PRESENCIA GLOBAL",
+    "countries.description": "Brindamos soluciones de IA y desarrollo personalizado a clientes en todo el mundo",
+    "countries.clients": "clientes",
+    "countries.total": "TOTAL DE CLIENTES",
+    
     // Common
     "email.placeholder": "email@ejemplo.com",
   },
@@ -171,6 +177,13 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Video Section
     "videos.title": "Builders AI in Action",
+    
+    // Country Stats Section
+    "countries.title": "Countries We Serve",
+    "countries.subtitle": "GLOBAL PRESENCE",
+    "countries.description": "We provide AI solutions and custom development to clients worldwide",
+    "countries.clients": "clients",
+    "countries.total": "TOTAL CLIENTS",
     
     // Common
     "email.placeholder": "email@example.com",

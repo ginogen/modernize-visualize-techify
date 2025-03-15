@@ -6,6 +6,7 @@ import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import AIWorkflowWrapper from "@/components/AIWorkflowWrapper";
 import VideoCarousel from "@/components/VideoCarousel";
+import CountryStats from "@/components/CountryStats";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
@@ -57,6 +58,7 @@ const Index = () => {
         <Hero />
         <AIWorkflowWrapper />
         <VideoCarousel />
+        <CountryStats />
         <CTA />
       </main>
       <Footer />
