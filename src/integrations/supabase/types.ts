@@ -93,6 +93,8 @@ export type Database = {
           created_at: string
           id: string
           investment: string
+          investment_currency: string | null
+          investment_items: string[] | null
           scope: string
           service: string
           slug: string
@@ -105,6 +107,8 @@ export type Database = {
           created_at?: string
           id?: string
           investment: string
+          investment_currency?: string | null
+          investment_items?: string[] | null
           scope: string
           service: string
           slug: string
@@ -117,6 +121,8 @@ export type Database = {
           created_at?: string
           id?: string
           investment?: string
+          investment_currency?: string | null
+          investment_items?: string[] | null
           scope?: string
           service?: string
           slug?: string

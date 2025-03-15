@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -14,6 +13,8 @@ type Proposal = {
   service: string;
   scope: string;
   investment: string;
+  investment_items?: string[];
+  investment_currency?: string;
   status: string;
   created_at: string;
   slug: string;
@@ -77,7 +78,6 @@ const Proposal = () => {
     );
   }
 
-  // Formato para la fecha
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('es-ES', {
@@ -87,12 +87,10 @@ const Proposal = () => {
     });
   };
 
-  // Dividir el scope en elementos de lista
-  const scopeItems = proposal.scope.split('\n').filter(item => item.trim() !== '');
+  const scopeItems = proposal?.scope.split('\n').filter(item => item.trim() !== '') || [];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-accent/20 flex flex-col">
-      {/* Encabezado con barra de progreso */}
       <div className="w-full bg-background border-b sticky top-0 z-10">
         <div className="container mx-auto py-4 px-4 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2">
@@ -100,16 +98,15 @@ const Proposal = () => {
             <span className="font-mono font-bold text-lg">VibeCode</span>
           </Link>
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium hidden md:inline-block">Propuesta para {proposal.client_name}</span>
+            <span className="text-sm font-medium hidden md:inline-block">Propuesta para {proposal?.client_name}</span>
             <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-              {proposal.status || "Enviada"}
+              {proposal?.status || "Enviada"}
             </span>
           </div>
         </div>
       </div>
 
       <main className="flex-grow container mx-auto px-4 py-12">
-        {/* Hero Section */}
         <div className="max-w-5xl mx-auto mb-16 text-center">
           <div className="inline-flex items-center justify-center p-2 bg-accent rounded-full mb-4">
             <CircuitBoard className="text-neonGreen h-6 w-6 mr-2" />
@@ -117,35 +114,34 @@ const Proposal = () => {
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-green-400 bg-clip-text text-transparent">
-            {proposal.service}
+            {proposal?.service}
           </h1>
           
           <p className="text-xl text-foreground/80 max-w-2xl mx-auto mb-8">
-            Creado especialmente para <span className="font-bold">{proposal.client_name}</span> para alcanzar sus objetivos de negocio.
+            Creado especialmente para <span className="font-bold">{proposal?.client_name}</span> para alcanzar sus objetivos de negocio.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
             <div className="flex flex-col items-center p-4 rounded-lg border bg-background shadow-sm">
               <Calendar className="h-10 w-10 text-primary mb-2" />
               <h3 className="font-medium">Fecha</h3>
-              <p className="text-sm text-foreground/70">{formatDate(proposal.created_at)}</p>
+              <p className="text-sm text-foreground/70">{proposal && formatDate(proposal.created_at)}</p>
             </div>
             
             <div className="flex flex-col items-center p-4 rounded-lg border bg-background shadow-sm">
               <DollarSign className="h-10 w-10 text-primary mb-2" />
               <h3 className="font-medium">Inversión</h3>
-              <p className="text-sm text-foreground/70">{proposal.investment}</p>
+              <p className="text-sm text-foreground/70">{proposal?.investment_currency || "$"} {proposal?.investment}</p>
             </div>
             
             <div className="flex flex-col items-center p-4 rounded-lg border bg-background shadow-sm">
               <Users className="h-10 w-10 text-primary mb-2" />
               <h3 className="font-medium">Cliente</h3>
-              <p className="text-sm text-foreground/70">{proposal.client_name}</p>
+              <p className="text-sm text-foreground/70">{proposal?.client_name}</p>
             </div>
           </div>
         </div>
 
-        {/* Alcance Section */}
         <section className="max-w-4xl mx-auto mb-16">
           <div className="flex items-center mb-8">
             <div className="w-12 h-12 rounded-full flex items-center justify-center bg-primary/20 text-primary mr-4">
@@ -170,7 +166,32 @@ const Proposal = () => {
           </div>
         </section>
 
-        {/* Benefits Section */}
+        {proposal?.investment_items && proposal.investment_items.length > 0 && (
+          <section className="max-w-4xl mx-auto mb-16">
+            <div className="flex items-center mb-8">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-primary/20 text-primary mr-4">
+                <DollarSign className="h-6 w-6" />
+              </div>
+              <h2 className="text-3xl font-bold">Detalles de la Inversión</h2>
+            </div>
+            
+            <div className="bg-white dark:bg-darkBlue/40 rounded-xl p-8 shadow-lg border">
+              <ul className="space-y-4">
+                {proposal.investment_items.map((item, index) => (
+                  <li key={index} className="flex">
+                    <div className="mr-4 mt-1">
+                      <div className="w-5 h-5 rounded-full bg-neonGreen flex items-center justify-center shadow-glow">
+                        <CheckCircle className="h-3 w-3 text-background" />
+                      </div>
+                    </div>
+                    <p className="flex-1">{item}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
         <section className="max-w-4xl mx-auto mb-16 py-10 px-8 bg-gradient-to-br from-primary/5 to-primary/20 rounded-xl border">
           <h2 className="text-3xl font-bold mb-8 text-center">Beneficios Clave</h2>
           
@@ -217,7 +238,6 @@ const Proposal = () => {
           </div>
         </section>
 
-        {/* Testimonials */}
         <section className="max-w-4xl mx-auto mb-16">
           <h2 className="text-3xl font-bold mb-8 text-center">Lo Que Dicen Nuestros Clientes</h2>
           
@@ -252,7 +272,6 @@ const Proposal = () => {
           </div>
         </section>
 
-        {/* Investment Section */}
         <section className="max-w-3xl mx-auto mb-16">
           <div className="bg-background rounded-xl shadow-xl border overflow-hidden">
             <div className="bg-gradient-to-r from-primary/20 to-primary/5 p-6 text-center">
@@ -261,7 +280,7 @@ const Proposal = () => {
             </div>
             
             <div className="p-8 text-center">
-              <p className="text-5xl font-bold mb-4">{proposal.investment}</p>
+              <p className="text-5xl font-bold mb-4">{proposal?.investment_currency || "$"} {proposal?.investment}</p>
               <p className="text-foreground/70 mb-6">Inversión total para implementar la solución completa</p>
               
               <ul className="space-y-3 text-left mb-8">
@@ -293,7 +312,6 @@ const Proposal = () => {
           </div>
         </section>
 
-        {/* Next Steps */}
         <section className="max-w-4xl mx-auto text-center mb-16">
           <h2 className="text-3xl font-bold mb-6">Próximos Pasos</h2>
           
@@ -324,7 +342,6 @@ const Proposal = () => {
           </div>
         </section>
         
-        {/* CTA */}
         <div className="max-w-3xl mx-auto text-center mb-16">
           <Link to="/onboarding">
             <Button size="lg" className="button-glow bg-neonGreen text-black hover:bg-neonGreen/90 font-semibold">

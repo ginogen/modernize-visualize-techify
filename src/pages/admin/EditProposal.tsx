@@ -34,11 +34,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type InvestmentItem = {
-  description: string;
-  amount: string;
-};
-
 const EditProposal = () => {
   const [formData, setFormData] = useState({
     clientName: "",
@@ -48,9 +43,7 @@ const EditProposal = () => {
     investment: "",
     status: ""
   });
-  const [investmentItems, setInvestmentItems] = useState<InvestmentItem[]>([
-    { description: "", amount: "" }
-  ]);
+  const [investmentItems, setInvestmentItems] = useState<string[]>([""]);
   const [currency, setCurrency] = useState("$");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -115,14 +108,14 @@ const EditProposal = () => {
     setFormData((prev) => ({ ...prev, status: value }));
   };
 
-  const handleInvestmentItemChange = (index: number, field: keyof InvestmentItem, value: string) => {
+  const handleInvestmentItemChange = (index: number, value: string) => {
     const updatedItems = [...investmentItems];
-    updatedItems[index] = { ...updatedItems[index], [field]: value };
+    updatedItems[index] = value;
     setInvestmentItems(updatedItems);
   };
 
   const addInvestmentItem = () => {
-    setInvestmentItems([...investmentItems, { description: "", amount: "" }]);
+    setInvestmentItems([...investmentItems, ""]);
   };
 
   const removeInvestmentItem = (index: number) => {
@@ -132,18 +125,10 @@ const EditProposal = () => {
     }
   };
 
-  const calculateTotal = (): string => {
-    const total = investmentItems.reduce((sum, item) => {
-      const amount = parseFloat(item.amount) || 0;
-      return sum + amount;
-    }, 0);
-    return total.toFixed(2);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.clientName || !formData.clientEmail || !formData.service || !formData.scope) {
+    if (!formData.clientName || !formData.clientEmail || !formData.service || !formData.scope || !formData.investment) {
       toast({
         title: "Error",
         description: "Por favor completa todos los campos obligatorios.",
@@ -152,20 +137,11 @@ const EditProposal = () => {
       return;
     }
     
-    // Validate investment items
-    const emptyItems = investmentItems.some(item => !item.description || !item.amount);
-    if (emptyItems) {
-      toast({
-        title: "Error",
-        description: "Por favor completa todos los ítems de inversión o elimina los vacíos.",
-        variant: "destructive"
-      });
-      return;
-    }
+    // Filter out empty investment items
+    const filteredInvestmentItems = investmentItems.filter(item => item.trim() !== "");
     
     try {
       setIsSubmitting(true);
-      const totalInvestment = calculateTotal();
       
       const { error } = await supabase
         .from('proposals')
@@ -174,8 +150,8 @@ const EditProposal = () => {
           client_email: formData.clientEmail,
           service: formData.service,
           scope: formData.scope,
-          investment: totalInvestment,
-          investment_items: investmentItems,
+          investment: formData.investment,
+          investment_items: filteredInvestmentItems,
           investment_currency: currency,
           status: formData.status,
           updated_at: new Date().toISOString()
@@ -308,7 +284,7 @@ const EditProposal = () => {
                 
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <Label>Inversión</Label>
+                    <Label htmlFor="investment">Inversión</Label>
                     <div className="flex items-center gap-2">
                       <Label htmlFor="currency" className="sr-only">Moneda</Label>
                       <Select value={currency} onValueChange={setCurrency}>
@@ -333,23 +309,27 @@ const EditProposal = () => {
                     </div>
                   </div>
                   
+                  <Input
+                    id="investment"
+                    name="investment"
+                    type="text"
+                    value={formData.investment}
+                    onChange={handleChange}
+                    placeholder="Monto total de la inversión"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label>Ítems de Inversión</Label>
+                  <p className="text-sm text-muted-foreground">Detalles de los ítems incluidos en la propuesta</p>
+                  
                   {investmentItems.map((item, index) => (
                     <div key={index} className="flex gap-2 items-start">
                       <div className="flex-1">
                         <Input
                           placeholder="Descripción del ítem"
-                          value={item.description}
-                          onChange={(e) => handleInvestmentItemChange(index, 'description', e.target.value)}
-                        />
-                      </div>
-                      <div className="w-32">
-                        <Input
-                          placeholder="Monto"
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          value={item.amount}
-                          onChange={(e) => handleInvestmentItemChange(index, 'amount', e.target.value)}
+                          value={item}
+                          onChange={(e) => handleInvestmentItemChange(index, e.target.value)}
                         />
                       </div>
                       <Button
@@ -364,22 +344,16 @@ const EditProposal = () => {
                     </div>
                   ))}
                   
-                  <div className="flex justify-between items-center">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={addInvestmentItem}
-                    >
-                      <Plus className="h-4 w-4 mr-1" />
-                      Agregar Ítem
-                    </Button>
-                    
-                    <div className="text-right">
-                      <p className="text-sm text-muted-foreground">Total:</p>
-                      <p className="text-lg font-bold">{currency} {calculateTotal()}</p>
-                    </div>
-                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={addInvestmentItem}
+                    className="mt-2"
+                  >
+                    <Plus className="h-4 w-4 mr-1" />
+                    Agregar Ítem
+                  </Button>
                 </div>
                 
                 <div className="space-y-2">

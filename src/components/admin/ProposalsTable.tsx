@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { 
   Table, 
@@ -16,7 +15,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 type InvestmentItem = {
   description: string;
-  amount: string;
 };
 
 type Proposal = {
@@ -26,7 +24,7 @@ type Proposal = {
   service: string;
   scope: string;
   investment: string;
-  investment_items?: InvestmentItem[];
+  investment_items?: string[];
   investment_currency?: string;
   status: string;
   created_at: string;
