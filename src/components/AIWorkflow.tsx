@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { User, Building, MessageSquare, Headset, UserPlus, Tag, Clock, Workflow, ArrowDown, BrainCircuit } from "lucide-react";
+import { LineChart, Zap, ShoppingCart, CreditCard, Table, BrainCircuit, Cloud, ArrowRight, MessageSquare, User } from "lucide-react";
 interface ServiceNode {
   id: string;
   label: string;
@@ -29,158 +29,165 @@ const AIWorkflow = () => {
   const chatRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
 
-  // Define the workflow nodes in a top-down structure
-  const services: ServiceNode[] = [
-  // Top level - User Input
-  {
-    id: "userInput",
-    label: "User Input",
-    icon: <User size={28} />,
-    position: {
-      x: 50,
-      y: 10
-    },
-    color: "#6366f1" // Indigo
-  },
-  // Second level - Tu Empresa
-  {
-    id: "empresa",
-    label: "Tu Empresa",
-    icon: <Building size={28} />,
-    position: {
-      x: 50,
-      y: 35
-    },
-    color: "#10b981" // Green
-  },
-  // Third level - Multiple AI Agents
-  {
-    id: "agenteSupport",
-    label: "Agente Soporte",
-    icon: <Headset size={24} />,
-    position: {
-      x: 25,
-      y: 65
-    },
-    color: "#3b82f6" // Blue
-  }, {
-    id: "agenteReclamos",
-    label: "Agente Reclamos",
-    icon: <UserPlus size={24} />,
-    position: {
-      x: 42,
-      y: 65
-    },
-    color: "#ec4899" // Pink
-  }, {
-    id: "agenteVentas",
-    label: "Agente Ventas",
-    icon: <Tag size={24} />,
-    position: {
-      x: 58,
-      y: 65
-    },
-    color: "#f59e0b" // Amber
-  }, {
-    id: "agenteSeguimiento",
-    label: "Agente Seguimiento",
-    icon: <Clock size={24} />,
-    position: {
-      x: 75,
-      y: 65
-    },
-    color: "#8b5cf6" // Purple
-  },
-  // AI Brain connected to all agents
-  {
+  // Define the service nodes - posiciones ajustadas para estar más juntas
+  const services: ServiceNode[] = [{
     id: "ai",
     label: "AI Brain",
     icon: <BrainCircuit size={28} />,
     position: {
       x: 50,
-      y: 85
+      y: 50
     },
-    color: "#ef4444" // Red
+    color: "#6366f1"
+  }, {
+    id: "shopify",
+    label: "Shopify",
+    icon: <ShoppingCart size={24} />,
+    position: {
+      x: 30,
+      y: 25
+    },
+    color: "#10b981"
+  }, {
+    id: "mercadopago",
+    label: "MercadoPago",
+    icon: <CreditCard size={24} />,
+    position: {
+      x: 70,
+      y: 25
+    },
+    color: "#3b82f6"
+  }, {
+    id: "paypal",
+    label: "PayPal",
+    icon: <Zap size={24} />,
+    position: {
+      x: 30,
+      y: 75
+    },
+    color: "#ec4899"
+  }, {
+    id: "googlesheets",
+    label: "Google Sheets",
+    icon: <Table size={24} />,
+    position: {
+      x: 70,
+      y: 75
+    },
+    color: "#f59e0b"
+  }, {
+    id: "cloud",
+    label: "Cloud Services",
+    icon: <Cloud size={24} />,
+    position: {
+      x: 50,
+      y: 80
+    },
+    color: "#8b5cf6"
+  }, {
+    id: "analytics",
+    label: "Analytics",
+    icon: <LineChart size={24} />,
+    position: {
+      x: 70,
+      y: 50
+    },
+    color: "#ef4444"
+  }, {
+    id: "chat",
+    label: "Chat",
+    icon: <MessageSquare size={24} />,
+    position: {
+      x: 30,
+      y: 50
+    },
+    color: "#0ea5e9"
   }];
 
-  // Define the connections between nodes in the workflow
-  const connections: Connection[] = [
-  // User Input to Tu Empresa
-  {
-    from: "userInput",
-    to: "empresa",
+  // Define the connections between services
+  const connections: Connection[] = [{
+    from: "ai",
+    to: "shopify",
     animationDelay: 0
-  },
-  // Tu Empresa to all agents
-  {
-    from: "empresa",
-    to: "agenteSupport",
+  }, {
+    from: "ai",
+    to: "mercadopago",
     animationDelay: 1
   }, {
-    from: "empresa",
-    to: "agenteReclamos",
+    from: "ai",
+    to: "paypal",
     animationDelay: 2
   }, {
-    from: "empresa",
-    to: "agenteVentas",
+    from: "ai",
+    to: "googlesheets",
     animationDelay: 3
   }, {
-    from: "empresa",
-    to: "agenteSeguimiento",
+    from: "ai",
+    to: "cloud",
     animationDelay: 4
-  },
-  // All agents to AI Brain
-  {
-    from: "agenteSupport",
-    to: "ai",
+  }, {
+    from: "ai",
+    to: "analytics",
     animationDelay: 5
   }, {
-    from: "agenteReclamos",
-    to: "ai",
+    from: "shopify",
+    to: "mercadopago",
     animationDelay: 6
   }, {
-    from: "agenteVentas",
-    to: "ai",
+    from: "analytics",
+    to: "googlesheets",
     animationDelay: 7
   }, {
-    from: "agenteSeguimiento",
-    to: "ai",
+    from: "paypal",
+    to: "cloud",
     animationDelay: 8
+  }, {
+    from: "cloud",
+    to: "googlesheets",
+    animationDelay: 9
+  }, {
+    from: "ai",
+    to: "chat",
+    animationDelay: 1
+  }, {
+    from: "chat",
+    to: "shopify",
+    animationDelay: 3
   }];
 
   // Predefined chat messages for the simulation
   const predefinedMessages: ChatMessage[] = [{
     id: 1,
     isUser: true,
-    text: "Necesito información sobre mi pedido #45678"
+    text: "I need to set up an online store"
   }, {
     id: 2,
     isUser: false,
-    text: "Conectando con el agente de soporte adecuado..."
+    text: "I can help with that! Connecting to Shopify..."
   }, {
     id: 3,
     isUser: true,
-    text: "¿Cuándo llegará mi pedido?"
+    text: "What payment options can I integrate?"
   }, {
     id: 4,
     isUser: false,
-    text: "Según nuestro sistema, su pedido llegará mañana entre las 10:00 y 14:00."
+    text: "You can use MercadoPago and PayPal. Setting up connections..."
   }, {
     id: 5,
     isUser: true,
-    text: "¿Puedo cambiar la dirección de entrega?"
+    text: "Can I track my inventory?"
   }, {
     id: 6,
     isUser: false,
-    text: "Consultando con el agente de seguimiento... Sí, puedo actualizar la dirección para usted."
+    text: "Yes! I'll set up Google Sheets integration for your inventory tracking."
   }, {
     id: 7,
     isUser: true,
-    text: "Perfecto, gracias por la ayuda"
+    text: "Do you offer analytics?"
   }, {
     id: 8,
     isUser: false,
-    text: "¡Encantado de ayudarle! ¿Necesita algo más?"
+    text: "Absolutely! Connecting to analytics services now."
   }];
 
   // Animation sequence for chat messages
@@ -254,19 +261,21 @@ const AIWorkflow = () => {
     const toX = to.position.x;
     const toY = to.position.y;
 
-    // For top-down workflow, we want straighter lines with less curve
-    // Calculate control points for smooth curves
+    // Calculamos puntos de control para crear una curva más suave
     const midX = (fromX + toX) / 2;
     const midY = (fromY + toY) / 2;
 
-    // Vertical connections should be straighter
-    const isVertical = Math.abs(fromX - toX) < 10;
-    const controlPoint = isVertical ? {
+    // Añadimos una pequeña variación a la curva basada en las posiciones
+    const curveVariation = (fromX - toX) * 0.1 + (fromY - toY) * 0.1;
+
+    // Para conexiones desde/hacia AI, hacemos que sea más directa
+    const isAIConnection = from.id === "ai" || to.id === "ai";
+    const controlPoint = isAIConnection ? {
       x: midX,
       y: midY
     } : {
-      x: midX,
-      y: fromY + (toY - fromY) * 0.33
+      x: midX + curveVariation,
+      y: midY - curveVariation
     };
     return `M ${fromX}% ${fromY}% Q ${controlPoint.x}% ${controlPoint.y}% ${toX}% ${toY}%`;
   };
@@ -325,26 +334,75 @@ const AIWorkflow = () => {
     }} transition={{
       duration: 0.5
     }}>
-        <h2 className="text-3xl md:text-4xl font-mono font-bold mb-6 text-white">
-          Agentes IA Conversacionales
-        </h2>
-        <p className="text-white/70 text-lg max-w-2xl mx-auto">
-          En nuestra plataforma podemos implementar bot conversacionales que se integran en tu empresa. Bots de texto y de voz.
-        </p>
+        <h2 className="text-3xl md:text-4xl font-mono font-bold mb-6 text-white">Agentes IA Conversacionales</h2>
+        <p className="text-white/70 text-lg max-w-2xl mx-auto">En nuestra plataforma podemos implementar bot conversacionales que se integran en tu empresa. Bots de texto y de voz.</p>
       </motion.div>
 
       <div className="relative max-w-5xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-6 px-4">
         {/* Chat Interface */}
-        
+        <motion.div className="w-full md:w-1/3 h-[300px] bg-gray-900/70 backdrop-blur-md rounded-xl border border-gray-700 shadow-lg overflow-hidden flex flex-col z-30" initial={{
+        opacity: 0,
+        x: -20
+      }} animate={isInView ? {
+        opacity: 1,
+        x: 0
+      } : {
+        opacity: 0,
+        x: -20
+      }} transition={{
+        duration: 0.5,
+        delay: 0.2
+      }}>
+          <div className="bg-gray-800 p-3 border-b border-gray-700 flex items-center gap-2">
+            <MessageSquare size={18} className="text-blue-400" />
+            <span className="text-white font-medium">AI Assistant</span>
+            <span className="ml-auto text-xs text-green-400 flex items-center gap-1">
+              <span className="w-2 h-2 bg-green-400 rounded-full inline-block animate-pulse"></span>
+              Online
+            </span>
+          </div>
+          
+          <div ref={chatRef} className="flex-1 overflow-y-auto p-4 space-y-3">
+            {chatMessages.length === 0 ? <div className="text-gray-500 text-center text-sm h-full flex items-center justify-center">
+                Start your conversation with AI
+              </div> : chatMessages.map(msg => <motion.div key={msg.id} className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`} initial={{
+            opacity: 0,
+            y: 10
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.3
+          }}>
+                  <div className={`max-w-[80%] px-3 py-2 rounded-lg ${msg.isUser ? 'bg-indigo-600 text-white rounded-tr-none' : 'bg-gray-700 text-gray-100 rounded-tl-none'}`}>
+                    <div className="flex items-center gap-2 mb-1">
+                      {!msg.isUser && <BrainCircuit size={14} className="text-blue-300" />}
+                      <span className="text-xs opacity-75">
+                        {msg.isUser ? 'You' : 'AI Assistant'}
+                      </span>
+                      {msg.isUser && <User size={14} className="text-indigo-300" />}
+                    </div>
+                    <p className="text-sm">{msg.text}</p>
+                  </div>
+                </motion.div>)}
+          </div>
+          
+          <div className="bg-gray-800 p-3 border-t border-gray-700 flex items-center gap-2">
+            <input type="text" className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Type your message..." disabled />
+            <button className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors">
+              <ArrowRight size={16} />
+            </button>
+          </div>
+        </motion.div>
 
         <motion.div className="relative h-[500px] md:h-[600px] w-full md:w-2/3" variants={containerVariants} initial="hidden" animate={isInView ? "visible" : "hidden"}>
-          {/* Workflow background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/10 via-transparent to-transparent rounded-xl opacity-30"></div>
+          {/* Fondo suave para el área de los nodos */}
+          <div className="absolute inset-0 bg-gradient-radial from-indigo-500/10 via-transparent to-transparent rounded-xl opacity-30"></div>
           
           {/* Draw connections between services */}
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            {/* Vertical workflow line */}
-            <line x1="50" y1="10" x2="50" y2="85" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1" strokeDasharray="3 3" />
+            {/* Círculo central que conecta todo */}
+            <circle cx="50" cy="50" r="20" fill="none" stroke="rgba(99, 102, 241, 0.1)" strokeWidth="1" strokeDasharray="2 2" className="animate-pulse" />
             
             {connections.map(connection => {
             const fromNode = services.find(s => s.id === connection.from)!;
@@ -374,7 +432,7 @@ const AIWorkflow = () => {
                         <animateMotion dur="1.5s" repeatCount="indefinite" path={getPath(fromNode, toNode)} />
                       </motion.circle>
                       
-                      {/* Effect trail behind the main particle */}
+                      {/* Efecto de estela detrás de la partícula principal */}
                       <motion.circle cx="0" cy="0" r="1.5" fill={`${connectionColor}80`} initial={{
                   offset: 0
                 }} animate={{
@@ -388,7 +446,7 @@ const AIWorkflow = () => {
                         <animateMotion dur="1.5s" repeatCount="indefinite" path={getPath(fromNode, toNode)} keyPoints="0.05;1" keyTimes="0;1" />
                       </motion.circle>
                       
-                      {/* Second smaller trail */}
+                      {/* Segunda estela más pequeña */}
                       <motion.circle cx="0" cy="0" r="1" fill={`${connectionColor}40`} initial={{
                   offset: 0
                 }} animate={{
@@ -440,7 +498,7 @@ const AIWorkflow = () => {
                 ease: "easeInOut"
               }} />}
 
-                  {/* Pulse indication when a connection is active */}
+                  {/* Indicación de pulso cuando una conexión está activa */}
                   {activeConnections.some(conn => conn.startsWith(service.id) || conn.endsWith(service.id)) && <motion.div className="absolute w-full h-full rounded-full" animate={{
                 boxShadow: [`0 0 0 0px ${service.color}99`, `0 0 0 5px ${service.color}00`]
               }} transition={{
@@ -464,7 +522,7 @@ const AIWorkflow = () => {
               </motion.div>;
         })}
           
-          {/* Floating particles for visual effect */}
+          {/* Partículas flotantes adicionales para efecto visual */}
           <div className="absolute inset-0 z-0">
             {Array.from({
             length: 40
