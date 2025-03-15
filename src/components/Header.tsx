@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
@@ -34,10 +33,6 @@ const Header = () => {
 
   const navItems = [
     { label: t("nav.home"), path: "/" },
-    { label: t("nav.services"), path: "/services" },
-    { label: t("nav.portfolio"), path: "/portfolio" },
-    { label: t("nav.about"), path: "/about" },
-    { label: t("nav.contact"), path: "/contact" },
   ];
 
   return (
@@ -57,7 +52,6 @@ const Header = () => {
           <span className="text-gradient">Builders AI</span>
         </Link>
         
-        {/* Desktop Navigation */}
         {!isMobile && (
           <nav className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
@@ -76,7 +70,6 @@ const Header = () => {
           </nav>
         )}
         
-        {/* Mobile Navigation Toggle */}
         {isMobile && (
           <div className="flex items-center">
             <LanguageToggle />
@@ -87,7 +80,6 @@ const Header = () => {
         )}
       </div>
       
-      {/* Mobile Navigation Menu */}
       {isMobile && (
         <div
           className={`fixed inset-0 bg-background/90 backdrop-blur-lg pt-20 transition-transform duration-300 ease-in-out z-40 ${

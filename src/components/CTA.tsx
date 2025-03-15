@@ -54,7 +54,7 @@ const CTA = () => {
                     transition={{ duration: 0.4, delay: 0.3 }}
                     viewport={{ once: true }}
                   >
-                    <Button className="button-glow px-8 py-6 text-lg bg-neonGreen text-darkBlue hover:bg-neonGreen/80 font-mono" asChild>
+                    <Button className="button-glow px-8 py-6 text-lg bg-neonGreen text-black hover:bg-neonGreen/80 font-semibold font-mono" asChild>
                       <Link to="/contact">
                         {t("cta.schedule")} <ArrowRight className="ml-2 h-5 w-5" />
                       </Link>
@@ -67,7 +67,7 @@ const CTA = () => {
                     transition={{ duration: 0.4, delay: 0.4 }}
                     viewport={{ once: true }}
                   >
-                    <Button variant="outline" className="px-8 py-6 text-lg font-mono border-neonGreen text-neonGreen hover:bg-neonGreen/10">
+                    <Button variant="outline" className="px-8 py-6 text-lg font-mono border-neonGreen text-neonGreen font-semibold hover:bg-neonGreen/10">
                       {t("cta.pricing")}
                     </Button>
                   </motion.div>
