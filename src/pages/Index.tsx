@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import AIWorkflowWrapper from "@/components/AIWorkflowWrapper";
+import VideoCarousel from "@/components/VideoCarousel";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
@@ -55,6 +56,7 @@ const Index = () => {
       <main>
         <Hero />
         <AIWorkflowWrapper />
+        <VideoCarousel />
         <CTA />
       </main>
       <Footer />
