@@ -27,49 +27,49 @@ const AIWorkflow = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
 
-  // Define the workflow nodes in a top-down structure
+  // Define the workflow nodes in a top-down structure with increased vertical spacing
   const services: ServiceNode[] = [
-    // Top level - User Input
+    // Top level - User Input - Positioned higher than before
     {
       id: "userInput",
       label: "User Input",
       icon: <User size={28} />,
       position: {
         x: 50,
-        y: 10
+        y: 5
       },
       color: "#6366f1" // Indigo
     }, 
-    // Second level - Tu Empresa
+    // Second level - Tu Empresa - More vertical space
     {
       id: "empresa",
       label: "Tu Empresa",
       icon: <Building size={28} />,
       position: {
         x: 50,
-        y: 30
+        y: 28
       },
       color: "#10b981" // Green
     },
-    // Brain AI
+    // Brain AI - Increased vertical gap
     {
       id: "ai",
       label: "Brain AI",
       icon: <BrainCircuit size={32} />,
       position: {
         x: 50,
-        y: 50
+        y: 51
       },
       color: "#ef4444" // Red
     },
-    // Bottom level - multiple AI Agents in a row
+    // Bottom level - multiple AI Agents in a row - Much lower
     {
       id: "agenteSupport",
       label: "Agente Soporte",
       icon: <Headset size={24} />,
       position: {
         x: 20,
-        y: 70
+        y: 80
       },
       color: "#3b82f6" // Blue
     },
@@ -79,7 +79,7 @@ const AIWorkflow = () => {
       icon: <UserPlus size={24} />,
       position: {
         x: 40,
-        y: 70
+        y: 80
       },
       color: "#ec4899" // Pink
     },
@@ -89,7 +89,7 @@ const AIWorkflow = () => {
       icon: <Tag size={24} />,
       position: {
         x: 60,
-        y: 70
+        y: 80
       },
       color: "#f59e0b" // Amber
     },
@@ -99,7 +99,7 @@ const AIWorkflow = () => {
       icon: <Clock size={24} />,
       position: {
         x: 80,
-        y: 70
+        y: 80
       },
       color: "#8b5cf6" // Purple
     }
@@ -261,9 +261,9 @@ const AIWorkflow = () => {
   };
 
   return (
-    <div ref={containerRef} className="w-full bg-darkBlue overflow-hidden py-16">
+    <div ref={containerRef} className="w-full bg-darkBlue overflow-hidden py-24">
       <motion.div
-        className="container mx-auto text-center mb-12"
+        className="container mx-auto text-center mb-16"
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.5 }}
@@ -277,7 +277,7 @@ const AIWorkflow = () => {
       </motion.div>
 
       <motion.div
-        className="relative max-w-6xl h-[600px] mx-auto"
+        className="relative max-w-6xl h-[750px] mx-auto"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
@@ -291,7 +291,7 @@ const AIWorkflow = () => {
         {/* Draw connections between services */}
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           {/* Vertical workflow line */}
-          <line x1="50" y1="10" x2="50" y2="50" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1" strokeDasharray="3 3" />
+          <line x1="50" y1="5" x2="50" y2="51" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1" strokeDasharray="3 3" />
           
           {connections.map(connection => {
             const fromNode = services.find(s => s.id === connection.from)!;
@@ -424,12 +424,13 @@ const AIWorkflow = () => {
               {...(service.id === 'ai' ? serviceSpecificPulseVariants : {})}
             >
               <motion.div
-                className="glassmorphism rounded-xl p-5 flex flex-col items-center justify-center"
+                className="glassmorphism rounded-xl p-6 flex flex-col items-center justify-center"
                 style={{
                   backgroundColor: 'rgba(17, 24, 39, 0.7)',
                   backdropFilter: 'blur(8px)',
                   border: `2px solid ${service.color}`,
-                  boxShadow: `0 0 15px ${service.color}50`
+                  boxShadow: `0 0 15px ${service.color}50`,
+                  minWidth: '170px'
                 }}
                 animate={
                   service.id === 'ai'
@@ -452,7 +453,7 @@ const AIWorkflow = () => {
                 }
               >
                 <div 
-                  className="rounded-full p-3 mb-2" 
+                  className="rounded-full p-4 mb-3" 
                   style={{ 
                     backgroundColor: `${service.color}20`
                   }}
@@ -462,7 +463,7 @@ const AIWorkflow = () => {
                   </div>
                 </div>
                 
-                <span className="text-white font-mono font-semibold whitespace-nowrap">
+                <span className="text-white font-mono font-semibold whitespace-nowrap text-lg">
                   {service.label}
                 </span>
                 
