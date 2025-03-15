@@ -23,13 +23,26 @@ serve(async (req) => {
     
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     
-    // Generate a secure random password
-    const generatedPassword = Math.random().toString(36).slice(2) + Math.random().toString(36).toUpperCase().slice(2);
+    // Get the custom password from the request body
+    let password = "";
+    let requestData = {};
+    
+    try {
+      requestData = await req.json();
+      password = requestData.password || "";
+    } catch (e) {
+      // If request body parsing fails, continue with default behavior
+    }
+    
+    // If no password provided, generate a random one
+    if (!password) {
+      password = Math.random().toString(36).slice(2) + Math.random().toString(36).toUpperCase().slice(2);
+    }
     
     // Create the admin user with Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email: "hola@builders-ai.com",
-      password: generatedPassword,
+      password: password,
       email_confirm: true, // Auto-confirm email
     });
 
@@ -68,7 +81,7 @@ serve(async (req) => {
           error: profileError.message,
           note: "User was created but profile update failed",
           userId: userId,
-          password: generatedPassword
+          password: password
         }),
         { 
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -82,7 +95,7 @@ serve(async (req) => {
         success: true, 
         message: "Admin user created successfully",
         email: "hola@builders-ai.com",
-        password: generatedPassword 
+        password: password 
       }),
       { 
         headers: { ...corsHeaders, "Content-Type": "application/json" },

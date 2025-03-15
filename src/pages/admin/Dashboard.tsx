@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import ClientsTable from "@/components/admin/ClientsTable";
 import ProposalsTable from "@/components/admin/ProposalsTable";
 
@@ -14,6 +16,7 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isCreatingAdmin, setIsCreatingAdmin] = useState(false);
+  const [adminPassword, setAdminPassword] = useState("");
   const [adminCreated, setAdminCreated] = useState<{ email: string, password: string } | null>(null);
   const { toast } = useToast();
 
@@ -55,6 +58,15 @@ const AdminDashboard = () => {
   }, [toast]);
 
   const handleCreateAdmin = async () => {
+    if (!adminPassword || adminPassword.length < 6) {
+      toast({
+        title: "Error",
+        description: "La contraseña debe tener al menos 6 caracteres.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     try {
       setIsCreatingAdmin(true);
       
@@ -66,6 +78,7 @@ const AdminDashboard = () => {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
           },
+          body: JSON.stringify({ password: adminPassword }),
         }
       );
       
@@ -84,6 +97,9 @@ const AdminDashboard = () => {
         title: "Administrador creado",
         description: "El usuario administrador ha sido creado exitosamente.",
       });
+      
+      // Clear the password field after successful creation
+      setAdminPassword("");
     } catch (error: any) {
       console.error("Error creating admin:", error);
       toast({
@@ -147,17 +163,32 @@ const AdminDashboard = () => {
           </div>
         )}
         
-        <div className="mb-8 flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Panel de Administración</h1>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-4">Panel de Administración</h1>
           
-          <Button 
-            onClick={handleCreateAdmin}
-            disabled={isCreatingAdmin}
-            className="bg-purple-600 hover:bg-purple-700"
-          >
-            <UserPlus className="h-4 w-4 mr-2" />
-            {isCreatingAdmin ? "Creando..." : "Crear Admin"}
-          </Button>
+          <div className="p-4 bg-muted rounded-md mb-6">
+            <h2 className="text-lg font-semibold mb-3">Crear Usuario Administrador</h2>
+            <div className="flex flex-col md:flex-row gap-4 items-end">
+              <div className="space-y-2 flex-grow">
+                <Label htmlFor="admin-password">Contraseña para admin (hola@builders-ai.com)</Label>
+                <Input 
+                  id="admin-password"
+                  type="password" 
+                  placeholder="Ingrese contraseña" 
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                />
+              </div>
+              <Button 
+                onClick={handleCreateAdmin}
+                disabled={isCreatingAdmin}
+                className="bg-purple-600 hover:bg-purple-700"
+              >
+                <UserPlus className="h-4 w-4 mr-2" />
+                {isCreatingAdmin ? "Creando..." : "Crear Admin"}
+              </Button>
+            </div>
+          </div>
         </div>
         
         <Tabs defaultValue="clients">
