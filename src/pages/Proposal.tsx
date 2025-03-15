@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { CircuitBoard, Loader2, AlertTriangle, CheckCircle, ArrowRight, Calendar, DollarSign, Users } from "lucide-react";
+import { CircuitBoard, Loader2, AlertTriangle, CheckCircle, ArrowRight, Calendar, DollarSign, Users, Play } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import VideoCarousel from "@/components/VideoCarousel";
 
 type Proposal = {
   id: string;
@@ -166,6 +167,26 @@ const Proposal = () => {
           </div>
         </section>
 
+        <section className="max-w-4xl mx-auto mb-16">
+          <div className="flex items-center mb-8">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-primary/20 text-primary mr-4">
+              <Play className="h-6 w-6" />
+            </div>
+            <h2 className="text-3xl font-bold">Nuestra Solución</h2>
+          </div>
+          
+          <div className="bg-white dark:bg-darkBlue/40 rounded-xl p-8 shadow-lg border">
+            <div className="relative w-full aspect-video mx-auto overflow-hidden rounded-lg">
+              <iframe 
+                src="https://www.tella.tv/video/cm89ib26f00000al2fnttcdg4/embed?b=0&title=0&a=1&loop=0&t=0&muted=0&wt=0"
+                className="absolute top-0 left-0 w-full h-full border-0"
+                allowFullScreen 
+                title="Propuesta Video"
+              />
+            </div>
+          </div>
+        </section>
+
         {proposal?.investment_items && proposal.investment_items.length > 0 && (
           <section className="max-w-4xl mx-auto mb-16">
             <div className="flex items-center mb-8">
@@ -309,6 +330,21 @@ const Proposal = () => {
                 </Button>
               </Link>
             </div>
+          </div>
+        </section>
+
+        <section className="max-w-4xl mx-auto mb-16">
+          <div className="flex items-center mb-8">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-primary/20 text-primary mr-4">
+              <Play className="h-6 w-6" />
+            </div>
+            <h2 className="text-3xl font-bold">Casos Reales</h2>
+          </div>
+          
+          <div className="mb-8">
+            <p className="text-lg text-center mb-8">Ejemplos de soluciones similares que hemos implementado con otros clientes.</p>
+            
+            <VideoCarousel />
           </div>
         </section>
 
