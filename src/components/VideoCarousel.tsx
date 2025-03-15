@@ -1,9 +1,11 @@
+
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useLanguage } from "@/contexts/LanguageContext";
+
 const VideoCarousel = () => {
   const {
     t
@@ -12,6 +14,7 @@ const VideoCarousel = () => {
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
   const videoSources = ["https://www.tella.tv/video/cm89ib26f00000al2fnttcdg4/embed?b=0&title=0&a=1&loop=0&t=0&muted=0&wt=0", "https://www.tella.tv/video/cm6hc1xa5001r0aky73z502xr/embed?b=0&title=0&a=1&loop=0&t=0&muted=0&wt=0", "https://www.tella.tv/video/cm6f4bam4001a0bjj05sa1y9m/embed?b=0&title=0&a=1&loop=0&t=0&muted=0&wt=1"];
+
   useEffect(() => {
     if (!api) {
       return;
@@ -22,6 +25,7 @@ const VideoCarousel = () => {
       setCurrent(api.selectedScrollSnap() + 1);
     });
   }, [api]);
+
   return <section className="section-padding bg-darkBlue text-white relative overflow-hidden">
       <div className="container mx-auto">
         <motion.div initial={{
@@ -36,7 +40,7 @@ const VideoCarousel = () => {
         once: true
       }} className="text-center max-w-3xl mx-auto mb-10">
           <h2 className="text-3xl md:text-4xl font-mono font-bold mb-4">
-            {t("videos.title") || "Nuestros Videos"}
+            Builders AI en acción
           </h2>
           
         </motion.div>
@@ -75,4 +79,5 @@ const VideoCarousel = () => {
       </div>
     </section>;
 };
+
 export default VideoCarousel;

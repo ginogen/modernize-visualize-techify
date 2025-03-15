@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 type Language = "es" | "en";
@@ -87,6 +88,9 @@ const translations: Record<Language, Record<string, string>> = {
     "ai.workflow.title": "Flujo de Trabajo con IA",
     "ai.workflow.subtitle": "Cómo Implementamos Soluciones de IA",
     
+    // Video Section
+    "videos.title": "Builders AI en acción",
+    
     // Common
     "email.placeholder": "email@ejemplo.com",
   },
@@ -164,6 +168,9 @@ const translations: Record<Language, Record<string, string>> = {
     // AI Workflow Section
     "ai.workflow.title": "AI Workflow",
     "ai.workflow.subtitle": "How We Implement AI Solutions",
+    
+    // Video Section
+    "videos.title": "Builders AI in Action",
     
     // Common
     "email.placeholder": "email@example.com",
