@@ -17,6 +17,7 @@ import Onboarding from "./pages/Onboarding";
 import ClientPortal from "./pages/ClientPortal";
 import ChatbotDefinition from "./pages/ChatbotDefinition";
 import Login from "./pages/Login";
+import RegisterAdmin from "./pages/RegisterAdmin";
 import AdminDashboard from "./pages/admin/Dashboard";
 import CreateProposal from "./pages/admin/CreateProposal";
 import EditProposal from "./pages/admin/EditProposal";
@@ -44,6 +45,7 @@ function App() {
               <Route path="/client-portal" element={<ClientPortal />} />
               <Route path="/chatbot-definition" element={<ChatbotDefinition />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/register-admin" element={<RegisterAdmin />} />
               <Route path="/propuesta/:slug" element={<Proposal />} />
               
               {/* Admin Routes */}
