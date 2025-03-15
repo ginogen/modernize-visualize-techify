@@ -14,6 +14,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
 
+type InvestmentItem = {
+  description: string;
+  amount: string;
+};
+
 type Proposal = {
   id: string;
   client_name: string;
@@ -21,6 +26,8 @@ type Proposal = {
   service: string;
   scope: string;
   investment: string;
+  investment_items?: InvestmentItem[];
+  investment_currency?: string;
   status: string;
   created_at: string;
   slug: string;

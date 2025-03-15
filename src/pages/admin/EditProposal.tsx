@@ -18,7 +18,11 @@ import {
   ArrowLeft, 
   Save, 
   Loader2,
-  AlertTriangle
+  AlertTriangle,
+  Plus,
+  Trash2,
+  DollarSign,
+  Currency
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -30,6 +34,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+type InvestmentItem = {
+  description: string;
+  amount: string;
+};
+
 const EditProposal = () => {
   const [formData, setFormData] = useState({
     clientName: "",
@@ -39,6 +48,10 @@ const EditProposal = () => {
     investment: "",
     status: ""
   });
+  const [investmentItems, setInvestmentItems] = useState<InvestmentItem[]>([
+    { description: "", amount: "" }
+  ]);
+  const [currency, setCurrency] = useState("$");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -76,6 +89,14 @@ const EditProposal = () => {
           investment: data.investment,
           status: data.status
         });
+        
+        if (data.investment_items && Array.isArray(data.investment_items) && data.investment_items.length > 0) {
+          setInvestmentItems(data.investment_items);
+        }
+        
+        if (data.investment_currency) {
+          setCurrency(data.investment_currency);
+        }
       }
     } catch (error: any) {
       console.error('Error fetching proposal:', error.message);
@@ -94,13 +115,49 @@ const EditProposal = () => {
     setFormData((prev) => ({ ...prev, status: value }));
   };
 
+  const handleInvestmentItemChange = (index: number, field: keyof InvestmentItem, value: string) => {
+    const updatedItems = [...investmentItems];
+    updatedItems[index] = { ...updatedItems[index], [field]: value };
+    setInvestmentItems(updatedItems);
+  };
+
+  const addInvestmentItem = () => {
+    setInvestmentItems([...investmentItems, { description: "", amount: "" }]);
+  };
+
+  const removeInvestmentItem = (index: number) => {
+    if (investmentItems.length > 1) {
+      const updatedItems = investmentItems.filter((_, i) => i !== index);
+      setInvestmentItems(updatedItems);
+    }
+  };
+
+  const calculateTotal = (): string => {
+    const total = investmentItems.reduce((sum, item) => {
+      const amount = parseFloat(item.amount) || 0;
+      return sum + amount;
+    }, 0);
+    return total.toFixed(2);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.clientName || !formData.clientEmail || !formData.service || !formData.scope || !formData.investment) {
+    if (!formData.clientName || !formData.clientEmail || !formData.service || !formData.scope) {
       toast({
         title: "Error",
-        description: "Por favor completa todos los campos.",
+        description: "Por favor completa todos los campos obligatorios.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Validate investment items
+    const emptyItems = investmentItems.some(item => !item.description || !item.amount);
+    if (emptyItems) {
+      toast({
+        title: "Error",
+        description: "Por favor completa todos los ítems de inversión o elimina los vacíos.",
         variant: "destructive"
       });
       return;
@@ -108,6 +165,7 @@ const EditProposal = () => {
     
     try {
       setIsSubmitting(true);
+      const totalInvestment = calculateTotal();
       
       const { error } = await supabase
         .from('proposals')
@@ -116,7 +174,9 @@ const EditProposal = () => {
           client_email: formData.clientEmail,
           service: formData.service,
           scope: formData.scope,
-          investment: formData.investment,
+          investment: totalInvestment,
+          investment_items: investmentItems,
+          investment_currency: currency,
           status: formData.status,
           updated_at: new Date().toISOString()
         })
@@ -246,15 +306,80 @@ const EditProposal = () => {
                   />
                 </div>
                 
-                <div className="space-y-2">
-                  <Label htmlFor="investment">Inversión</Label>
-                  <Input
-                    id="investment"
-                    name="investment"
-                    value={formData.investment}
-                    onChange={handleChange}
-                    placeholder="Monto de inversión"
-                  />
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <Label>Inversión</Label>
+                    <div className="flex items-center gap-2">
+                      <Label htmlFor="currency" className="sr-only">Moneda</Label>
+                      <Select value={currency} onValueChange={setCurrency}>
+                        <SelectTrigger className="w-24">
+                          <SelectValue placeholder="Moneda" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="$">
+                            <div className="flex items-center">
+                              <DollarSign className="h-4 w-4 mr-1" />
+                              <span>$</span>
+                            </div>
+                          </SelectItem>
+                          <SelectItem value="U$D">
+                            <div className="flex items-center">
+                              <Currency className="h-4 w-4 mr-1" />
+                              <span>U$D</span>
+                            </div>
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  
+                  {investmentItems.map((item, index) => (
+                    <div key={index} className="flex gap-2 items-start">
+                      <div className="flex-1">
+                        <Input
+                          placeholder="Descripción del ítem"
+                          value={item.description}
+                          onChange={(e) => handleInvestmentItemChange(index, 'description', e.target.value)}
+                        />
+                      </div>
+                      <div className="w-32">
+                        <Input
+                          placeholder="Monto"
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          value={item.amount}
+                          onChange={(e) => handleInvestmentItemChange(index, 'amount', e.target.value)}
+                        />
+                      </div>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeInvestmentItem(index)}
+                        disabled={investmentItems.length === 1}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                  
+                  <div className="flex justify-between items-center">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={addInvestmentItem}
+                    >
+                      <Plus className="h-4 w-4 mr-1" />
+                      Agregar Ítem
+                    </Button>
+                    
+                    <div className="text-right">
+                      <p className="text-sm text-muted-foreground">Total:</p>
+                      <p className="text-lg font-bold">{currency} {calculateTotal()}</p>
+                    </div>
+                  </div>
                 </div>
                 
                 <div className="space-y-2">
