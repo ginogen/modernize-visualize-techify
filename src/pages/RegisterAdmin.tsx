@@ -51,11 +51,11 @@ const RegisterAdmin = () => {
       });
 
       // Call the register-admin edge function with fetch directly
-      const response = await fetch(`${supabase.functions.url}/register-admin`, {
+      const response = await fetch("https://vlkcjmhppcwfcgnwjbvc.supabase.co/functions/v1/register-admin", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${supabase.auth.anon.key}`,
+          'Authorization': `Bearer ${process.env.SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsa2NqbWhwcGN3ZmNnbndqYnZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNjkwMjQsImV4cCI6MjA1Njg0NTAyNH0.9-lV_9vidAiczSivLkLSN_8gbLbb2b4mdnUAtQW9Kuc"}`,
         },
         body: JSON.stringify({
           email: data.email,
