@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, BrainCircuit, Code, Bot, Puzzle } from "lucide-react";
@@ -85,9 +86,6 @@ const Hero = () => {
             <motion.div variants={itemVariants} className="flex flex-wrap gap-4">
               <Button className="button-glow bg-neonGreen text-darkBlue hover:bg-neonGreen/80 font-mono">
                 {t("hero.get.started")} <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              <Button variant="outline" className="border-neonGreen text-neonGreen hover:bg-neonGreen/10">
-                {t("hero.explore.services")}
               </Button>
             </motion.div>
           </motion.div>
