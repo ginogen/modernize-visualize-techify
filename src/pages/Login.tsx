@@ -1,124 +1,174 @@
 
-import { FormEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { CircuitBoard, Key, Mail } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Loader2, LogIn, CircuitBoard } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const Login = () => {
+const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
-  const handleSubmit = async (e: FormEvent) => {
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        navigate("/client-portal");
+      }
+    };
+    
+    checkSession();
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (session) {
+          navigate("/client-portal");
+        }
+      }
+    );
+    
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [navigate]);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-
+    
+    if (!email || !password) {
+      toast({
+        title: t("form.incomplete"),
+        description: t("form.incomplete.message"),
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setIsLoading(true);
+    
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-
-      if (error) throw error;
       
-      navigate("/");
-      toast({
-        title: "¡Bienvenido!",
-        description: "Has iniciado sesión correctamente.",
-      });
+      if (error) {
+        throw error;
+      }
+      
+      if (data.user) {
+        toast({
+          title: t("login.success"),
+          description: t("login.welcome"),
+        });
+        
+        const { data: profileData, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', data.user.id)
+          .single();
+          
+        if (!profileError && profileData) {
+          sessionStorage.setItem("clientData", JSON.stringify(profileData));
+        }
+        
+        navigate("/client-portal");
+      }
     } catch (error: any) {
+      console.error("Error de inicio de sesión:", error);
       toast({
-        title: "Error al iniciar sesión",
-        description: error.message,
+        title: t("login.error"),
+        description: error.message === "Invalid login credentials" 
+          ? t("invalid.credentials")
+          : t("login.problem"),
         variant: "destructive",
       });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <div className="flex flex-1 items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md space-y-8">
-          <div className="text-center">
-            <Link to="/" className="inline-flex justify-center items-center mb-5">
-              <CircuitBoard className="h-8 w-8 text-neonGreen mr-2" />
-              <span className="text-2xl font-mono font-semibold text-gradient">Builders AI</span>
-            </Link>
-            <h2 className="mt-6 text-center text-3xl font-extrabold">
-              Iniciar sesión
-            </h2>
-          </div>
-
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            <div className="space-y-4 rounded-md shadow-sm">
-              <div>
-                <label htmlFor="email" className="sr-only">
-                  Correo electrónico
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-2 border border-input bg-background rounded-md shadow-sm focus:outline-none focus:ring-neonGreen focus:border-neonGreen"
-                    placeholder="Correo electrónico"
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Contraseña
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Key className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-2 border border-input bg-background rounded-md shadow-sm focus:outline-none focus:ring-neonGreen focus:border-neonGreen"
-                    placeholder="Contraseña"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <Button
-                type="submit"
-                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
-                disabled={loading}
-              >
-                {loading ? "Iniciando sesión..." : "Iniciar sesión"}
-              </Button>
-            </div>
-          </form>
-
-          <div className="text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              ¿No tienes credenciales? Contacta con el administrador
-            </p>
-          </div>
+    <div className="flex flex-col min-h-screen bg-background">
+      <header className="py-4 px-6 border-b">
+        <div className="container mx-auto flex justify-between items-center">
+          <Link
+            to="/"
+            className="flex items-center space-x-2 text-xl md:text-2xl font-mono font-semibold"
+          >
+            <CircuitBoard className="text-neonGreen h-7 w-7 animate-pulse-soft" />
+            <span className="text-gradient">Builders AI</span>
+          </Link>
         </div>
-      </div>
+      </header>
+      
+      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+        <Card className="w-full max-w-md mx-auto">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold">{t("client.portal")}</CardTitle>
+            <CardDescription>
+              {t("client.portal.description")}
+            </CardDescription>
+          </CardHeader>
+          
+          <form onSubmit={handleLogin}>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">{t("email")}</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder={t("email.placeholder")}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="password">{t("password")}</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
+            </CardContent>
+            
+            <CardFooter>
+              <Button 
+                type="submit" 
+                className="w-full"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {t("logging.in")}
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="mr-2 h-4 w-4" />
+                    {t("login")}
+                  </>
+                )}
+              </Button>
+            </CardFooter>
+          </form>
+        </Card>
+      </main>
     </div>
   );
 };
