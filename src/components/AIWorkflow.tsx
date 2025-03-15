@@ -335,9 +335,7 @@ const AIWorkflow = () => {
       duration: 0.5
     }}>
         <h2 className="text-3xl md:text-4xl font-mono font-bold mb-6 text-white">Agentes IA Conversacionales</h2>
-        <p className="text-white/70 text-lg max-w-2xl mx-auto">
-          Our AI orchestrates seamless connections between your business systems and popular services
-        </p>
+        <p className="text-white/70 text-lg max-w-2xl mx-auto">En nuestra plataforma podemos implementar bot conversacionales que se integran en tu empresa. Bots de texto y de voz.</p>
       </motion.div>
 
       <div className="relative max-w-5xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-6 px-4">
