@@ -64,7 +64,7 @@ const AdminDashboard = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${supabase.auth.getSession().then(res => res.data.session?.access_token)}`,
+            "Authorization": `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
           },
         }
       );
