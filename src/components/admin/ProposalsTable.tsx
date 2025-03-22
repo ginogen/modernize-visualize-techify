@@ -9,7 +9,7 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Eye, Edit, Clock } from "lucide-react";
+import { PlusCircle, Eye, Edit, Clock, Check, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -123,7 +123,8 @@ const ProposalsTable = () => {
                 <TableHead>Servicio</TableHead>
                 <TableHead>Fecha</TableHead>
                 <TableHead>Estado</TableHead>
-                <TableHead>Visualización</TableHead>
+                <TableHead>Abierto</TableHead>
+                <TableHead>Tiempo Visualización</TableHead>
                 <TableHead>Acciones</TableHead>
               </TableRow>
             </TableHeader>
@@ -140,15 +141,22 @@ const ProposalsTable = () => {
                     </span>
                   </TableCell>
                   <TableCell>
+                    {proposal.opened ? (
+                      <div className="flex items-center text-green-600">
+                        <Check className="h-5 w-5 mr-1" />
+                        <span>Sí</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center text-red-600">
+                        <X className="h-5 w-5 mr-1" />
+                        <span>No</span>
+                      </div>
+                    )}
+                  </TableCell>
+                  <TableCell>
                     <div className="flex items-center">
-                      {proposal.opened ? (
-                        <>
-                          <Clock className="h-4 w-4 mr-1 text-blue-500" />
-                          <span>{formatViewTime(proposal.total_view_time)}</span>
-                        </>
-                      ) : (
-                        <span className="text-gray-500">No abierto</span>
-                      )}
+                      <Clock className="h-4 w-4 mr-1 text-blue-500" />
+                      <span>{formatViewTime(proposal.total_view_time)}</span>
                     </div>
                   </TableCell>
                   <TableCell>
