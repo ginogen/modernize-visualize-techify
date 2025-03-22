@@ -12,9 +12,10 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Eye, BarChart } from "lucide-react";
+import { Eye, BarChart, CreditCard } from "lucide-react";
 import ClientDetailsDialog from "./ClientDetailsDialog";
 import ClientProgress from "./ClientProgress";
+import ClientPayments from "./ClientPayments";
 
 type Client = {
   id: string;
@@ -32,6 +33,7 @@ const ClientsTable = () => {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [showDetailsDialog, setShowDetailsDialog] = useState(false);
   const [showProgressSheet, setShowProgressSheet] = useState(false);
+  const [showPaymentsSheet, setShowPaymentsSheet] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -73,6 +75,11 @@ const ClientsTable = () => {
     setShowProgressSheet(true);
   };
 
+  const handleManagePayments = (client: Client) => {
+    setSelectedClient(client);
+    setShowPaymentsSheet(true);
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('es-ES', {
@@ -112,7 +119,7 @@ const ClientsTable = () => {
                   <TableCell>{`${client.city}, ${client.country}`}</TableCell>
                   <TableCell>{formatDate(client.created_at)}</TableCell>
                   <TableCell>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-wrap">
                       <Button 
                         variant="outline" 
                         size="sm" 
@@ -128,6 +135,14 @@ const ClientsTable = () => {
                       >
                         <BarChart className="h-4 w-4 mr-2" />
                         Progreso
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => handleManagePayments(client)}
+                      >
+                        <CreditCard className="h-4 w-4 mr-2" />
+                        Pagos
                       </Button>
                     </div>
                   </TableCell>
@@ -150,6 +165,17 @@ const ClientsTable = () => {
             <SheetContent className="sm:max-w-md md:max-w-lg">
               {selectedClient && (
                 <ClientProgress 
+                  clientId={selectedClient.id} 
+                  clientName={selectedClient.business_name}
+                />
+              )}
+            </SheetContent>
+          </Sheet>
+          
+          <Sheet open={showPaymentsSheet} onOpenChange={setShowPaymentsSheet}>
+            <SheetContent className="sm:max-w-md md:max-w-lg">
+              {selectedClient && (
+                <ClientPayments 
                   clientId={selectedClient.id} 
                   clientName={selectedClient.business_name}
                 />
