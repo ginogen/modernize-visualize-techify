@@ -29,6 +29,7 @@ const PaymentDetailsFields = ({
   const [paymentDetails, setPaymentDetails] = useState<string[]>([]);
   const [localNumberOfPayments, setLocalNumberOfPayments] = useState(numberOfPayments);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [previousNumberOfPayments, setPreviousNumberOfPayments] = useState(numberOfPayments);
 
   // Update local state when prop changes
   useEffect(() => {
@@ -48,10 +49,9 @@ const PaymentDetailsFields = ({
     }
   }, [paymentSchedule, numberOfPayments, onNumberOfPaymentsChange, isInitialized]);
 
-  // Calculate payment amounts only when investment or number of payments changes
-  // and there are no existing payment details
+  // Recalculate payment amounts when number of payments changes
   useEffect(() => {
-    if (investment && numberOfPayments > 0) {
+    if (investment && numberOfPayments > 0 && previousNumberOfPayments !== numberOfPayments) {
       try {
         // Extract numeric value from investment (removing currency and formatting)
         const numericValue = parseFloat(investment.replace(/[^\d.-]/g, ""));
@@ -59,25 +59,19 @@ const PaymentDetailsFields = ({
         if (!isNaN(numericValue)) {
           const amountPerPayment = (numericValue / numberOfPayments).toFixed(2);
           
-          // Only generate new payment details if the array length doesn't match numberOfPayments
-          if (paymentDetails.length !== numberOfPayments) {
-            // Preserve existing payment details when possible
-            const newPaymentDetails = Array(numberOfPayments)
-              .fill("")
-              .map((_, index) => 
-                index < paymentDetails.length
-                  ? paymentDetails[index]
-                  : `Pago ${index + 1}: $${amountPerPayment}`
-              );
-            
-            setPaymentDetails(newPaymentDetails);
-          }
+          // Generate new payment details array with updated amounts
+          const newPaymentDetails = Array(numberOfPayments)
+            .fill("")
+            .map((_, index) => `Pago ${index + 1}: $${amountPerPayment}`);
+          
+          setPaymentDetails(newPaymentDetails);
+          setPreviousNumberOfPayments(numberOfPayments);
         }
       } catch (error) {
-        console.error("Error calculating payment amounts:", error);
+        console.error("Error recalculating payment amounts:", error);
       }
     }
-  }, [investment, numberOfPayments]);
+  }, [investment, numberOfPayments, previousNumberOfPayments]);
 
   // Update payment schedule text when payment details change
   useEffect(() => {
