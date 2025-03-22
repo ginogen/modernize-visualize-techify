@@ -209,20 +209,23 @@ const Proposal = () => {
   };
 
   const formatCurrency = (currency: string, amount: string) => {
+    const formattedAmount = amount.includes('.') ? amount.split('.')[0] : amount;
+    
     if (currency === "$") {
       return (
         <>
-          {currency} {amount} <span className="text-sm text-muted-foreground">(Pesos Argentinos)</span>
+          {currency} {formattedAmount}
+          <div className="text-xs text-muted-foreground mt-1">(Pesos Argentinos)</div>
         </>
       );
     } else if (currency === "U$D") {
       return (
         <>
-          {currency} {amount}
+          {currency} {formattedAmount}
         </>
       );
     }
-    return `${currency} ${amount}`;
+    return `${currency} ${formattedAmount}`;
   };
 
   if (loading) {
@@ -631,3 +634,4 @@ const Proposal = () => {
 };
 
 export default Proposal;
+

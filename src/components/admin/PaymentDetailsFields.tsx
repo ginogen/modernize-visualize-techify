@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,12 +30,10 @@ const PaymentDetailsFields = ({
   const [isInitialized, setIsInitialized] = useState(false);
   const [previousNumberOfPayments, setPreviousNumberOfPayments] = useState(numberOfPayments);
 
-  // Update local state when prop changes
   useEffect(() => {
     setLocalNumberOfPayments(numberOfPayments);
   }, [numberOfPayments]);
 
-  // Initialize payment details from existing payment schedule
   useEffect(() => {
     if (paymentSchedule && paymentSchedule.trim() !== "" && !isInitialized) {
       const details = paymentSchedule.split("\n").filter(line => line.trim() !== "");
@@ -49,17 +46,14 @@ const PaymentDetailsFields = ({
     }
   }, [paymentSchedule, numberOfPayments, onNumberOfPaymentsChange, isInitialized]);
 
-  // Recalculate payment amounts when number of payments changes
   useEffect(() => {
     if (investment && numberOfPayments > 0 && previousNumberOfPayments !== numberOfPayments) {
       try {
-        // Extract numeric value from investment (removing currency and formatting)
         const numericValue = parseFloat(investment.replace(/[^\d.-]/g, ""));
         
         if (!isNaN(numericValue)) {
-          const amountPerPayment = (numericValue / numberOfPayments).toFixed(2);
+          const amountPerPayment = Math.round(numericValue / numberOfPayments).toString();
           
-          // Generate new payment details array with updated amounts
           const newPaymentDetails = Array(numberOfPayments)
             .fill("")
             .map((_, index) => `Pago ${index + 1}: $${amountPerPayment}`);
@@ -73,7 +67,6 @@ const PaymentDetailsFields = ({
     }
   }, [investment, numberOfPayments, previousNumberOfPayments]);
 
-  // Update payment schedule text when payment details change
   useEffect(() => {
     if (paymentDetails.length > 0) {
       onPaymentScheduleChange(paymentDetails.join("\n"));
