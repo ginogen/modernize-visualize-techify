@@ -79,16 +79,19 @@ const ProgressItemForm = ({
     try {
       setIsSubmitting(true);
       
+      // Convert Date object to ISO string for Supabase
+      const formattedData = {
+        task_name: data.task_name,
+        description: data.description || null,
+        due_date: data.due_date ? data.due_date.toISOString().split('T')[0] : null,
+        status: data.status,
+      };
+      
       if (initialData) {
         // Update existing progress item
         const { error } = await supabase
           .from("client_progress")
-          .update({
-            task_name: data.task_name,
-            description: data.description,
-            due_date: data.due_date,
-            status: data.status,
-          })
+          .update(formattedData)
           .eq("id", initialData.id);
 
         if (error) throw error;
@@ -101,10 +104,7 @@ const ProgressItemForm = ({
         // Insert new progress item
         const { error } = await supabase.from("client_progress").insert({
           client_id: clientId,
-          task_name: data.task_name,
-          description: data.description,
-          due_date: data.due_date,
-          status: data.status,
+          ...formattedData,
         });
 
         if (error) throw error;

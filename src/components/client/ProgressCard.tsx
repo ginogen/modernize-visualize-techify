@@ -39,7 +39,14 @@ const ProgressCard = ({ clientId }: ProgressCardProps) => {
           .order("created_at", { ascending: false });
 
         if (error) throw error;
-        setProgressItems(data || []);
+        if (data) {
+          // Cast the status to the correct type since we know it's restricted in the DB
+          const typedData = data.map(item => ({
+            ...item,
+            status: item.status as "En Progreso" | "Completada"
+          }));
+          setProgressItems(typedData);
+        }
       } catch (error: any) {
         console.error("Error fetching progress items:", error.message);
         toast({
