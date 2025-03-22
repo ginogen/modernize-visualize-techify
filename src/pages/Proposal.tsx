@@ -208,6 +208,23 @@ const Proposal = () => {
     }
   };
 
+  const formatCurrency = (currency: string, amount: string) => {
+    if (currency === "$") {
+      return (
+        <>
+          {currency} {amount} <span className="text-sm text-muted-foreground">(Pesos Argentinos)</span>
+        </>
+      );
+    } else if (currency === "U$D") {
+      return (
+        <>
+          {currency} {amount}
+        </>
+      );
+    }
+    return `${currency} ${amount}`;
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -474,7 +491,9 @@ const Proposal = () => {
             
             <div className="p-8">
               <div className="text-center mb-8">
-                <p className="text-5xl font-bold mb-4">{proposal?.investment_currency || "$"} {proposal?.investment}</p>
+                <p className="text-5xl font-bold mb-4">
+                  {formatCurrency(proposal?.investment_currency || "$", proposal?.investment)}
+                </p>
                 <p className="text-foreground/70">Inversión total para implementar la solución completa</p>
               </div>
               
