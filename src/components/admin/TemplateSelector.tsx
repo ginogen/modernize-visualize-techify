@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { 
   Popover, 
@@ -32,7 +33,7 @@ type Template = {
 };
 
 type TemplateSelectorProps = {
-  fieldType: 'service' | 'scope' | 'investment_item';
+  fieldType: 'service' | 'scope' | 'investment_item' | 'payment_method' | 'monthly_subscription';
   value: string;
   onChange: (value: string) => void;
 };
@@ -125,6 +126,10 @@ const TemplateSelector = ({ fieldType, value, onChange }: TemplateSelectorProps)
         return 'Alcance';
       case 'investment_item':
         return 'Ítem de Inversión';
+      case 'payment_method':
+        return 'Modalidad de Pago';
+      case 'monthly_subscription':
+        return 'Suscripción Mensual';
       default:
         return 'Campo';
     }
