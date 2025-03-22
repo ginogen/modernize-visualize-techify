@@ -27,6 +27,12 @@ const PaymentDetailsFields = ({
   onNumberOfPaymentsChange,
 }: PaymentDetailsProps) => {
   const [paymentDetails, setPaymentDetails] = useState<string[]>([]);
+  const [localNumberOfPayments, setLocalNumberOfPayments] = useState(numberOfPayments);
+
+  // Update local state when prop changes
+  useEffect(() => {
+    setLocalNumberOfPayments(numberOfPayments);
+  }, [numberOfPayments]);
 
   // Calculate payment amounts when investment or number of payments changes
   useEffect(() => {
@@ -80,6 +86,7 @@ const PaymentDetailsFields = ({
   const handleNumberOfPaymentsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
     if (!isNaN(value) && value > 0) {
+      setLocalNumberOfPayments(value);
       onNumberOfPaymentsChange(value);
     }
   };
@@ -95,7 +102,7 @@ const PaymentDetailsFields = ({
           name="numberOfPayments"
           type="number"
           min="1"
-          value={numberOfPayments}
+          value={localNumberOfPayments}
           onChange={handleNumberOfPaymentsChange}
           placeholder="Número de pagos"
         />
