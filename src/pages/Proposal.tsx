@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,8 @@ import {
   HeadsetIcon,
   Bell,
   Lock,
-  Clock
+  Clock,
+  CreditCard
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
@@ -40,6 +40,10 @@ type Proposal = {
   slug: string;
   opened?: boolean;
   total_view_time?: number;
+  payment_method?: string;
+  monthly_subscription?: string;
+  payment_schedule?: string;
+  number_of_payments?: number;
 };
 
 const Proposal = () => {
@@ -49,7 +53,6 @@ const Proposal = () => {
   const [hoursCounter, setHoursCounter] = useState(0);
   const { slug } = useParams();
   
-  // Tracking variables
   const viewTimeInterval = useRef<number | null>(null);
   const startViewTime = useRef<number>(Date.now());
   const accumulatedTime = useRef<number>(0);
@@ -60,33 +63,26 @@ const Proposal = () => {
       fetchProposal(slug);
     }
 
-    // Set up tracking
     startViewTime.current = Date.now();
     lastUpdateTime.current = Date.now();
     
-    // Update the view time every 5 seconds
     viewTimeInterval.current = window.setInterval(() => {
       updateViewTime();
     }, 5000);
 
-    // Cleanup on unmount
     return () => {
       if (viewTimeInterval.current) {
         clearInterval(viewTimeInterval.current);
       }
-      // Final update when leaving the page
       updateViewTime(true);
     };
   }, [slug]);
 
-  // Add window visibility event handlers to track when user switches tabs or minimizes
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
-        // User switched tabs or minimized - update time before pausing
         updateViewTime();
       } else {
-        // User came back - reset the start time
         startViewTime.current = Date.now();
         lastUpdateTime.current = Date.now();
       }
@@ -101,15 +97,13 @@ const Proposal = () => {
 
   useEffect(() => {
     if (!loading && proposal) {
-      // Update opened status if this is the first view
       if (proposal.opened === false) {
         markAsOpened();
       }
       
-      // Start the hours counter animation
       const targetHours = 60;
-      const duration = 2000; // 2 seconds
-      const frameDuration = 20; // ms per frame
+      const duration = 2000;
+      const frameDuration = 20;
       const frames = duration / frameDuration;
       const increment = targetHours / frames;
       let currentCount = 0;
@@ -145,7 +139,6 @@ const Proposal = () => {
       
       setProposal(data);
       
-      // Set the accumulated time from the database
       if (data.total_view_time) {
         accumulatedTime.current = data.total_view_time;
       }
@@ -169,7 +162,6 @@ const Proposal = () => {
       if (error) {
         console.error('Error marking proposal as opened:', error.message);
       } else {
-        // Update local state to reflect the change
         setProposal(prev => prev ? {...prev, opened: true} : null);
       }
     } catch (error: any) {
@@ -183,8 +175,6 @@ const Proposal = () => {
     const now = Date.now();
     const sessionTime = Math.floor((now - startViewTime.current) / 1000);
     
-    // Only count time if it's reasonable (less than 5 minutes since last update)
-    // This prevents counting time if the browser was left open but inactive
     if ((now - lastUpdateTime.current) > 300000 && !isFinal) {
       console.log("Long inactive period detected, not counting this time");
       startViewTime.current = now;
@@ -196,7 +186,6 @@ const Proposal = () => {
     
     console.log(`Updating view time: +${sessionTime}s, total: ${totalTime}s`);
     
-    // Reset the start time for the next interval
     if (!isFinal) {
       startViewTime.current = now;
       lastUpdateTime.current = now;
@@ -212,7 +201,6 @@ const Proposal = () => {
       if (error) {
         console.error('Error updating view time:', error.message);
       } else {
-        // Update local state if needed
         setProposal(prev => prev ? {...prev, total_view_time: totalTime} : null);
       }
     } catch (error: any) {
@@ -252,6 +240,10 @@ const Proposal = () => {
   };
 
   const scopeItems = proposal?.scope.split('\n').filter(item => item.trim() !== '') || [];
+  
+  const paymentScheduleItems = proposal?.payment_schedule 
+    ? proposal.payment_schedule.split('\n').filter(item => item.trim() !== '')
+    : [];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-accent/20 flex flex-col">
@@ -480,9 +472,52 @@ const Proposal = () => {
               <p className="text-foreground/70">Un paso hacia el crecimiento de su negocio</p>
             </div>
             
-            <div className="p-8 text-center">
-              <p className="text-5xl font-bold mb-4">{proposal?.investment_currency || "$"} {proposal?.investment}</p>
-              <p className="text-foreground/70 mb-6">Inversión total para implementar la solución completa</p>
+            <div className="p-8">
+              <div className="text-center mb-8">
+                <p className="text-5xl font-bold mb-4">{proposal?.investment_currency || "$"} {proposal?.investment}</p>
+                <p className="text-foreground/70">Inversión total para implementar la solución completa</p>
+              </div>
+              
+              {proposal?.payment_method && (
+                <div className="mb-6 border-t pt-6">
+                  <div className="flex items-center mb-3">
+                    <CreditCard className="h-5 w-5 text-primary mr-2" />
+                    <h3 className="text-lg font-semibold">Modalidad de Pago</h3>
+                  </div>
+                  <p>{proposal.payment_method}</p>
+                </div>
+              )}
+              
+              {paymentScheduleItems.length > 0 && (
+                <div className="mb-6 border-t pt-6">
+                  <div className="flex items-center mb-3">
+                    <DollarSign className="h-5 w-5 text-primary mr-2" />
+                    <h3 className="text-lg font-semibold">Detalle de Pagos</h3>
+                  </div>
+                  <ul className="space-y-2">
+                    {paymentScheduleItems.map((item, index) => (
+                      <li key={index} className="flex items-start">
+                        <div className="mr-2 mt-1">
+                          <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
+                            <span className="text-xs font-medium">{index + 1}</span>
+                          </div>
+                        </div>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              
+              {proposal?.monthly_subscription && (
+                <div className="mb-6 border-t pt-6">
+                  <div className="flex items-center mb-3">
+                    <Clock className="h-5 w-5 text-primary mr-2" />
+                    <h3 className="text-lg font-semibold">Suscripción Mensual</h3>
+                  </div>
+                  <p>{proposal.monthly_subscription}</p>
+                </div>
+              )}
               
               <ul className="space-y-3 text-left mb-8">
                 <li className="flex items-center">
@@ -503,12 +538,14 @@ const Proposal = () => {
                 </li>
               </ul>
               
-              <Link to={`/onboarding?proposalId=${proposal?.id}&proposalSlug=${proposal?.slug}`}>
-                <Button size="lg" className="button-glow bg-neonGreen text-black hover:bg-neonGreen/90 font-semibold">
-                  Aceptar Propuesta
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
+              <div className="text-center">
+                <Link to={`/onboarding?proposalId=${proposal?.id}&proposalSlug=${proposal?.slug}`}>
+                  <Button size="lg" className="button-glow bg-neonGreen text-black hover:bg-neonGreen/90 font-semibold">
+                    Aceptar Propuesta
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
