@@ -1,7 +1,24 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { CircuitBoard, Loader2, AlertTriangle, CheckCircle, ArrowRight, Calendar, DollarSign, Users, Play } from "lucide-react";
+import { 
+  CircuitBoard, 
+  Loader2, 
+  AlertTriangle, 
+  CheckCircle, 
+  ArrowRight, 
+  Calendar, 
+  DollarSign, 
+  Users, 
+  Play,
+  Smartphone,
+  MessageSquare,
+  Brain,
+  Sliders,
+  HeadsetIcon,
+  Bell,
+  Lock
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -164,6 +181,103 @@ const Proposal = () => {
                 </li>
               ))}
             </ul>
+          </div>
+        </section>
+
+        <section className="max-w-4xl mx-auto mb-16">
+          <div className="flex items-center mb-8">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-primary/20 text-primary mr-4">
+              <CheckCircle className="h-6 w-6" />
+            </div>
+            <h2 className="text-3xl font-bold">Qué Incluye</h2>
+          </div>
+          
+          <div className="bg-white dark:bg-darkBlue/40 rounded-xl p-8 shadow-lg border">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="flex">
+                <div className="flex-shrink-0 mr-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Smartphone className="h-6 w-6 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg mb-2">Integración Multiplataforma</h3>
+                  <p className="text-foreground/80">
+                    WhatsApp, Messenger, Instagram y Web: El bot estará disponible en las principales plataformas de mensajería y en el sitio web de la empresa.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex">
+                <div className="flex-shrink-0 mr-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Brain className="h-6 w-6 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg mb-2">Inteligencia Artificial y NLP</h3>
+                  <p className="text-foreground/80">
+                    Utilización de modelos avanzados de IA para interpretar consultas y entrenamiento personalizado con información de la empresa.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex">
+                <div className="flex-shrink-0 mr-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Sliders className="h-6 w-6 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg mb-2">Personalización del Tono</h3>
+                  <p className="text-foreground/80">
+                    Configuración de tono y estilo para que el bot responda de manera coherente con la identidad de la marca.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex">
+                <div className="flex-shrink-0 mr-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <HeadsetIcon className="h-6 w-6 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg mb-2">Gestión de Atención al Cliente</h3>
+                  <p className="text-foreground/80">
+                    Automatización de consultas frecuentes, asistencia en procesos de venta y soporte técnico con escalado a agentes humanos.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex">
+                <div className="flex-shrink-0 mr-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Bell className="h-6 w-6 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg mb-2">Notificaciones y Seguimiento</h3>
+                  <p className="text-foreground/80">
+                    Envío de alertas proactivas sobre promociones y seguimiento del historial de interacciones para un servicio personalizado.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex">
+                <div className="flex-shrink-0 mr-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Lock className="h-6 w-6 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg mb-2">Seguridad y Privacidad</h3>
+                  <p className="text-foreground/80">
+                    Implementación de medidas para garantizar la confidencialidad y protección de la información, cumpliendo con regulaciones de datos.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
