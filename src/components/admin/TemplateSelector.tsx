@@ -53,13 +53,17 @@ const TemplateSelector = ({ fieldType, value, onChange }: TemplateSelectorProps)
   const fetchTemplates = async () => {
     setIsLoading(true);
     try {
+      // Using the any type to bypass TypeScript strict checking
+      // since the templates table is not in the generated types yet
       const { data, error } = await supabase
-        .from('templates')
+        .from('templates' as any)
         .select('*')
         .eq('template_type', fieldType);
       
       if (error) throw error;
-      setTemplates(data || []);
+      
+      // Cast the result to Template[] since we know the structure
+      setTemplates((data || []) as Template[]);
     } catch (error: any) {
       console.error('Error fetching templates', error);
       toast({
@@ -84,12 +88,12 @@ const TemplateSelector = ({ fieldType, value, onChange }: TemplateSelectorProps)
 
     try {
       const { error } = await supabase
-        .from('templates')
+        .from('templates' as any)
         .insert({
           name: templateName,
           content: value,
           template_type: fieldType
-        });
+        } as any);
       
       if (error) throw error;
       

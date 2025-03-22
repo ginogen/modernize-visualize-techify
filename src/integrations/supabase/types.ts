@@ -131,6 +131,30 @@ export type Database = {
         }
         Relationships: []
       }
+      templates: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          name: string
+          template_type: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          name: string
+          template_type: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          name?: string
+          template_type?: string
+        }
+        Relationships: []
+      }
       vibecode_waitlist: {
         Row: {
           created_at: string
