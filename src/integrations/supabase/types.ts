@@ -38,6 +38,63 @@ export type Database = {
           },
         ]
       }
+      client_payments: {
+        Row: {
+          amount: string | null
+          client_id: string
+          created_at: string | null
+          description: string
+          id: string
+          is_invoiced: boolean | null
+          is_paid: boolean | null
+          paid_date: string | null
+          payment_number: number
+          proposal_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount?: string | null
+          client_id: string
+          created_at?: string | null
+          description: string
+          id?: string
+          is_invoiced?: boolean | null
+          is_paid?: boolean | null
+          paid_date?: string | null
+          payment_number: number
+          proposal_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: string | null
+          client_id?: string
+          created_at?: string | null
+          description?: string
+          id?: string
+          is_invoiced?: boolean | null
+          is_paid?: boolean | null
+          paid_date?: string | null
+          payment_number?: number
+          proposal_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_payments_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_payments_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       client_progress: {
         Row: {
           client_id: string
@@ -75,6 +132,51 @@ export type Database = {
             columns: ["client_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      client_subscriptions: {
+        Row: {
+          amount: string
+          client_id: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          proposal_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: string
+          client_id: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          proposal_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: string
+          client_id?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          proposal_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_subscriptions_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_subscriptions_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "proposals"
             referencedColumns: ["id"]
           },
         ]
