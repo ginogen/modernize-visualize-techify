@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,8 @@ import {
   Sliders,
   HeadsetIcon,
   Bell,
-  Lock
+  Lock,
+  Clock
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
@@ -42,6 +44,7 @@ const Proposal = () => {
   const [proposal, setProposal] = useState<Proposal | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [hoursCounter, setHoursCounter] = useState(0);
   const { slug } = useParams();
 
   useEffect(() => {
@@ -49,6 +52,30 @@ const Proposal = () => {
       fetchProposal(slug);
     }
   }, [slug]);
+
+  useEffect(() => {
+    if (!loading && proposal) {
+      // Start the hours counter animation
+      const targetHours = 60;
+      const duration = 2000; // 2 seconds
+      const frameDuration = 20; // ms per frame
+      const frames = duration / frameDuration;
+      const increment = targetHours / frames;
+      let currentCount = 0;
+      
+      const timer = setInterval(() => {
+        currentCount += increment;
+        if (currentCount >= targetHours) {
+          setHoursCounter(targetHours);
+          clearInterval(timer);
+        } else {
+          setHoursCounter(Math.floor(currentCount));
+        }
+      }, frameDuration);
+      
+      return () => clearInterval(timer);
+    }
+  }, [loading, proposal]);
 
   const fetchProposal = async (proposalSlug: string) => {
     try {
@@ -147,9 +174,9 @@ const Proposal = () => {
             </div>
             
             <div className="flex flex-col items-center p-4 rounded-lg border bg-background shadow-sm">
-              <DollarSign className="h-10 w-10 text-primary mb-2" />
-              <h3 className="font-medium">Inversión</h3>
-              <p className="text-sm text-foreground/70">{proposal?.investment_currency || "$"} {proposal?.investment}</p>
+              <Clock className="h-10 w-10 text-primary mb-2" />
+              <h3 className="font-medium">Ahorro de Horas</h3>
+              <p className="text-2xl font-bold text-primary">+{hoursCounter}</p>
             </div>
             
             <div className="flex flex-col items-center p-4 rounded-lg border bg-background shadow-sm">
@@ -327,86 +354,6 @@ const Proposal = () => {
           </section>
         )}
 
-        <section className="max-w-4xl mx-auto mb-16 py-10 px-8 bg-gradient-to-br from-primary/5 to-primary/20 rounded-xl border">
-          <h2 className="text-3xl font-bold mb-8 text-center">Beneficios Clave</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-background p-6 rounded-lg shadow-sm border">
-              <h3 className="text-xl font-bold mb-2 flex items-center">
-                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
-                  <span className="text-primary font-bold">1</span>
-                </div>
-                Mayor Eficiencia
-              </h3>
-              <p className="text-foreground/70">Automatización de procesos que ahorra tiempo y recursos para su equipo.</p>
-            </div>
-            
-            <div className="bg-background p-6 rounded-lg shadow-sm border">
-              <h3 className="text-xl font-bold mb-2 flex items-center">
-                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
-                  <span className="text-primary font-bold">2</span>
-                </div>
-                Innovación Tecnológica
-              </h3>
-              <p className="text-foreground/70">Implementación de las últimas tecnologías para mantener su ventaja competitiva.</p>
-            </div>
-            
-            <div className="bg-background p-6 rounded-lg shadow-sm border">
-              <h3 className="text-xl font-bold mb-2 flex items-center">
-                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
-                  <span className="text-primary font-bold">3</span>
-                </div>
-                Escalabilidad
-              </h3>
-              <p className="text-foreground/70">Soluciones diseñadas para crecer con su negocio sin complicaciones adicionales.</p>
-            </div>
-            
-            <div className="bg-background p-6 rounded-lg shadow-sm border">
-              <h3 className="text-xl font-bold mb-2 flex items-center">
-                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
-                  <span className="text-primary font-bold">4</span>
-                </div>
-                Soporte Continuo
-              </h3>
-              <p className="text-foreground/70">Acompañamiento durante todo el proceso de implementación y más allá.</p>
-            </div>
-          </div>
-        </section>
-
-        <section className="max-w-4xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold mb-8 text-center">Lo Que Dicen Nuestros Clientes</h2>
-          
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="bg-background p-6 rounded-lg shadow-md border relative">
-              <div className="absolute -top-3 -left-3 w-10 h-10 bg-neonGreen rounded-full flex items-center justify-center shadow-glow">
-                <span className="text-black text-xl font-bold">"</span>
-              </div>
-              <p className="italic mb-4 pt-4">El servicio superó todas nuestras expectativas. El equipo fue muy profesional y entregaron el proyecto antes de lo esperado.</p>
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-gray-200 mr-3"></div>
-                <div>
-                  <p className="font-semibold">Juan Pérez</p>
-                  <p className="text-sm text-foreground/70">Empresa ABC</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-background p-6 rounded-lg shadow-md border relative">
-              <div className="absolute -top-3 -left-3 w-10 h-10 bg-neonGreen rounded-full flex items-center justify-center shadow-glow">
-                <span className="text-black text-xl font-bold">"</span>
-              </div>
-              <p className="italic mb-4 pt-4">Excelente trabajo. La comunicación fue fluida y el resultado final es exactamente lo que buscábamos para nuestro negocio.</p>
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-gray-200 mr-3"></div>
-                <div>
-                  <p className="font-semibold">María González</p>
-                  <p className="text-sm text-foreground/70">Startup XYZ</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section className="max-w-3xl mx-auto mb-16">
           <div className="bg-background rounded-xl shadow-xl border overflow-hidden">
             <div className="bg-gradient-to-r from-primary/20 to-primary/5 p-6 text-center">
@@ -471,15 +418,15 @@ const Proposal = () => {
                 <span className="text-primary font-bold text-xl">1</span>
               </div>
               <h3 className="font-bold text-lg mb-2">Aceptar Propuesta</h3>
-              <p className="text-foreground/70">Confirme su interés para comenzar el proceso</p>
+              <p className="text-foreground/70">Para aceptar, haga click en el botón "Aceptar Propuesta" a continuación</p>
             </div>
             
             <div className="bg-background p-6 rounded-lg shadow-md border">
               <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
                 <span className="text-primary font-bold text-xl">2</span>
               </div>
-              <h3 className="font-bold text-lg mb-2">Reunión Inicial</h3>
-              <p className="text-foreground/70">Definiremos juntos los detalles del proyecto</p>
+              <h3 className="font-bold text-lg mb-2">Pago Inicial y Onboarding</h3>
+              <p className="text-foreground/70">Una vez recibido el pago inicial del 50%, se realiza onboarding y acceso a su Portal Cliente</p>
             </div>
             
             <div className="bg-background p-6 rounded-lg shadow-md border">
@@ -495,7 +442,7 @@ const Proposal = () => {
         <div className="max-w-3xl mx-auto text-center mb-16">
           <Link to="/onboarding">
             <Button size="lg" className="button-glow bg-neonGreen text-black hover:bg-neonGreen/90 font-semibold">
-              Comenzar Ahora
+              Aceptar Propuesta
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
