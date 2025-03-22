@@ -28,13 +28,28 @@ const PaymentDetailsFields = ({
 }: PaymentDetailsProps) => {
   const [paymentDetails, setPaymentDetails] = useState<string[]>([]);
   const [localNumberOfPayments, setLocalNumberOfPayments] = useState(numberOfPayments);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Update local state when prop changes
   useEffect(() => {
     setLocalNumberOfPayments(numberOfPayments);
   }, [numberOfPayments]);
 
-  // Calculate payment amounts when investment or number of payments changes
+  // Initialize payment details from existing payment schedule
+  useEffect(() => {
+    if (paymentSchedule && paymentSchedule.trim() !== "" && !isInitialized) {
+      const details = paymentSchedule.split("\n").filter(line => line.trim() !== "");
+      setPaymentDetails(details);
+      setIsInitialized(true);
+      
+      if (details.length > 0 && numberOfPayments !== details.length) {
+        onNumberOfPaymentsChange(details.length);
+      }
+    }
+  }, [paymentSchedule, numberOfPayments, onNumberOfPaymentsChange, isInitialized]);
+
+  // Calculate payment amounts only when investment or number of payments changes
+  // and there are no existing payment details
   useEffect(() => {
     if (investment && numberOfPayments > 0) {
       try {
@@ -44,14 +59,19 @@ const PaymentDetailsFields = ({
         if (!isNaN(numericValue)) {
           const amountPerPayment = (numericValue / numberOfPayments).toFixed(2);
           
-          // Generate payment details
-          const newPaymentDetails = Array(numberOfPayments)
-            .fill("")
-            .map((_, index) => 
-              paymentDetails[index] || `Pago ${index + 1}: $${amountPerPayment}`
-            );
-          
-          setPaymentDetails(newPaymentDetails);
+          // Only generate new payment details if the array length doesn't match numberOfPayments
+          if (paymentDetails.length !== numberOfPayments) {
+            // Preserve existing payment details when possible
+            const newPaymentDetails = Array(numberOfPayments)
+              .fill("")
+              .map((_, index) => 
+                index < paymentDetails.length
+                  ? paymentDetails[index]
+                  : `Pago ${index + 1}: $${amountPerPayment}`
+              );
+            
+            setPaymentDetails(newPaymentDetails);
+          }
         }
       } catch (error) {
         console.error("Error calculating payment amounts:", error);
@@ -66,17 +86,6 @@ const PaymentDetailsFields = ({
     }
   }, [paymentDetails, onPaymentScheduleChange]);
 
-  // Initialize payment details from existing payment schedule
-  useEffect(() => {
-    if (paymentSchedule && paymentSchedule.trim() !== "") {
-      const details = paymentSchedule.split("\n").filter(line => line.trim() !== "");
-      setPaymentDetails(details);
-      if (details.length > 0 && numberOfPayments !== details.length) {
-        onNumberOfPaymentsChange(details.length);
-      }
-    }
-  }, [paymentSchedule, numberOfPayments, onNumberOfPaymentsChange]);
-
   const handlePaymentDetailChange = (index: number, value: string) => {
     const updatedDetails = [...paymentDetails];
     updatedDetails[index] = value;
@@ -88,6 +97,19 @@ const PaymentDetailsFields = ({
     if (!isNaN(value) && value > 0) {
       setLocalNumberOfPayments(value);
       onNumberOfPaymentsChange(value);
+    }
+  };
+
+  const addPayment = () => {
+    setPaymentDetails([...paymentDetails, ""]);
+    onNumberOfPaymentsChange(paymentDetails.length + 1);
+  };
+
+  const removePayment = (index: number) => {
+    if (paymentDetails.length > 1) {
+      const updatedDetails = paymentDetails.filter((_, i) => i !== index);
+      setPaymentDetails(updatedDetails);
+      onNumberOfPaymentsChange(updatedDetails.length);
     }
   };
 
@@ -145,8 +167,28 @@ const PaymentDetailsFields = ({
                   onChange={(e) => handlePaymentDetailChange(index, e.target.value)}
                 />
               </div>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => removePayment(index)}
+                disabled={paymentDetails.length === 1}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
             </div>
           ))}
+          
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={addPayment}
+            className="mt-2"
+          >
+            <Plus className="h-4 w-4 mr-1" />
+            Agregar Pago
+          </Button>
         </div>
       )}
     </div>
