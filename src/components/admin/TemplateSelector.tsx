@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { 
   Popover, 
@@ -53,8 +52,6 @@ const TemplateSelector = ({ fieldType, value, onChange }: TemplateSelectorProps)
   const fetchTemplates = async () => {
     setIsLoading(true);
     try {
-      // Using the any type to bypass TypeScript strict checking
-      // since the templates table is not in the generated types yet
       const { data, error } = await supabase
         .from('templates' as any)
         .select('*')
@@ -62,8 +59,8 @@ const TemplateSelector = ({ fieldType, value, onChange }: TemplateSelectorProps)
       
       if (error) throw error;
       
-      // Cast the result to Template[] since we know the structure
-      setTemplates((data || []) as Template[]);
+      const templateData = (data || []) as unknown as Template[];
+      setTemplates(templateData);
     } catch (error: any) {
       console.error('Error fetching templates', error);
       toast({
