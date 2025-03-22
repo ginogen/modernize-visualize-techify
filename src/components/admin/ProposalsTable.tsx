@@ -42,11 +42,18 @@ const ProposalsTable = () => {
 
   useEffect(() => {
     fetchProposals();
+    
+    // Set up automatic refresh every 30 seconds to see updates
+    const refreshInterval = setInterval(() => {
+      fetchProposals(true);
+    }, 30000);
+    
+    return () => clearInterval(refreshInterval);
   }, []);
 
-  const fetchProposals = async () => {
+  const fetchProposals = async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       const { data, error } = await supabase
         .from('proposals')
         .select('*')
@@ -59,13 +66,15 @@ const ProposalsTable = () => {
       setProposals(data || []);
     } catch (error: any) {
       console.error('Error fetching proposals:', error.message);
-      toast({
-        title: "Error",
-        description: "No se pudieron cargar las propuestas.",
-        variant: "destructive",
-      });
+      if (!silent) {
+        toast({
+          title: "Error",
+          description: "No se pudieron cargar las propuestas.",
+          variant: "destructive",
+        });
+      }
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 

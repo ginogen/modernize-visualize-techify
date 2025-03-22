@@ -53,6 +53,7 @@ const Proposal = () => {
   const viewTimeInterval = useRef<number | null>(null);
   const startViewTime = useRef<number>(Date.now());
   const accumulatedTime = useRef<number>(0);
+  const lastUpdateTime = useRef<number>(Date.now());
 
   useEffect(() => {
     if (slug) {
@@ -61,6 +62,7 @@ const Proposal = () => {
 
     // Set up tracking
     startViewTime.current = Date.now();
+    lastUpdateTime.current = Date.now();
     
     // Update the view time every 5 seconds
     viewTimeInterval.current = window.setInterval(() => {
@@ -76,6 +78,26 @@ const Proposal = () => {
       updateViewTime(true);
     };
   }, [slug]);
+
+  // Add window visibility event handlers to track when user switches tabs or minimizes
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        // User switched tabs or minimized - update time before pausing
+        updateViewTime();
+      } else {
+        // User came back - reset the start time
+        startViewTime.current = Date.now();
+        lastUpdateTime.current = Date.now();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (!loading && proposal) {
@@ -146,6 +168,9 @@ const Proposal = () => {
       
       if (error) {
         console.error('Error marking proposal as opened:', error.message);
+      } else {
+        // Update local state to reflect the change
+        setProposal(prev => prev ? {...prev, opened: true} : null);
       }
     } catch (error: any) {
       console.error('Error marking proposal as opened:', error.message);
@@ -157,11 +182,24 @@ const Proposal = () => {
     
     const now = Date.now();
     const sessionTime = Math.floor((now - startViewTime.current) / 1000);
+    
+    // Only count time if it's reasonable (less than 5 minutes since last update)
+    // This prevents counting time if the browser was left open but inactive
+    if ((now - lastUpdateTime.current) > 300000 && !isFinal) {
+      console.log("Long inactive period detected, not counting this time");
+      startViewTime.current = now;
+      lastUpdateTime.current = now;
+      return;
+    }
+    
     const totalTime = accumulatedTime.current + sessionTime;
+    
+    console.log(`Updating view time: +${sessionTime}s, total: ${totalTime}s`);
     
     // Reset the start time for the next interval
     if (!isFinal) {
       startViewTime.current = now;
+      lastUpdateTime.current = now;
       accumulatedTime.current = totalTime;
     }
 
@@ -173,6 +211,9 @@ const Proposal = () => {
       
       if (error) {
         console.error('Error updating view time:', error.message);
+      } else {
+        // Update local state if needed
+        setProposal(prev => prev ? {...prev, total_view_time: totalTime} : null);
       }
     } catch (error: any) {
       console.error('Error updating view time:', error.message);
