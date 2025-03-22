@@ -9,7 +9,7 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Eye, Edit, Clock, Check, X } from "lucide-react";
+import { PlusCircle, Eye, Edit, Clock, Check, X, DollarSign } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -32,6 +32,8 @@ type Proposal = {
   slug: string;
   opened: boolean;
   total_view_time: number;
+  number_of_payments?: number;
+  payment_schedule?: string;
 };
 
 const ProposalsTable = () => {
@@ -108,6 +110,16 @@ const ProposalsTable = () => {
     return `${minutes} min ${remainingSeconds} seg`;
   };
 
+  const formatInvestment = (proposal: Proposal) => {
+    if (!proposal.investment) return "-";
+    
+    const paymentInfo = proposal.number_of_payments && proposal.number_of_payments > 1
+      ? ` (${proposal.number_of_payments} pagos)`
+      : "";
+      
+    return `${proposal.investment_currency || "$"}${proposal.investment}${paymentInfo}`;
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -130,6 +142,12 @@ const ProposalsTable = () => {
                 <TableHead>Cliente</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Servicio</TableHead>
+                <TableHead>
+                  <div className="flex items-center">
+                    <DollarSign className="h-4 w-4 mr-1" />
+                    <span>Inversión</span>
+                  </div>
+                </TableHead>
                 <TableHead>Fecha</TableHead>
                 <TableHead>Estado</TableHead>
                 <TableHead>Abierto</TableHead>
@@ -143,6 +161,7 @@ const ProposalsTable = () => {
                   <TableCell className="font-medium">{proposal.client_name}</TableCell>
                   <TableCell>{proposal.client_email}</TableCell>
                   <TableCell>{proposal.service}</TableCell>
+                  <TableCell>{formatInvestment(proposal)}</TableCell>
                   <TableCell>{formatDate(proposal.created_at)}</TableCell>
                   <TableCell>
                     <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusClass(proposal.status)}`}>

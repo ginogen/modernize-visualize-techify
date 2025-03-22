@@ -34,6 +34,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import TemplateSelector from "@/components/admin/TemplateSelector";
+import PaymentDetailsFields from "@/components/admin/PaymentDetailsFields";
 
 const EditProposal = () => {
   const [formData, setFormData] = useState({
@@ -48,6 +49,8 @@ const EditProposal = () => {
   });
   const [investmentItems, setInvestmentItems] = useState<string[]>([""]);
   const [currency, setCurrency] = useState("$");
+  const [numberOfPayments, setNumberOfPayments] = useState(1);
+  const [paymentSchedule, setPaymentSchedule] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -94,6 +97,14 @@ const EditProposal = () => {
         
         if (data.investment_currency) {
           setCurrency(data.investment_currency);
+        }
+
+        if (data.number_of_payments) {
+          setNumberOfPayments(data.number_of_payments);
+        }
+
+        if (data.payment_schedule) {
+          setPaymentSchedule(data.payment_schedule);
         }
       }
     } catch (error: any) {
@@ -161,6 +172,8 @@ const EditProposal = () => {
           status: formData.status,
           payment_method: formData.paymentMethod,
           monthly_subscription: formData.monthlySubscription,
+          payment_schedule: paymentSchedule,
+          number_of_payments: numberOfPayments,
           updated_at: new Date().toISOString()
         })
         .eq('id', id);
@@ -303,42 +316,6 @@ const EditProposal = () => {
                   />
                 </div>
                 
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <Label htmlFor="paymentMethod">Modalidad de Pago</Label>
-                    <TemplateSelector 
-                      fieldType="payment_method"
-                      value={formData.paymentMethod}
-                      onChange={(value) => setFormData(prev => ({ ...prev, paymentMethod: value }))}
-                    />
-                  </div>
-                  <Input
-                    id="paymentMethod"
-                    name="paymentMethod"
-                    value={formData.paymentMethod}
-                    onChange={handleChange}
-                    placeholder="50% inicial, 50% al finalizar"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <Label htmlFor="monthlySubscription">Suscripción Mensual</Label>
-                    <TemplateSelector 
-                      fieldType="monthly_subscription"
-                      value={formData.monthlySubscription}
-                      onChange={(value) => setFormData(prev => ({ ...prev, monthlySubscription: value }))}
-                    />
-                  </div>
-                  <Input
-                    id="monthlySubscription"
-                    name="monthlySubscription"
-                    value={formData.monthlySubscription}
-                    onChange={handleChange}
-                    placeholder="Detalles de la suscripción mensual"
-                  />
-                </div>
-                
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <Label htmlFor="investment">Inversión</Label>
@@ -373,6 +350,34 @@ const EditProposal = () => {
                     value={formData.investment}
                     onChange={handleChange}
                     placeholder="Monto total de la inversión"
+                  />
+                </div>
+                
+                <PaymentDetailsFields 
+                  investment={formData.investment}
+                  paymentMethod={formData.paymentMethod}
+                  onPaymentMethodChange={(value) => setFormData(prev => ({ ...prev, paymentMethod: value }))}
+                  paymentSchedule={paymentSchedule}
+                  onPaymentScheduleChange={setPaymentSchedule}
+                  numberOfPayments={numberOfPayments}
+                  onNumberOfPaymentsChange={setNumberOfPayments}
+                />
+
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="monthlySubscription">Suscripción Mensual</Label>
+                    <TemplateSelector 
+                      fieldType="monthly_subscription"
+                      value={formData.monthlySubscription}
+                      onChange={(value) => setFormData(prev => ({ ...prev, monthlySubscription: value }))}
+                    />
+                  </div>
+                  <Input
+                    id="monthlySubscription"
+                    name="monthlySubscription"
+                    value={formData.monthlySubscription}
+                    onChange={handleChange}
+                    placeholder="Detalles de la suscripción mensual"
                   />
                 </div>
                 

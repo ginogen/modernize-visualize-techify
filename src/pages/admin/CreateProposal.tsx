@@ -32,6 +32,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import TemplateSelector from "@/components/admin/TemplateSelector";
+import PaymentDetailsFields from "@/components/admin/PaymentDetailsFields";
 
 const CreateProposal = () => {
   const [formData, setFormData] = useState({
@@ -46,6 +47,8 @@ const CreateProposal = () => {
   const [investmentItems, setInvestmentItems] = useState<string[]>([""]);
   const [currency, setCurrency] = useState("$");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [numberOfPayments, setNumberOfPayments] = useState(1);
+  const [paymentSchedule, setPaymentSchedule] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -116,7 +119,9 @@ const CreateProposal = () => {
             investment_currency: currency,
             slug: slug,
             payment_method: formData.paymentMethod,
-            monthly_subscription: formData.monthlySubscription
+            monthly_subscription: formData.monthlySubscription,
+            payment_schedule: paymentSchedule,
+            number_of_payments: numberOfPayments
           }
         ])
         .select();
@@ -237,42 +242,6 @@ const CreateProposal = () => {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <Label htmlFor="paymentMethod">Modalidad de Pago</Label>
-                    <TemplateSelector 
-                      fieldType="payment_method"
-                      value={formData.paymentMethod}
-                      onChange={(value) => setFormData(prev => ({ ...prev, paymentMethod: value }))}
-                    />
-                  </div>
-                  <Input
-                    id="paymentMethod"
-                    name="paymentMethod"
-                    value={formData.paymentMethod}
-                    onChange={handleChange}
-                    placeholder="50% inicial, 50% al finalizar"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <Label htmlFor="monthlySubscription">Suscripción Mensual</Label>
-                    <TemplateSelector 
-                      fieldType="monthly_subscription"
-                      value={formData.monthlySubscription}
-                      onChange={(value) => setFormData(prev => ({ ...prev, monthlySubscription: value }))}
-                    />
-                  </div>
-                  <Input
-                    id="monthlySubscription"
-                    name="monthlySubscription"
-                    value={formData.monthlySubscription}
-                    onChange={handleChange}
-                    placeholder="Detalles de la suscripción mensual"
-                  />
-                </div>
-                
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <Label htmlFor="investment">Inversión</Label>
@@ -307,6 +276,34 @@ const CreateProposal = () => {
                     value={formData.investment}
                     onChange={handleChange}
                     placeholder="Monto total de la inversión"
+                  />
+                </div>
+                
+                <PaymentDetailsFields 
+                  investment={formData.investment}
+                  paymentMethod={formData.paymentMethod}
+                  onPaymentMethodChange={(value) => setFormData(prev => ({ ...prev, paymentMethod: value }))}
+                  paymentSchedule={paymentSchedule}
+                  onPaymentScheduleChange={setPaymentSchedule}
+                  numberOfPayments={numberOfPayments}
+                  onNumberOfPaymentsChange={setNumberOfPayments}
+                />
+
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="monthlySubscription">Suscripción Mensual</Label>
+                    <TemplateSelector 
+                      fieldType="monthly_subscription"
+                      value={formData.monthlySubscription}
+                      onChange={(value) => setFormData(prev => ({ ...prev, monthlySubscription: value }))}
+                    />
+                  </div>
+                  <Input
+                    id="monthlySubscription"
+                    name="monthlySubscription"
+                    value={formData.monthlySubscription}
+                    onChange={handleChange}
+                    placeholder="Detalles de la suscripción mensual"
                   />
                 </div>
                 
