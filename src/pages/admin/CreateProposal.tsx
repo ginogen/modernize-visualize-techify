@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import TemplateSelector from "@/components/admin/TemplateSelector";
 
 const CreateProposal = () => {
   const [formData, setFormData] = useState({
@@ -196,7 +197,14 @@ const CreateProposal = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="service">Servicio</Label>
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="service">Servicio</Label>
+                    <TemplateSelector 
+                      fieldType="service"
+                      value={formData.service}
+                      onChange={(value) => setFormData(prev => ({ ...prev, service: value }))}
+                    />
+                  </div>
                   <Input
                     id="service"
                     name="service"
@@ -207,7 +215,14 @@ const CreateProposal = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="scope">Alcance de Funciones</Label>
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="scope">Alcance de Funciones</Label>
+                    <TemplateSelector 
+                      fieldType="scope"
+                      value={formData.scope}
+                      onChange={(value) => setFormData(prev => ({ ...prev, scope: value }))}
+                    />
+                  </div>
                   <Textarea
                     id="scope"
                     name="scope"
@@ -256,7 +271,14 @@ const CreateProposal = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label>Ítems de Inversión</Label>
+                  <div className="flex justify-between items-center">
+                    <Label>Ítems de Inversión</Label>
+                    <TemplateSelector 
+                      fieldType="investment_item"
+                      value={investmentItems.join('\n')}
+                      onChange={(value) => setInvestmentItems(value.split('\n').filter(line => line.trim() !== ""))}
+                    />
+                  </div>
                   <p className="text-sm text-muted-foreground">Añada detalles de los ítems incluidos en la propuesta</p>
                   
                   {investmentItems.map((item, index) => (
