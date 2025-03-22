@@ -137,8 +137,10 @@ export type Database = {
           investment_currency: string | null
           investment_items: string[] | null
           monthly_subscription: string | null
+          number_of_payments: number | null
           opened: boolean | null
           payment_method: string | null
+          payment_schedule: string | null
           scope: string
           service: string
           slug: string
@@ -155,8 +157,10 @@ export type Database = {
           investment_currency?: string | null
           investment_items?: string[] | null
           monthly_subscription?: string | null
+          number_of_payments?: number | null
           opened?: boolean | null
           payment_method?: string | null
+          payment_schedule?: string | null
           scope: string
           service: string
           slug: string
@@ -173,8 +177,10 @@ export type Database = {
           investment_currency?: string | null
           investment_items?: string[] | null
           monthly_subscription?: string | null
+          number_of_payments?: number | null
           opened?: boolean | null
           payment_method?: string | null
+          payment_schedule?: string | null
           scope?: string
           service?: string
           slug?: string

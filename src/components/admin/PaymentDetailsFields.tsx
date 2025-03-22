@@ -11,8 +11,8 @@ type PaymentDetailsProps = {
   investment: string;
   paymentMethod: string;
   onPaymentMethodChange: (value: string) => void;
-  paymentSchedule?: string;
-  onPaymentScheduleChange?: (value: string) => void;
+  paymentSchedule: string;
+  onPaymentScheduleChange: (value: string) => void;
   numberOfPayments: number;
   onNumberOfPaymentsChange: (value: number) => void;
 };
@@ -21,8 +21,8 @@ const PaymentDetailsFields = ({
   investment,
   paymentMethod,
   onPaymentMethodChange,
-  paymentSchedule = "",
-  onPaymentScheduleChange = () => {},
+  paymentSchedule,
+  onPaymentScheduleChange,
   numberOfPayments,
   onNumberOfPaymentsChange,
 }: PaymentDetailsProps) => {
@@ -58,7 +58,7 @@ const PaymentDetailsFields = ({
     if (paymentDetails.length > 0) {
       onPaymentScheduleChange(paymentDetails.join("\n"));
     }
-  }, [paymentDetails]);
+  }, [paymentDetails, onPaymentScheduleChange]);
 
   // Initialize payment details from existing payment schedule
   useEffect(() => {
@@ -69,7 +69,7 @@ const PaymentDetailsFields = ({
         onNumberOfPaymentsChange(details.length);
       }
     }
-  }, []);
+  }, [paymentSchedule, numberOfPayments, onNumberOfPaymentsChange]);
 
   const handlePaymentDetailChange = (index: number, value: string) => {
     const updatedDetails = [...paymentDetails];
