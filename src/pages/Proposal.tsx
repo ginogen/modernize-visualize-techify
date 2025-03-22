@@ -127,20 +127,30 @@ const Proposal = () => {
       setLoading(true);
       setError("");
       
-      const { data, error } = await supabase
-        .from('proposals')
-        .select('*')
-        .eq('slug', proposalSlug)
-        .single();
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/proposals?slug=eq.${proposalSlug}&select=*`,
+        {
+          headers: {
+            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       
-      if (error) {
-        throw error;
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
       
-      setProposal(data);
+      const data = await response.json();
       
-      if (data.total_view_time) {
-        accumulatedTime.current = data.total_view_time;
+      if (data && data.length > 0) {
+        setProposal(data[0]);
+        
+        if (data[0].total_view_time) {
+          accumulatedTime.current = data[0].total_view_time;
+        }
+      } else {
+        throw new Error('No proposal found with that slug');
       }
     } catch (error: any) {
       console.error('Error fetching proposal:', error.message);
@@ -154,15 +164,23 @@ const Proposal = () => {
     if (!proposal) return;
     
     try {
-      const { error } = await supabase
-        .from('proposals')
-        .update({ opened: true })
-        .eq('id', proposal.id);
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/proposals?id=eq.${proposal.id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal',
+          },
+          body: JSON.stringify({ opened: true }),
+        }
+      );
       
-      if (error) {
-        console.error('Error marking proposal as opened:', error.message);
-      } else {
+      if (response.ok) {
         setProposal(prev => prev ? {...prev, opened: true} : null);
+      } else {
+        console.error('Error marking proposal as opened:', await response.text());
       }
     } catch (error: any) {
       console.error('Error marking proposal as opened:', error.message);
@@ -193,13 +211,21 @@ const Proposal = () => {
     }
 
     try {
-      const { error } = await supabase
-        .from('proposals')
-        .update({ total_view_time: totalTime })
-        .eq('id', proposal.id);
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/proposals?id=eq.${proposal.id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal',
+          },
+          body: JSON.stringify({ total_view_time: totalTime }),
+        }
+      );
       
-      if (error) {
-        console.error('Error updating view time:', error.message);
+      if (!response.ok) {
+        console.error('Error updating view time:', await response.text());
       } else {
         setProposal(prev => prev ? {...prev, total_view_time: totalTime} : null);
       }
@@ -634,4 +660,3 @@ const Proposal = () => {
 };
 
 export default Proposal;
-
