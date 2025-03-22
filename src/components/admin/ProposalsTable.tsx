@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { 
   Table, 
@@ -8,7 +9,7 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Eye, Edit } from "lucide-react";
+import { PlusCircle, Eye, Edit, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,6 +30,8 @@ type Proposal = {
   status: string;
   created_at: string;
   slug: string;
+  opened: boolean;
+  total_view_time: number;
 };
 
 const ProposalsTable = () => {
@@ -86,6 +89,16 @@ const ProposalsTable = () => {
     });
   };
 
+  const formatViewTime = (seconds: number) => {
+    if (seconds === 0) return "No visto";
+    
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    
+    if (minutes === 0) return `${remainingSeconds} seg`;
+    return `${minutes} min ${remainingSeconds} seg`;
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -110,6 +123,7 @@ const ProposalsTable = () => {
                 <TableHead>Servicio</TableHead>
                 <TableHead>Fecha</TableHead>
                 <TableHead>Estado</TableHead>
+                <TableHead>Visualización</TableHead>
                 <TableHead>Acciones</TableHead>
               </TableRow>
             </TableHeader>
@@ -124,6 +138,18 @@ const ProposalsTable = () => {
                     <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusClass(proposal.status)}`}>
                       {proposal.status}
                     </span>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center">
+                      {proposal.opened ? (
+                        <>
+                          <Clock className="h-4 w-4 mr-1 text-blue-500" />
+                          <span>{formatViewTime(proposal.total_view_time)}</span>
+                        </>
+                      ) : (
+                        <span className="text-gray-500">No abierto</span>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-2">

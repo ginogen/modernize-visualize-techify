@@ -137,11 +137,13 @@ export type Database = {
           investment_currency: string | null
           investment_items: string[] | null
           monthly_subscription: string | null
+          opened: boolean | null
           payment_method: string | null
           scope: string
           service: string
           slug: string
           status: string
+          total_view_time: number | null
           updated_at: string
         }
         Insert: {
@@ -153,11 +155,13 @@ export type Database = {
           investment_currency?: string | null
           investment_items?: string[] | null
           monthly_subscription?: string | null
+          opened?: boolean | null
           payment_method?: string | null
           scope: string
           service: string
           slug: string
           status?: string
+          total_view_time?: number | null
           updated_at?: string
         }
         Update: {
@@ -169,11 +173,13 @@ export type Database = {
           investment_currency?: string | null
           investment_items?: string[] | null
           monthly_subscription?: string | null
+          opened?: boolean | null
           payment_method?: string | null
           scope?: string
           service?: string
           slug?: string
           status?: string
+          total_view_time?: number | null
           updated_at?: string
         }
         Relationships: []

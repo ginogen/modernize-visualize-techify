@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
@@ -37,6 +38,8 @@ type Proposal = {
   status: string;
   created_at: string;
   slug: string;
+  opened?: boolean;
+  total_view_time?: number;
 };
 
 const Proposal = () => {
@@ -45,15 +48,42 @@ const Proposal = () => {
   const [error, setError] = useState("");
   const [hoursCounter, setHoursCounter] = useState(0);
   const { slug } = useParams();
+  
+  // Tracking variables
+  const viewTimeInterval = useRef<number | null>(null);
+  const startViewTime = useRef<number>(Date.now());
+  const accumulatedTime = useRef<number>(0);
 
   useEffect(() => {
     if (slug) {
       fetchProposal(slug);
     }
+
+    // Set up tracking
+    startViewTime.current = Date.now();
+    
+    // Update the view time every 5 seconds
+    viewTimeInterval.current = window.setInterval(() => {
+      updateViewTime();
+    }, 5000);
+
+    // Cleanup on unmount
+    return () => {
+      if (viewTimeInterval.current) {
+        clearInterval(viewTimeInterval.current);
+      }
+      // Final update when leaving the page
+      updateViewTime(true);
+    };
   }, [slug]);
 
   useEffect(() => {
     if (!loading && proposal) {
+      // Update opened status if this is the first view
+      if (proposal.opened === false) {
+        markAsOpened();
+      }
+      
       // Start the hours counter animation
       const targetHours = 60;
       const duration = 2000; // 2 seconds
@@ -92,11 +122,60 @@ const Proposal = () => {
       }
       
       setProposal(data);
+      
+      // Set the accumulated time from the database
+      if (data.total_view_time) {
+        accumulatedTime.current = data.total_view_time;
+      }
     } catch (error: any) {
       console.error('Error fetching proposal:', error.message);
       setError("No se pudo encontrar la propuesta solicitada.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const markAsOpened = async () => {
+    if (!proposal) return;
+    
+    try {
+      const { error } = await supabase
+        .from('proposals')
+        .update({ opened: true })
+        .eq('id', proposal.id);
+      
+      if (error) {
+        console.error('Error marking proposal as opened:', error.message);
+      }
+    } catch (error: any) {
+      console.error('Error marking proposal as opened:', error.message);
+    }
+  };
+
+  const updateViewTime = async (isFinal = false) => {
+    if (!proposal) return;
+    
+    const now = Date.now();
+    const sessionTime = Math.floor((now - startViewTime.current) / 1000);
+    const totalTime = accumulatedTime.current + sessionTime;
+    
+    // Reset the start time for the next interval
+    if (!isFinal) {
+      startViewTime.current = now;
+      accumulatedTime.current = totalTime;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('proposals')
+        .update({ total_view_time: totalTime })
+        .eq('id', proposal.id);
+      
+      if (error) {
+        console.error('Error updating view time:', error.message);
+      }
+    } catch (error: any) {
+      console.error('Error updating view time:', error.message);
     }
   };
 
