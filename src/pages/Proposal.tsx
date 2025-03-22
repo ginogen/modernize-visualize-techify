@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -130,24 +129,17 @@ const Proposal = () => {
       
       console.log("Fetching proposal with slug:", proposalSlug);
       
-      // Using the REST API directly to fetch the proposal
-      // This allows the proposal to be public without requiring authentication
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL || 'https://vlkcjmhppcwfcgnwjbvc.supabase.co'}/rest/v1/proposals?slug=eq.${encodeURIComponent(proposalSlug)}&select=*`,
-        {
-          headers: {
-            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsa2NqbWhwcGN3ZmNnbndqYnZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNjkwMjQsImV4cCI6MjA1Njg0NTAyNH0.9-lV_9vidAiczSivLkLSN_8gbLbb2b4mdnUAtQW9Kuc',
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const { data, error } = await supabase
+        .from('proposals')
+        .select('*')
+        .eq('slug', proposalSlug)
+        .limit(1);
       
-      if (!response.ok) {
-        console.error('Network response error:', response.status, response.statusText);
-        throw new Error(`Network response was not ok: ${response.status}`);
+      if (error) {
+        console.error('Supabase error:', error);
+        throw new Error(`Error fetching proposal: ${error.message}`);
       }
       
-      const data = await response.json();
       console.log("Proposal data received:", data);
       
       if (data && data.length > 0) {
@@ -158,7 +150,7 @@ const Proposal = () => {
         }
       } else {
         console.error('No proposal found with slug:', proposalSlug);
-        throw new Error('No proposal found with that slug');
+        throw new Error(`No proposal found with slug: ${proposalSlug}`);
       }
     } catch (error: any) {
       console.error('Error fetching proposal:', error.message);
@@ -172,24 +164,15 @@ const Proposal = () => {
     if (!proposal) return;
     
     try {
-      // Using the REST API to mark the proposal as opened
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL || 'https://vlkcjmhppcwfcgnwjbvc.supabase.co'}/rest/v1/proposals?id=eq.${proposal.id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsa2NqbWhwcGN3ZmNnbndqYnZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNjkwMjQsImV4cCI6MjA1Njg0NTAyNH0.9-lV_9vidAiczSivLkLSN_8gbLbb2b4mdnUAtQW9Kuc',
-            'Content-Type': 'application/json',
-            'Prefer': 'return=minimal',
-          },
-          body: JSON.stringify({ opened: true }),
-        }
-      );
+      const { error } = await supabase
+        .from('proposals')
+        .update({ opened: true })
+        .eq('id', proposal.id);
       
-      if (response.ok) {
-        setProposal(prev => prev ? {...prev, opened: true} : null);
+      if (error) {
+        console.error('Error marking proposal as opened:', error.message);
       } else {
-        console.error('Error marking proposal as opened:', await response.text());
+        setProposal(prev => prev ? {...prev, opened: true} : null);
       }
     } catch (error: any) {
       console.error('Error marking proposal as opened:', error.message);
@@ -220,22 +203,13 @@ const Proposal = () => {
     }
 
     try {
-      // Using the REST API to update the view time
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL || 'https://vlkcjmhppcwfcgnwjbvc.supabase.co'}/rest/v1/proposals?id=eq.${proposal.id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsa2NqbWhwcGN3ZmNnbndqYnZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNjkwMjQsImV4cCI6MjA1Njg0NTAyNH0.9-lV_9vidAiczSivLkLSN_8gbLbb2b4mdnUAtQW9Kuc',
-            'Content-Type': 'application/json',
-            'Prefer': 'return=minimal',
-          },
-          body: JSON.stringify({ total_view_time: totalTime }),
-        }
-      );
+      const { error } = await supabase
+        .from('proposals')
+        .update({ total_view_time: totalTime })
+        .eq('id', proposal.id);
       
-      if (!response.ok) {
-        console.error('Error updating view time:', await response.text());
+      if (error) {
+        console.error('Error updating view time:', error.message);
       } else {
         setProposal(prev => prev ? {...prev, total_view_time: totalTime} : null);
       }
