@@ -9,10 +9,12 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Eye } from "lucide-react";
+import { Eye, BarChart } from "lucide-react";
 import ClientDetailsDialog from "./ClientDetailsDialog";
+import ClientProgress from "./ClientProgress";
 
 type Client = {
   id: string;
@@ -29,6 +31,7 @@ const ClientsTable = () => {
   const [loading, setLoading] = useState(true);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [showDetailsDialog, setShowDetailsDialog] = useState(false);
+  const [showProgressSheet, setShowProgressSheet] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -63,6 +66,11 @@ const ClientsTable = () => {
   const handleViewDetails = (client: Client) => {
     setSelectedClient(client);
     setShowDetailsDialog(true);
+  };
+
+  const handleManageProgress = (client: Client) => {
+    setSelectedClient(client);
+    setShowProgressSheet(true);
   };
 
   const formatDate = (dateString: string) => {
@@ -104,14 +112,24 @@ const ClientsTable = () => {
                   <TableCell>{`${client.city}, ${client.country}`}</TableCell>
                   <TableCell>{formatDate(client.created_at)}</TableCell>
                   <TableCell>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => handleViewDetails(client)}
-                    >
-                      <Eye className="h-4 w-4 mr-2" />
-                      Ver detalles
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => handleViewDetails(client)}
+                      >
+                        <Eye className="h-4 w-4 mr-2" />
+                        Ver detalles
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => handleManageProgress(client)}
+                      >
+                        <BarChart className="h-4 w-4 mr-2" />
+                        Progreso
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
@@ -121,11 +139,24 @@ const ClientsTable = () => {
       )}
       
       {selectedClient && (
-        <ClientDetailsDialog
-          client={selectedClient}
-          open={showDetailsDialog}
-          onOpenChange={setShowDetailsDialog}
-        />
+        <>
+          <ClientDetailsDialog
+            client={selectedClient}
+            open={showDetailsDialog}
+            onOpenChange={setShowDetailsDialog}
+          />
+          
+          <Sheet open={showProgressSheet} onOpenChange={setShowProgressSheet}>
+            <SheetContent className="sm:max-w-md md:max-w-lg">
+              {selectedClient && (
+                <ClientProgress 
+                  clientId={selectedClient.id} 
+                  clientName={selectedClient.business_name}
+                />
+              )}
+            </SheetContent>
+          </Sheet>
+        </>
       )}
     </div>
   );
