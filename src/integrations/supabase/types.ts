@@ -95,6 +95,8 @@ export type Database = {
           investment: string
           investment_currency: string | null
           investment_items: string[] | null
+          monthly_subscription: string | null
+          payment_method: string | null
           scope: string
           service: string
           slug: string
@@ -109,6 +111,8 @@ export type Database = {
           investment: string
           investment_currency?: string | null
           investment_items?: string[] | null
+          monthly_subscription?: string | null
+          payment_method?: string | null
           scope: string
           service: string
           slug: string
@@ -123,6 +127,8 @@ export type Database = {
           investment?: string
           investment_currency?: string | null
           investment_items?: string[] | null
+          monthly_subscription?: string | null
+          payment_method?: string | null
           scope?: string
           service?: string
           slug?: string

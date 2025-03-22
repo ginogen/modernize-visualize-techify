@@ -33,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import TemplateSelector from "@/components/admin/TemplateSelector";
 
 const EditProposal = () => {
   const [formData, setFormData] = useState({
@@ -41,7 +42,9 @@ const EditProposal = () => {
     service: "",
     scope: "",
     investment: "",
-    status: ""
+    status: "",
+    paymentMethod: "",
+    monthlySubscription: ""
   });
   const [investmentItems, setInvestmentItems] = useState<string[]>([""]);
   const [currency, setCurrency] = useState("$");
@@ -80,7 +83,9 @@ const EditProposal = () => {
           service: data.service,
           scope: data.scope,
           investment: data.investment,
-          status: data.status
+          status: data.status,
+          paymentMethod: data.payment_method || "",
+          monthlySubscription: data.monthly_subscription || ""
         });
         
         if (data.investment_items && Array.isArray(data.investment_items) && data.investment_items.length > 0) {
@@ -154,6 +159,8 @@ const EditProposal = () => {
           investment_items: filteredInvestmentItems,
           investment_currency: currency,
           status: formData.status,
+          payment_method: formData.paymentMethod,
+          monthly_subscription: formData.monthlySubscription,
           updated_at: new Date().toISOString()
         })
         .eq('id', id);
@@ -260,7 +267,14 @@ const EditProposal = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="service">Servicio</Label>
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="service">Servicio</Label>
+                    <TemplateSelector 
+                      fieldType="service"
+                      value={formData.service}
+                      onChange={(value) => setFormData(prev => ({ ...prev, service: value }))}
+                    />
+                  </div>
                   <Input
                     id="service"
                     name="service"
@@ -271,7 +285,14 @@ const EditProposal = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="scope">Alcance de Funciones</Label>
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="scope">Alcance de Funciones</Label>
+                    <TemplateSelector 
+                      fieldType="scope"
+                      value={formData.scope}
+                      onChange={(value) => setFormData(prev => ({ ...prev, scope: value }))}
+                    />
+                  </div>
                   <Textarea
                     id="scope"
                     name="scope"
@@ -279,6 +300,42 @@ const EditProposal = () => {
                     onChange={handleChange}
                     placeholder="Detalle el alcance y las funcionalidades"
                     rows={6}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="paymentMethod">Modalidad de Pago</Label>
+                    <TemplateSelector 
+                      fieldType="payment_method"
+                      value={formData.paymentMethod}
+                      onChange={(value) => setFormData(prev => ({ ...prev, paymentMethod: value }))}
+                    />
+                  </div>
+                  <Input
+                    id="paymentMethod"
+                    name="paymentMethod"
+                    value={formData.paymentMethod}
+                    onChange={handleChange}
+                    placeholder="50% inicial, 50% al finalizar"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="monthlySubscription">Suscripción Mensual</Label>
+                    <TemplateSelector 
+                      fieldType="monthly_subscription"
+                      value={formData.monthlySubscription}
+                      onChange={(value) => setFormData(prev => ({ ...prev, monthlySubscription: value }))}
+                    />
+                  </div>
+                  <Input
+                    id="monthlySubscription"
+                    name="monthlySubscription"
+                    value={formData.monthlySubscription}
+                    onChange={handleChange}
+                    placeholder="Detalles de la suscripción mensual"
                   />
                 </div>
                 
@@ -320,7 +377,14 @@ const EditProposal = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label>Ítems de Inversión</Label>
+                  <div className="flex justify-between items-center">
+                    <Label>Ítems de Inversión</Label>
+                    <TemplateSelector 
+                      fieldType="investment_item"
+                      value={investmentItems.join('\n')}
+                      onChange={(value) => setInvestmentItems(value.split('\n').filter(line => line.trim() !== ""))}
+                    />
+                  </div>
                   <p className="text-sm text-muted-foreground">Detalles de los ítems incluidos en la propuesta</p>
                   
                   {investmentItems.map((item, index) => (

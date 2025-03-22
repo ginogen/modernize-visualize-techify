@@ -39,7 +39,9 @@ const CreateProposal = () => {
     clientEmail: "",
     service: "",
     scope: "",
-    investment: ""
+    investment: "",
+    paymentMethod: "",
+    monthlySubscription: ""
   });
   const [investmentItems, setInvestmentItems] = useState<string[]>([""]);
   const [currency, setCurrency] = useState("$");
@@ -112,7 +114,9 @@ const CreateProposal = () => {
             investment: formData.investment,
             investment_items: filteredInvestmentItems,
             investment_currency: currency,
-            slug: slug
+            slug: slug,
+            payment_method: formData.paymentMethod,
+            monthly_subscription: formData.monthlySubscription
           }
         ])
         .select();
@@ -230,6 +234,42 @@ const CreateProposal = () => {
                     onChange={handleChange}
                     placeholder="Detalle el alcance y las funcionalidades"
                     rows={6}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="paymentMethod">Modalidad de Pago</Label>
+                    <TemplateSelector 
+                      fieldType="payment_method"
+                      value={formData.paymentMethod}
+                      onChange={(value) => setFormData(prev => ({ ...prev, paymentMethod: value }))}
+                    />
+                  </div>
+                  <Input
+                    id="paymentMethod"
+                    name="paymentMethod"
+                    value={formData.paymentMethod}
+                    onChange={handleChange}
+                    placeholder="50% inicial, 50% al finalizar"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="monthlySubscription">Suscripción Mensual</Label>
+                    <TemplateSelector 
+                      fieldType="monthly_subscription"
+                      value={formData.monthlySubscription}
+                      onChange={(value) => setFormData(prev => ({ ...prev, monthlySubscription: value }))}
+                    />
+                  </div>
+                  <Input
+                    id="monthlySubscription"
+                    name="monthlySubscription"
+                    value={formData.monthlySubscription}
+                    onChange={handleChange}
+                    placeholder="Detalles de la suscripción mensual"
                   />
                 </div>
                 
