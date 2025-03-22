@@ -1,5 +1,6 @@
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 type ArgentinaInfo = {
   cuit: string;
@@ -21,6 +22,10 @@ export type OnboardingFormData = {
   // Step 2
   businessDescription: string;
   objective: string;
+  
+  // Proposal reference
+  proposalId?: string;
+  proposalSlug?: string;
 };
 
 type OnboardingContextType = {
@@ -47,6 +52,8 @@ const defaultFormData: OnboardingFormData = {
   },
   businessDescription: "",
   objective: "",
+  proposalId: "",
+  proposalSlug: "",
 };
 
 const OnboardingContext = createContext<OnboardingContextType | undefined>(undefined);
@@ -54,6 +61,22 @@ const OnboardingContext = createContext<OnboardingContextType | undefined>(undef
 export const OnboardingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [formData, setFormData] = useState<OnboardingFormData>(defaultFormData);
   const [currentStep, setCurrentStep] = useState(1);
+  const location = useLocation();
+
+  // Extract proposal data from URL parameters when component mounts
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const proposalId = searchParams.get('proposalId');
+    const proposalSlug = searchParams.get('proposalSlug');
+
+    if (proposalId && proposalSlug) {
+      setFormData(prev => ({
+        ...prev,
+        proposalId,
+        proposalSlug
+      }));
+    }
+  }, [location]);
 
   const updateFormData = (data: Partial<OnboardingFormData>) => {
     setFormData((prev) => ({ ...prev, ...data }));

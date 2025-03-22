@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -384,7 +383,7 @@ const Proposal = () => {
                 </li>
               </ul>
               
-              <Link to="/onboarding">
+              <Link to={`/onboarding?proposalId=${proposal?.id}&proposalSlug=${proposal?.slug}`}>
                 <Button size="lg" className="button-glow bg-neonGreen text-black hover:bg-neonGreen/90 font-semibold">
                   Aceptar Propuesta
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -440,7 +439,7 @@ const Proposal = () => {
         </section>
         
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <Link to="/onboarding">
+          <Link to={`/onboarding?proposalId=${proposal?.id}&proposalSlug=${proposal?.slug}`}>
             <Button size="lg" className="button-glow bg-neonGreen text-black hover:bg-neonGreen/90 font-semibold">
               Aceptar Propuesta
               <ArrowRight className="ml-2 h-5 w-5" />
