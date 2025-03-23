@@ -13,17 +13,16 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
   auth: {
     persistSession: true,
     autoRefreshToken: true,
-    storageKey: 'supabase-auth',
-    storage: localStorage,
-    detectSessionInUrl: true, // Enables detecting auth redirect in URL for OAuth
   },
   global: {
-    headers: {
-      'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
-      'apikey': SUPABASE_PUBLISHABLE_KEY
+    // Properly handle errors on client side
+    fetch: (url, options) => {
+      return fetch(url, {
+        ...options,
+        headers: {
+          ...options?.headers,
+        },
+      });
     },
-  },
-  db: {
-    schema: 'public',
   },
 });
