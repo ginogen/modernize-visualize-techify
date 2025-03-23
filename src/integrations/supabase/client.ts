@@ -15,6 +15,7 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     autoRefreshToken: true,
     storageKey: 'supabase-auth',
     storage: localStorage,
+    detectSessionInUrl: true, // Enables detecting auth redirect in URL for OAuth
   },
   global: {
     headers: {

@@ -21,18 +21,29 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (data.session) {
-        navigate("/client-portal");
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) {
+          console.error("Error checking session:", error);
+          return;
+        }
+        
+        if (data.session) {
+          console.log("Existing session found:", data.session.user.id);
+          checkUserProfile(data.session.user.id);
+        }
+      } catch (err) {
+        console.error("Exception checking session:", err);
       }
     };
     
     checkSession();
     
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
+        console.log("Auth state changed:", event, session?.user?.id);
         if (session) {
-          navigate("/client-portal");
+          await checkUserProfile(session.user.id);
         }
       }
     );
@@ -41,6 +52,73 @@ const Login: React.FC = () => {
       subscription.unsubscribe();
     };
   }, [navigate]);
+  
+  const checkUserProfile = async (userId: string) => {
+    try {
+      console.log("Checking profile for user:", userId);
+      
+      // First try to get the profile using RPC to bypass RLS if there's any issue
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId);
+      
+      if (profileError) {
+        console.error("Error fetching profile:", profileError);
+        throw new Error("Error al obtener el perfil de usuario");
+      }
+      
+      console.log("Profile query result:", profileData);
+      
+      if (!profileData || profileData.length === 0) {
+        console.error("No profile found for user ID:", userId);
+        
+        // Debug: Check the ID in the profiles table directly with a count
+        const { count, error: countError } = await supabase
+          .from('profiles')
+          .select('*', { count: 'exact', head: true })
+          .eq('id', userId);
+          
+        console.log("Direct profile count:", count, "Error:", countError);
+        
+        // Debug: Check the users table structure
+        const { data: sampleUser, error: sampleUserError } = await supabase.auth.getUser(userId);
+        console.log("Sample user data:", sampleUser, "Error:", sampleUserError);
+        
+        // Notify the user about the missing profile
+        toast({
+          title: "Perfil no encontrado",
+          description: "No se encontró un perfil asociado a este usuario. Por favor contacte al administrador.",
+          variant: "destructive",
+        });
+        
+        // Sign out the user since they don't have a profile
+        await supabase.auth.signOut();
+        return;
+      }
+      
+      // Get the first profile (there should only be one)
+      const profile = profileData[0];
+      console.log("Using profile:", profile);
+      
+      // Store profile data and navigate
+      sessionStorage.setItem("clientData", JSON.stringify(profile));
+      
+      toast({
+        title: t("login.success"),
+        description: t("login.welcome"),
+      });
+      
+      navigate("/client-portal");
+    } catch (error: any) {
+      console.error("Error checking user profile:", error);
+      toast({
+        title: "Error de perfil",
+        description: error.message || "Error al verificar el perfil de usuario",
+        variant: "destructive",
+      });
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,89 +135,39 @@ const Login: React.FC = () => {
     setIsLoading(true);
     
     try {
+      console.log("Attempting login with email:", email);
+      
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
       
       if (error) {
+        console.error("Login error:", error);
         throw error;
       }
       
       if (data.user) {
         console.log("User authenticated successfully. User ID:", data.user.id);
-        
-        // Try a different approach to fetch the profile
-        // Instead of using maybeSingle(), use a more direct query
-        const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', data.user.id);
-          
-        if (profileError) {
-          console.error("Error fetching profile:", profileError);
-          throw new Error("Error al obtener el perfil de usuario");
-        }
-        
-        console.log("Profile data fetched:", profileData);
-        
-        // Check if we got any profiles back
-        if (!profileData || profileData.length === 0) {
-          // Profile not found for this user
-          console.error("No profile found for user ID:", data.user.id);
-          
-          // Let's try to verify the profiles table content for debugging
-          const { data: allProfiles, error: allProfilesError } = await supabase
-            .from('profiles')
-            .select('id, email, role')
-            .limit(10);
-            
-          if (!allProfilesError) {
-            console.log("Sample profiles in the database:", allProfiles);
-          }
-          
-          // Let's check if the user ID is in UUID format
-          console.log("User ID format check:", {
-            id: data.user.id, 
-            isUUID: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(data.user.id)
-          });
-          
-          toast({
-            title: "Perfil no encontrado",
-            description: "No se encontró un perfil asociado a este usuario. Por favor contacte al administrador.",
-            variant: "destructive",
-          });
-          
-          // Sign out the user since they don't have a profile
-          await supabase.auth.signOut();
-          setIsLoading(false);
-          return;
-        }
-        
-        // Get the first profile (there should only be one)
-        const profile = profileData[0];
-        console.log("Using profile:", profile);
-        
-        // Profile exists, continue with login
-        toast({
-          title: t("login.success"),
-          description: t("login.welcome"),
-        });
-        
-        sessionStorage.setItem("clientData", JSON.stringify(profile));
-        
-        navigate("/client-portal");
+        // Don't do anything here - the auth state change event will handle checking the profile
       }
     } catch (error: any) {
       console.error("Error de inicio de sesión:", error);
+      
+      let errorMessage = t("login.problem");
+      
+      if (error.message === "Invalid login credentials") {
+        errorMessage = t("invalid.credentials");
+      } else if (error.message?.includes("Email not confirmed")) {
+        errorMessage = "Por favor, confirme su correo electrónico para continuar";
+      }
+      
       toast({
         title: t("login.error"),
-        description: error.message === "Invalid login credentials" 
-          ? t("invalid.credentials")
-          : t("login.problem"),
+        description: errorMessage,
         variant: "destructive",
       });
-    } finally {
+      
       setIsLoading(false);
     }
   };
