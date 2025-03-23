@@ -69,12 +69,12 @@ const Login: React.FC = () => {
       if (data.user) {
         console.log("User authenticated successfully. User ID:", data.user.id);
         
-        // Check if the profile exists for this user
+        // Try a different approach to fetch the profile
+        // Instead of using maybeSingle(), use a more direct query
         const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('*')
-          .eq('id', data.user.id)
-          .maybeSingle();
+          .eq('id', data.user.id);
           
         if (profileError) {
           console.error("Error fetching profile:", profileError);
@@ -83,7 +83,8 @@ const Login: React.FC = () => {
         
         console.log("Profile data fetched:", profileData);
         
-        if (!profileData) {
+        // Check if we got any profiles back
+        if (!profileData || profileData.length === 0) {
           // Profile not found for this user
           console.error("No profile found for user ID:", data.user.id);
           
@@ -97,6 +98,12 @@ const Login: React.FC = () => {
             console.log("Sample profiles in the database:", allProfiles);
           }
           
+          // Let's check if the user ID is in UUID format
+          console.log("User ID format check:", {
+            id: data.user.id, 
+            isUUID: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(data.user.id)
+          });
+          
           toast({
             title: "Perfil no encontrado",
             description: "No se encontró un perfil asociado a este usuario. Por favor contacte al administrador.",
@@ -109,13 +116,17 @@ const Login: React.FC = () => {
           return;
         }
         
+        // Get the first profile (there should only be one)
+        const profile = profileData[0];
+        console.log("Using profile:", profile);
+        
         // Profile exists, continue with login
         toast({
           title: t("login.success"),
           description: t("login.welcome"),
         });
         
-        sessionStorage.setItem("clientData", JSON.stringify(profileData));
+        sessionStorage.setItem("clientData", JSON.stringify(profile));
         
         navigate("/client-portal");
       }
