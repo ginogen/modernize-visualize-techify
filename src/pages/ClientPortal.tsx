@@ -47,9 +47,9 @@ const ClientPortal: React.FC = () => {
   useEffect(() => {
     const checkAuth = async () => {
       // Check if user is authenticated
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data, error } = await supabase.auth.getSession();
       
-      if (!session) {
+      if (!data.session) {
         toast({
           title: "Acceso denegado",
           description: "Por favor inicie sesión para acceder al portal.",
@@ -70,7 +70,7 @@ const ClientPortal: React.FC = () => {
         const { data: profileData, error } = await supabase
           .from('profiles')
           .select('*')
-          .eq('id', session.user.id)
+          .eq('id', data.session.user.id)
           .single();
           
         if (error) {
@@ -108,8 +108,8 @@ const ClientPortal: React.FC = () => {
       setLoading(false);
       
       // Load existing payment receipts if any
-      if (session) {
-        fetchReceipts(session.user.id);
+      if (data.session) {
+        fetchReceipts(data.session.user.id);
       }
     };
     
@@ -192,13 +192,13 @@ const ClientPortal: React.FC = () => {
     try {
       setUploading(true);
       
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data, error } = await supabase.auth.getSession();
       
-      if (!session) {
+      if (error || !data.session) {
         throw new Error('No session found');
       }
       
-      const userId = session.user.id;
+      const userId = data.session.user.id;
       
       // Upload each file
       for (const file of files) {
@@ -239,13 +239,13 @@ const ClientPortal: React.FC = () => {
   
   const handleDeleteReceipt = async (fileName: string) => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data, error: sessionError } = await supabase.auth.getSession();
       
-      if (!session) {
+      if (sessionError || !data.session) {
         throw new Error('No session found');
       }
       
-      const userId = session.user.id;
+      const userId = data.session.user.id;
       const filePath = `${userId}/${fileName}`;
       
       const { error } = await supabase
@@ -626,10 +626,10 @@ const ClientPortal: React.FC = () => {
                                           <Button 
                                             variant="ghost" 
                                             size="sm"
-                                            onClick={() => {
-                                              const { data: { session } } = supabase.auth.getSession();
-                                              if (session) {
-                                                const userId = session.user.id;
+                                            onClick={async () => {
+                                              const { data } = await supabase.auth.getSession();
+                                              if (data.session) {
+                                                const userId = data.session.user.id;
                                                 const url = supabase.storage.from('payment_receipts').getPublicUrl(`${userId}/${receipt.name}`).data.publicUrl;
                                                 window.open(url, '_blank');
                                               }
