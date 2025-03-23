@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -228,8 +229,7 @@ const ClientPortal: React.FC = () => {
   
   const handleDeleteReceipt = async (fileName: string) => {
     try {
-      const { data } = await supabase.auth.getSession();
-      const session = data.session;
+      const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
         throw new Error('No session found');

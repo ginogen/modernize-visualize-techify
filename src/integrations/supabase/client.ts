@@ -21,6 +21,7 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
         ...options,
         headers: {
           ...options?.headers,
+          apikey: SUPABASE_PUBLISHABLE_KEY,
         },
       });
     },
