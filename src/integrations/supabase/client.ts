@@ -13,16 +13,12 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
   auth: {
     persistSession: true,
     autoRefreshToken: true,
+    storageKey: 'supabase-auth',
   },
   global: {
-    // Properly handle errors on client side
-    fetch: (url, options) => {
-      return fetch(url, {
-        ...options,
-        headers: {
-          ...options?.headers,
-        },
-      });
+    headers: {
+      'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+      'apikey': SUPABASE_PUBLISHABLE_KEY
     },
   },
 });
