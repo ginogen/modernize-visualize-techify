@@ -20,33 +20,43 @@ const Login: React.FC = () => {
   const { t } = useLanguage();
 
   useEffect(() => {
+    // Clear any existing session first to ensure a clean state
     const checkSession = async () => {
       try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) {
-          console.error("Error checking session:", error);
+        console.log("Checking current session...");
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error("Error checking session:", sessionError);
           return;
         }
         
-        if (data.session) {
-          console.log("Existing session found:", data.session.user.id);
-          checkUserProfile(data.session.user.id);
+        if (sessionData?.session) {
+          console.log("Existing session found:", sessionData.session.user.id);
+          await checkUserProfile(sessionData.session.user.id);
+        } else {
+          console.log("No existing session found");
         }
       } catch (err) {
         console.error("Exception checking session:", err);
       }
     };
     
-    checkSession();
-    
+    // Set up auth state change listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log("Auth state changed:", event, session?.user?.id);
-        if (session) {
+        
+        if (event === 'SIGNED_IN' && session) {
           await checkUserProfile(session.user.id);
+        } else if (event === 'SIGNED_OUT') {
+          // Clear any stored profile data
+          sessionStorage.removeItem("clientData");
         }
       }
     );
+    
+    checkSession();
     
     return () => {
       subscription.unsubscribe();
@@ -57,43 +67,43 @@ const Login: React.FC = () => {
     try {
       console.log("Checking profile for user:", userId);
       
-      // First try to get the profile using RPC to bypass RLS if there's any issue
+      // Direct query with no filters to check if profiles table has data
+      const { data: allProfiles, error: allProfilesError } = await supabase
+        .from('profiles')
+        .select('*')
+        .limit(5);
+        
+      if (allProfilesError) {
+        console.error("Error fetching sample profiles:", allProfilesError);
+      } else {
+        console.log("Sample profiles in database:", allProfiles);
+      }
+      
+      // Try to get the specific profile for this user
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId);
+      
+      console.log("Profile query result:", profileData);
       
       if (profileError) {
         console.error("Error fetching profile:", profileError);
         throw new Error("Error al obtener el perfil de usuario");
       }
       
-      console.log("Profile query result:", profileData);
-      
       if (!profileData || profileData.length === 0) {
         console.error("No profile found for user ID:", userId);
         
-        // Debug: Check the ID in the profiles table directly with a count
-        const { count, error: countError } = await supabase
-          .from('profiles')
-          .select('*', { count: 'exact', head: true })
-          .eq('id', userId);
-          
-        console.log("Direct profile count:", count, "Error:", countError);
+        // Sign out the user since they don't have a profile
+        await supabase.auth.signOut();
         
-        // Debug: Check the users table structure
-        const { data: sampleUser, error: sampleUserError } = await supabase.auth.getUser(userId);
-        console.log("Sample user data:", sampleUser, "Error:", sampleUserError);
-        
-        // Notify the user about the missing profile
         toast({
           title: "Perfil no encontrado",
           description: "No se encontró un perfil asociado a este usuario. Por favor contacte al administrador.",
           variant: "destructive",
         });
         
-        // Sign out the user since they don't have a profile
-        await supabase.auth.signOut();
         return;
       }
       
@@ -117,6 +127,7 @@ const Login: React.FC = () => {
         description: error.message || "Error al verificar el perfil de usuario",
         variant: "destructive",
       });
+      setIsLoading(false);
     }
   };
 
@@ -149,7 +160,7 @@ const Login: React.FC = () => {
       
       if (data.user) {
         console.log("User authenticated successfully. User ID:", data.user.id);
-        // Don't do anything here - the auth state change event will handle checking the profile
+        // The auth state change event will handle profile checking
       }
     } catch (error: any) {
       console.error("Error de inicio de sesión:", error);
