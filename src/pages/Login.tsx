@@ -67,6 +67,8 @@ const Login: React.FC = () => {
       }
       
       if (data.user) {
+        console.log("User authenticated successfully. User ID:", data.user.id);
+        
         // Check if the profile exists for this user
         const { data: profileData, error: profileError } = await supabase
           .from('profiles')
@@ -79,8 +81,22 @@ const Login: React.FC = () => {
           throw new Error("Error al obtener el perfil de usuario");
         }
         
+        console.log("Profile data fetched:", profileData);
+        
         if (!profileData) {
           // Profile not found for this user
+          console.error("No profile found for user ID:", data.user.id);
+          
+          // Let's try to verify the profiles table content for debugging
+          const { data: allProfiles, error: allProfilesError } = await supabase
+            .from('profiles')
+            .select('id, email, role')
+            .limit(10);
+            
+          if (!allProfilesError) {
+            console.log("Sample profiles in the database:", allProfiles);
+          }
+          
           toast({
             title: "Perfil no encontrado",
             description: "No se encontró un perfil asociado a este usuario. Por favor contacte al administrador.",
