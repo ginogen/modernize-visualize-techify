@@ -67,21 +67,39 @@ const Login: React.FC = () => {
       }
       
       if (data.user) {
-        toast({
-          title: t("login.success"),
-          description: t("login.welcome"),
-        });
-        
-        // Use maybeSingle instead of single to handle case where profile might not exist
+        // Check if the profile exists for this user
         const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('*')
           .eq('id', data.user.id)
           .maybeSingle();
           
-        if (!profileError && profileData) {
-          sessionStorage.setItem("clientData", JSON.stringify(profileData));
+        if (profileError) {
+          console.error("Error fetching profile:", profileError);
+          throw new Error("Error al obtener el perfil de usuario");
         }
+        
+        if (!profileData) {
+          // Profile not found for this user
+          toast({
+            title: "Perfil no encontrado",
+            description: "No se encontró un perfil asociado a este usuario. Por favor contacte al administrador.",
+            variant: "destructive",
+          });
+          
+          // Sign out the user since they don't have a profile
+          await supabase.auth.signOut();
+          setIsLoading(false);
+          return;
+        }
+        
+        // Profile exists, continue with login
+        toast({
+          title: t("login.success"),
+          description: t("login.welcome"),
+        });
+        
+        sessionStorage.setItem("clientData", JSON.stringify(profileData));
         
         navigate("/client-portal");
       }
