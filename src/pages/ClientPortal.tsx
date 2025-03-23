@@ -239,7 +239,8 @@ const ClientPortal: React.FC = () => {
   
   const handleDeleteReceipt = async (fileName: string) => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const sessionResponse = await supabase.auth.getSession();
+      const session = sessionResponse.data.session;
       
       if (!session) {
         throw new Error('No session found');
