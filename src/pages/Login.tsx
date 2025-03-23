@@ -72,11 +72,12 @@ const Login: React.FC = () => {
           description: t("login.welcome"),
         });
         
+        // Use maybeSingle instead of single to handle case where profile might not exist
         const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('*')
           .eq('id', data.user.id)
-          .single();
+          .maybeSingle();
           
         if (!profileError && profileData) {
           sessionStorage.setItem("clientData", JSON.stringify(profileData));
