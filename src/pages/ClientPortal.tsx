@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -15,7 +14,6 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 
-// Add Banco Santa Fe logo
 const BancoSantaFeLogo = () => (
   <div className="flex items-center justify-center my-4">
     <img 
@@ -23,7 +21,6 @@ const BancoSantaFeLogo = () => (
       alt="Banco de Santa Fe" 
       className="h-12 object-contain" 
       onError={(e) => {
-        // Fallback if image can't be loaded
         e.currentTarget.style.display = 'none';
       }}
     />
@@ -35,7 +32,7 @@ const ClientPortal: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
-  const [progress, setProgress] = useState(25); // Initial progress value
+  const [progress, setProgress] = useState(25);
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [receipts, setReceipts] = useState<any[]>([]);
@@ -46,7 +43,6 @@ const ClientPortal: React.FC = () => {
   
   useEffect(() => {
     const checkAuth = async () => {
-      // Check if user is authenticated
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
@@ -59,14 +55,12 @@ const ClientPortal: React.FC = () => {
         return;
       }
       
-      // Try to get data from sessionStorage first
       const savedData = sessionStorage.getItem("clientData");
       const generatedPassword = sessionStorage.getItem("generatedPassword");
       
       if (savedData) {
         setClientData(JSON.parse(savedData));
       } else {
-        // If not in sessionStorage, fetch from Supabase
         const { data: profileData, error } = await supabase
           .from('profiles')
           .select('*')
@@ -98,7 +92,6 @@ const ClientPortal: React.FC = () => {
         }
       }
       
-      // Set password from sessionStorage if available
       if (generatedPassword) {
         setPassword(generatedPassword);
       } else {
@@ -107,7 +100,6 @@ const ClientPortal: React.FC = () => {
       
       setLoading(false);
       
-      // Load existing payment receipts if any
       if (session) {
         fetchReceipts(session.user.id);
       }
@@ -200,7 +192,6 @@ const ClientPortal: React.FC = () => {
       
       const userId = session.user.id;
       
-      // Upload each file
       for (const file of files) {
         const fileName = `${Date.now()}_${file.name}`;
         const filePath = `${userId}/${fileName}`;
@@ -215,10 +206,8 @@ const ClientPortal: React.FC = () => {
         }
       }
       
-      // Clear the file input
       setFiles([]);
       
-      // Fetch the updated list of receipts
       fetchReceipts(userId);
       
       toast({
@@ -239,8 +228,8 @@ const ClientPortal: React.FC = () => {
   
   const handleDeleteReceipt = async (fileName: string) => {
     try {
-      const sessionResponse = await supabase.auth.getSession();
-      const session = sessionResponse.data.session;
+      const { data } = await supabase.auth.getSession();
+      const session = data.session;
       
       if (!session) {
         throw new Error('No session found');
@@ -258,7 +247,6 @@ const ClientPortal: React.FC = () => {
         throw error;
       }
       
-      // Update the list of receipts
       fetchReceipts(userId);
       
       toast({
