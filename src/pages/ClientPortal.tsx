@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import Footer from "@/components/Footer";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle2, CreditCard, Eye, EyeOff, FileText, LogOut, User, CircuitBoard, Copy, FileEdit, Activity, Upload, File, X } from "lucide-react";
+import { CheckCircle2, CreditCard, Eye, EyeOff, FileText, LogOut, User, CircuitBoard, Copy, FileEdit, Activity } from "lucide-react";
 import { OnboardingFormData } from "@/contexts/OnboardingContext";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
@@ -36,10 +36,6 @@ const ClientPortal: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [progress, setProgress] = useState(25); // Initial progress value
-  const [files, setFiles] = useState<File[]>([]);
-  const [uploading, setUploading] = useState(false);
-  const [receipts, setReceipts] = useState<any[]>([]);
-  
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -106,36 +102,10 @@ const ClientPortal: React.FC = () => {
       }
       
       setLoading(false);
-      
-      // Load existing payment receipts if any
-      if (session) {
-        fetchReceipts(session.user.id);
-      }
     };
     
     checkAuth();
   }, [navigate, toast]);
-  
-  const fetchReceipts = async (userId: string) => {
-    try {
-      const { data, error } = await supabase
-        .storage
-        .from('payment_receipts')
-        .list(`${userId}/`, {
-          sortBy: { column: 'created_at', order: 'desc' },
-        });
-        
-      if (error) {
-        throw error;
-      }
-      
-      if (data) {
-        setReceipts(data);
-      }
-    } catch (error) {
-      console.error('Error fetching receipts:', error);
-    }
-  };
 
   const handleLogout = async () => {
     try {
@@ -177,101 +147,6 @@ const ClientPortal: React.FC = () => {
       });
       console.error('Failed to copy: ', err);
     });
-  };
-  
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const selectedFiles = Array.from(e.target.files);
-      setFiles(selectedFiles);
-    }
-  };
-  
-  const handleFileUpload = async () => {
-    if (!files.length || !clientData) return;
-    
-    try {
-      setUploading(true);
-      
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        throw new Error('No session found');
-      }
-      
-      const userId = session.user.id;
-      
-      // Upload each file
-      for (const file of files) {
-        const fileName = `${Date.now()}_${file.name}`;
-        const filePath = `${userId}/${fileName}`;
-        
-        const { error: uploadError } = await supabase
-          .storage
-          .from('payment_receipts')
-          .upload(filePath, file);
-          
-        if (uploadError) {
-          throw uploadError;
-        }
-      }
-      
-      // Clear the file input
-      setFiles([]);
-      
-      // Fetch the updated list of receipts
-      fetchReceipts(userId);
-      
-      toast({
-        title: "Comprobante subido",
-        description: "El comprobante de pago se ha subido correctamente.",
-      });
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      toast({
-        title: "Error",
-        description: "No se pudo subir el comprobante de pago. Intente nuevamente.",
-        variant: "destructive",
-      });
-    } finally {
-      setUploading(false);
-    }
-  };
-  
-  const handleDeleteReceipt = async (fileName: string) => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        throw new Error('No session found');
-      }
-      
-      const userId = session.user.id;
-      const filePath = `${userId}/${fileName}`;
-      
-      const { error } = await supabase
-        .storage
-        .from('payment_receipts')
-        .remove([filePath]);
-        
-      if (error) {
-        throw error;
-      }
-      
-      // Update the list of receipts
-      fetchReceipts(userId);
-      
-      toast({
-        title: "Comprobante eliminado",
-        description: "El comprobante de pago se ha eliminado correctamente.",
-      });
-    } catch (error) {
-      console.error('Error deleting receipt:', error);
-      toast({
-        title: "Error",
-        description: "No se pudo eliminar el comprobante de pago. Intente nuevamente.",
-        variant: "destructive",
-      });
-    }
   };
 
   if (loading) {
@@ -505,6 +380,22 @@ const ClientPortal: React.FC = () => {
                             </li>
                           </ul>
                         </div>
+                        
+                        <div>
+                          <h3 className="text-lg font-medium mb-4">Próximos pasos</h3>
+                          <ol className="list-decimal pl-5 space-y-2">
+                            <li>Revisar la propuesta y confirmar detalles</li>
+                            <li>Proceder con el pago inicial</li>
+                            <li>Agendar reunión de inicio del proyecto</li>
+                            <li>Comenzar el desarrollo según cronograma</li>
+                          </ol>
+                        </div>
+                        
+                        <div className="flex justify-end">
+                          <Button>
+                            Aceptar propuesta
+                          </Button>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -575,83 +466,9 @@ const ClientPortal: React.FC = () => {
                           </div>
                           
                           <div className="border p-4 rounded-lg">
-                            <p className="font-medium mb-4">
-                              <strong>Importante:</strong> Una vez realizada la transferencia, por favor subir aquí el comprobante.
+                            <p className="text-muted-foreground text-sm">
+                              <strong>Nota importante:</strong> Una vez realizada la transferencia, por favor envíe el comprobante de pago a <a href="mailto:pagos@empresa.com" className="text-primary underline">pagos@empresa.com</a>
                             </p>
-                            
-                            <div className="space-y-4">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <Input 
-                                  type="file" 
-                                  accept="image/*,.pdf" 
-                                  onChange={handleFileChange}
-                                  multiple
-                                  className="max-w-md"
-                                />
-                                <Button 
-                                  onClick={handleFileUpload} 
-                                  disabled={!files.length || uploading}
-                                  className="flex items-center gap-2"
-                                >
-                                  {uploading ? 'Subiendo...' : 'Subir comprobante'}
-                                  <Upload className="h-4 w-4" />
-                                </Button>
-                              </div>
-                              
-                              {files.length > 0 && (
-                                <div className="bg-accent/30 p-3 rounded-md">
-                                  <p className="text-sm font-medium mb-2">Archivos seleccionados:</p>
-                                  <ul className="space-y-1">
-                                    {files.map((file, index) => (
-                                      <li key={index} className="text-sm flex items-center gap-2">
-                                        <File className="h-4 w-4" />
-                                        {file.name}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-                              
-                              {receipts.length > 0 && (
-                                <div className="mt-6">
-                                  <h4 className="font-medium mb-3">Comprobantes subidos</h4>
-                                  <div className="space-y-2">
-                                    {receipts.map((receipt, index) => (
-                                      <div key={index} className="flex items-center justify-between border p-2 rounded-md">
-                                        <div className="flex items-center gap-2">
-                                          <File className="h-4 w-4 text-primary" />
-                                          <span className="text-sm truncate max-w-[200px]">{receipt.name}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                          <Button 
-                                            variant="ghost" 
-                                            size="sm"
-                                            onClick={() => {
-                                              const { data: { session } } = supabase.auth.getSession();
-                                              if (session) {
-                                                const userId = session.user.id;
-                                                const url = supabase.storage.from('payment_receipts').getPublicUrl(`${userId}/${receipt.name}`).data.publicUrl;
-                                                window.open(url, '_blank');
-                                              }
-                                            }}
-                                          >
-                                            Ver
-                                          </Button>
-                                          <Button 
-                                            variant="ghost" 
-                                            size="sm" 
-                                            className="text-destructive hover:text-destructive"
-                                            onClick={() => handleDeleteReceipt(receipt.name)}
-                                          >
-                                            <X className="h-4 w-4" />
-                                          </Button>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              )}
-                            </div>
                           </div>
                         </div>
                       ) : (
