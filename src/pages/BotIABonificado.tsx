@@ -24,10 +24,20 @@ const BotIABonificado = () => {
     stripeScript.async = true;
     document.body.appendChild(stripeScript);
 
+    // Cargar el script de UChat con la URL exacta proporcionada
+    const uchatScript = document.createElement('script');
+    uchatScript.src = 'https://www.uchat.com.au/js/widget/km1nj1hxtwu90bwc/float.js';
+    uchatScript.async = true;
+    uchatScript.defer = true;
+    document.body.appendChild(uchatScript);
+
     return () => {
-      // Limpiar script al desmontar el componente
+      // Limpiar scripts al desmontar el componente
       if (document.body.contains(stripeScript)) {
         document.body.removeChild(stripeScript);
+      }
+      if (document.body.contains(uchatScript)) {
+        document.body.removeChild(uchatScript);
       }
     };
   }, []);
@@ -37,17 +47,6 @@ const BotIABonificado = () => {
       <Helmet>
         <title>Bot IA Bonificado | Builderia</title>
         <meta name="description" content="Implementación 100% bonificada de un bot con inteligencia artificial para tu negocio. Solo pagás la suscripción mensual de U$D 59." />
-        
-        {/* Integración de UChat - Más seguro con Helmet */}
-        <script type="text/javascript">
-          {`
-            window.uchatSettings = {
-              flowToken: "km1nj1hxtwu90bwc",
-              domain: window.location.hostname
-            };
-          `}
-        </script>
-        <script src="https://www.uchat.com.au/js/widget.js" async></script>
       </Helmet>
 
       {/* Hero Section */}
