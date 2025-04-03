@@ -24,20 +24,10 @@ const BotIABonificado = () => {
     stripeScript.async = true;
     document.body.appendChild(stripeScript);
 
-    // Cargar el script de UChat con la URL exacta proporcionada
-    const uchatScript = document.createElement('script');
-    uchatScript.src = 'https://www.uchat.com.au/js/widget/km1nj1hxtwu90bwc/float.js';
-    uchatScript.async = true;
-    uchatScript.defer = true;
-    document.body.appendChild(uchatScript);
-
     return () => {
       // Limpiar scripts al desmontar el componente
       if (document.body.contains(stripeScript)) {
         document.body.removeChild(stripeScript);
-      }
-      if (document.body.contains(uchatScript)) {
-        document.body.removeChild(uchatScript);
       }
     };
   }, []);
@@ -248,6 +238,14 @@ const BotIABonificado = () => {
                     Luego de pagar vas a reservar una reunión conmigo: Gino Gentile
                   </p>
                 </div>
+              </div>
+              
+              {/* Garantía de devolución de dinero */}
+              <div className="flex items-center p-3 my-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-md shadow-sm w-full">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-emerald-600 mr-3 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-base md:text-lg font-bold text-emerald-800">Si no es lo que estás buscando, te devolvemos el 100% de tu dinero.</span>
               </div>
               
               <ul className="space-y-3 text-left mb-8">
