@@ -1,3 +1,5 @@
+// Actualización para forzar nuevo despliegue en Vercel - 2024
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useEffect } from "react";
