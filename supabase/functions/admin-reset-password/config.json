@@ -1,0 +1,7 @@
+{
+  "name": "admin-reset-password",
+  "version": "1.0.0",
+  "description": "Función para permitir que los administradores cambien la contraseña de los clientes",
+  "decompress": false,
+  "verify_jwt": true
+} 

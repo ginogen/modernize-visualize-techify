@@ -1,0 +1,7 @@
+{
+  "name": "admin-get-user-by-email",
+  "version": "1.0.0",
+  "description": "Función para obtener información de un usuario por email",
+  "decompress": false,
+  "verify_jwt": true
+} 

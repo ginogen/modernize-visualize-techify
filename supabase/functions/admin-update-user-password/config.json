@@ -1,0 +1,7 @@
+{
+  "name": "admin-update-user-password",
+  "version": "1.0.0",
+  "description": "Función para actualizar la contraseña de un usuario",
+  "decompress": false,
+  "verify_jwt": true
+} 
