@@ -26,7 +26,13 @@ export function TrackerProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setClientes([]);
+      setTareas([]);
+      setError(null);
+      setIsLoading(false);
+      return;
+    }
     loadInitialData();
   }, [user]);
 
@@ -34,6 +40,8 @@ export function TrackerProvider({ children }: { children: React.ReactNode }) {
     if (!user) return;
     try {
       setIsLoading(true);
+      setError(null);
+      
       const [{ data: clientesData, error: clientesError }, { data: tareasData, error: tareasError }] = await Promise.all([
         supabase.from('clientes').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
         supabase.from('tareas').select('*').eq('user_id', user.id).order('created_at', { ascending: false })
@@ -45,6 +53,7 @@ export function TrackerProvider({ children }: { children: React.ReactNode }) {
       setClientes(clientesData || []);
       setTareas(tareasData || []);
     } catch (err) {
+      console.error('Error al cargar datos:', err);
       setError(err instanceof Error ? err.message : 'Error al cargar los datos');
     } finally {
       setIsLoading(false);
