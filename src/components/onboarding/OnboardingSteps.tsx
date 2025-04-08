@@ -81,7 +81,25 @@ const OnboardingSteps: React.FC = () => {
       
       if (signInError) {
         console.error("Error iniciando sesión automáticamente:", signInError);
-        // Even if login fails, we still redirect to the client portal
+        toast({
+          title: "Error de inicio de sesión",
+          description: "Su cuenta fue creada pero hubo un problema al iniciar sesión. Por favor, intente iniciar sesión manualmente.",
+          variant: "destructive",
+        });
+        navigate("/login");
+        return;
+      }
+      
+      // Verificar que la sesión se creó correctamente
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast({
+          title: "Error de sesión",
+          description: "No se pudo establecer la sesión. Por favor, intente iniciar sesión manualmente.",
+          variant: "destructive",
+        });
+        navigate("/login");
+        return;
       }
       
       setTimeout(() => {

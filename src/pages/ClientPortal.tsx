@@ -114,6 +114,12 @@ const ClientPortal: React.FC = () => {
       }
       
       try {
+        // Verificar que el usuario existe en auth
+        const { data: authUser, error: authError } = await supabase.auth.getUser();
+        if (authError || !authUser.user) {
+          throw new Error("Usuario no autenticado");
+        }
+
         // Obtener el perfil del usuario
         const { data: profileData, error: profileError } = await supabase
           .from('profiles')
@@ -121,14 +127,15 @@ const ClientPortal: React.FC = () => {
           .eq('id', session.user.id)
           .single();
           
-        if (profileError) throw profileError;
-        
-        if (!profileData) {
+        if (profileError || !profileData) {
+          console.error("Error al obtener perfil:", profileError);
           toast({
             title: "Perfil no encontrado",
-            description: "No se encontró información de perfil para este usuario.",
+            description: "No se encontró información de perfil para este usuario. Por favor contacte a soporte.",
             variant: "destructive",
           });
+          // Cerrar sesión ya que el perfil no existe
+          await supabase.auth.signOut();
           navigate("/login");
           return;
         }
@@ -136,6 +143,19 @@ const ClientPortal: React.FC = () => {
         // Verificar si el usuario es un administrador
         if (profileData.role === 'admin') {
           navigate("/admin");
+          return;
+        }
+
+        // Verificar que el perfil tenga los campos requeridos
+        if (!profileData.email || !profileData.responsible_name || !profileData.business_name) {
+          console.error("Perfil incompleto:", profileData);
+          toast({
+            title: "Perfil incompleto",
+            description: "Su perfil no contiene toda la información necesaria. Por favor contacte a soporte.",
+            variant: "destructive",
+          });
+          await supabase.auth.signOut();
+          navigate("/login");
           return;
         }
 

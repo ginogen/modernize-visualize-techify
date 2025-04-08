@@ -6,9 +6,98 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type Database = {
+export interface Database {
   public: {
     Tables: {
+      clientes: {
+        Row: {
+          id: string
+          nombre: string
+          color: string
+          email: string | null
+          telefono: string | null
+          pais: string | null
+          cuit: string | null
+          condicion: string | null
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          nombre: string
+          color: string
+          email?: string | null
+          telefono?: string | null
+          pais?: string | null
+          cuit?: string | null
+          condicion?: string | null
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          nombre?: string
+          color?: string
+          email?: string | null
+          telefono?: string | null
+          pais?: string | null
+          cuit?: string | null
+          condicion?: string | null
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clientes_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      tareas: {
+        Row: {
+          id: string
+          descripcion: string
+          cliente_id: string | null
+          fecha_estimada: string | null
+          completada: boolean
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          descripcion: string
+          cliente_id?: string | null
+          fecha_estimada?: string | null
+          completada?: boolean
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          descripcion?: string
+          cliente_id?: string | null
+          fecha_estimada?: string | null
+          completada?: boolean
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tareas_cliente_id_fkey"
+            columns: ["cliente_id"]
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tareas_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       argentina_info: {
         Row: {
           condicion_fiscal: string
