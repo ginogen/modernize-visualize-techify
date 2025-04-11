@@ -24,6 +24,9 @@ const NavBar = () => {
               <Link to="/portfolio">Portfolio</Link>
             </Button>
             <Button variant="ghost" asChild>
+              <Link to="/webinar-agente-ia">Webinar IA</Link>
+            </Button>
+            <Button variant="ghost" asChild>
               <Link to="/contact">Contacto</Link>
             </Button>
             <ModeToggle />

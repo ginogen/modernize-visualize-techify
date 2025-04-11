@@ -24,6 +24,7 @@ import CreateProposal from "./pages/admin/CreateProposal";
 import EditProposal from "./pages/admin/EditProposal";
 import Proposal from "./pages/Proposal";
 import BotIABonificado from "./pages/BotIABonificado";
+import WebinarAgenteIA from "./routes/webinar-agente-ia";
 import { TrackerLayout } from "./components/TrackerLayout";
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { TrackerProvider } from './contexts/TrackerContext';
@@ -127,6 +128,7 @@ function App() {
                 <Route path="/register-admin" element={<RegisterAdmin />} />
                 <Route path="/propuesta/:slug" element={<Proposal />} />
                 <Route path="/bot-ia-bonificado" element={<BotIABonificado />} />
+                <Route path="/webinar-agente-ia" element={<WebinarAgenteIA />} />
                 
                 {/* Rutas protegidas que requieren autenticación */}
                 <Route path="/client-portal" element={
