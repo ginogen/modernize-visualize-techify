@@ -1,0 +1,31 @@
+id,nombre,color,email,telefono,pais,cuit,condicion,created_at,user_id
+09d71700-c6c8-432b-a6da-24e128a48d67,Milton Hongos,#45B7D1,,,,,,2025-04-08 01:54:46.26+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+0e0c1b8f-642d-4a7e-a946-d26ec34c8545,Pablo Long,#FF8B94,,,,,,2025-04-08 12:14:44.882+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+0edec9ce-6840-4e97-a74f-bd32e010e9c2,Facundo Rojo,#DCEDC1,,,,,,2025-04-08 12:14:28.311+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+19a0368f-6142-4b90-b790-9d9fd5aaf2d4,Yulara,#FF6B6B,,,,,,2025-04-08 01:54:33.405+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+19a50450-80f0-43be-a8cb-0267683b0d67,Paulo royal,#cb04e7,,,,,,2025-04-08 12:16:19.008+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+24603ed2-3d33-4a6e-9a56-5f6f3648c21d,Nacho Ketambal,#43003d,,,,,,2025-04-08 12:16:14.154+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+249063db-e07a-437b-bbf6-ba328b74994b,Daniel Bryn,#bf1326,,,,,,2025-04-08 12:16:35.378+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+2a090e01-ec8b-455c-98e3-1c444625a564,Dr Carlos,#ca0c38,,,,,,2025-04-08 12:16:41.293+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+3b1df951-3b77-4d45-a27e-9eb3b165e07e,Academia FS,#5f880d,,,,,,2025-04-08 12:15:55.096+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+44cdc326-87b5-4bc4-932a-04cebfac9e7a,LGS,#75bcb2,,,,,,2025-04-08 12:17:27.34+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+4dcd00e0-274c-46f5-9d1e-338456c203de,Ivan Optica,#BFACE2,,,,,,2025-04-08 12:15:03.186+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+4e1ec92e-a8cf-4932-8686-212d4ed7327a,Javier Ulloa,#9b595e,,,,,,2025-04-08 12:15:33.305+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+5556f668-ecb4-409e-87bc-a68fdfffbe03,Benjamin Flores,#FFD3B6,,,,,,2025-04-08 12:14:41.973+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+5934d180-74d0-481f-8b16-c317cf3ccb6f,LanKremer,#4cc251,,,,,,2025-04-08 12:15:27.063+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+5d2732f4-a275-4ab0-9091-12b831803fa9,Agustin Laviana,#9B9B9B,,,,,,2025-04-08 12:14:02.148+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+70bbe300-5e71-492e-a10f-217eba33b8d4,Graciela,#2caa2d,,,,,,2025-04-08 12:16:09.491+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+78eaf008-a7bc-47f0-ab5a-4b590c05bd59,Laureano Cazala,#FFEEAD,,,,,,2025-04-08 12:13:13.248+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+7f2372ad-9cce-4822-870f-6fa435ad420e,Los Soles,#e5e654,,,,,,2025-04-08 12:16:32.607+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+832936cd-08c9-4e0b-9b2d-2cefb297c12c,Yesica Imprenta,#91d8bf,,,,,,2025-04-08 12:15:49.049+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+8621f1e8-0131-4594-9e37-4fde5519d618,Yulara,#FF6B6B,,,,,,2025-04-08 01:44:49.876+00,76e56b4c-0f2d-4c23-97ea-e8c35e4ae0cd
+8e01cec5-ffc5-4573-986e-ea373aea069d,Deeter DoGroup,#6a5875,,,,,,2025-04-08 12:16:52.567+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+a1d96486-637b-41b5-b9c3-250c2847beb3,Juani ReverTech,#91A6FF,,,,,,2025-04-08 12:14:49.415+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+bd2c4ed3-ee42-462e-9273-95b21c1c5368,Miguel Seguros,#96CEB4,,,,,,2025-04-08 12:13:08.476+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+bf72f4f4-0425-4e31-98de-ea589d900846,Maximiliano Aiki,#A8E6CF,,,,,,2025-04-08 12:14:06.645+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+c12e5bbf-0d43-4392-9c38-cd6445a7547f,Santiago Guerci,#EBC7E6,,,,,,2025-04-08 12:15:17.839+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+cd963938-f0d5-41fe-99f1-c15b22c131b3,Gonzalo Recabal,#f6e87d,,,,,,2025-04-08 12:16:44.439+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+cfbd14db-6185-4763-859b-c9e883389b0d,WBC,#A0D2DB,,,,,,2025-04-08 12:15:21.154+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+ecce6f9d-acc5-4c25-8d5e-54fbadc7ccbc,4E,#4ECDC4,,,,,,2025-04-08 01:54:42.166+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+f540f01a-8079-4f04-9cd3-cbda0b20b482,Juan ATAXE,#911b24,,,,,,2025-04-08 12:15:38.669+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
+f83dcbaa-2dd1-4455-8ea7-5411d0e372ae,Fernando Feito,#D4A5A5,,,,,,2025-04-08 12:13:58.528+00,9afaf2df-6cb8-4f79-af1d-a9174ec59a1b
