@@ -1,3 +1,7 @@
+Need to install the following packages:
+supabase@2.20.12
+Ok to proceed? (y) 
+
 export type Json =
   | string
   | number
@@ -63,6 +67,7 @@ export interface Database {
           monto: number
           fecha_pago: string
           estado: string
+          moneda: string
           created_at: string
           updated_at: string
           user_id: string
@@ -74,6 +79,7 @@ export interface Database {
           monto: number
           fecha_pago: string
           estado: string
+          moneda: string
           created_at?: string
           updated_at?: string
           user_id: string
@@ -85,6 +91,7 @@ export interface Database {
           monto?: number
           fecha_pago?: string
           estado?: string
+          moneda?: string
           created_at?: string
           updated_at?: string
           user_id?: string
