@@ -96,8 +96,17 @@ export default function WebinarAgenteIA() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí iría la lógica para enviar el formulario
-    console.log('Formulario enviado:', formData);
+    // Aquí iría la lógica de envío del formulario
+    
+    // Track Facebook Pixel Conversion
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'Lead', {
+        content_name: 'Webinar Agente IA',
+        content_category: 'Webinar',
+        value: 0,
+        currency: 'USD'
+      });
+    }
   };
 
   return (
@@ -140,6 +149,17 @@ export default function WebinarAgenteIA() {
                 src="https://docs.google.com/forms/d/e/1FAIpQLSer_lFzg5RP1-MHRwDh6IfPykRBmC2FFKmI2hL652kafYhspQ/viewform?embedded=true" 
                 className="w-full h-[800px] md:h-[683px] border-0"
                 title="Formulario de Registro"
+                onLoad={() => {
+                  // Track Facebook Pixel ViewContent when form is loaded
+                  if (typeof window !== 'undefined' && window.fbq) {
+                    window.fbq('track', 'ViewContent', {
+                      content_name: 'Webinar Registration Form',
+                      content_category: 'Webinar',
+                      value: 0,
+                      currency: 'USD'
+                    });
+                  }
+                }}
               >
                 Cargando…
               </iframe>
