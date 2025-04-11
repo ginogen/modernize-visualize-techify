@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { TrackerSidebar } from './TrackerSidebar';
 import { TrackerTable } from './TrackerTable';
 import { ClientesTable } from './ClientesTable';
+import { PagosTable } from './PagosTable';
 import { TrackerProvider } from '@/contexts/TrackerContext';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
@@ -47,6 +48,7 @@ export function TrackerLayout() {
           <Routes>
             <Route path="/" element={<TrackerTable />} />
             <Route path="/clientes" element={<ClientesTable />} />
+            <Route path="/pagos" element={<PagosTable />} />
           </Routes>
         </div>
       </div>

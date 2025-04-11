@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ClipboardList, Users } from 'lucide-react';
+import { ClipboardList, Users, CreditCard } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface TrackerSidebarProps {
@@ -19,6 +19,11 @@ export function TrackerSidebar({ onClose }: TrackerSidebarProps) {
       title: 'Clientes',
       icon: Users,
       path: '/tracker/clientes'
+    },
+    {
+      title: 'Pagos',
+      icon: CreditCard,
+      path: '/tracker/pagos'
     }
   ];
 
