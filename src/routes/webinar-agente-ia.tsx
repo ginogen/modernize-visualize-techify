@@ -34,6 +34,13 @@ const ciudades = [
   { ciudad: "Santa Fe", pais: "Argentina" }
 ];
 
+// Declaración de tipos para fbq
+declare global {
+  interface Window {
+    fbq: any;
+  }
+}
+
 export default function WebinarAgenteIA() {
   const [registeredCount, setRegisteredCount] = useState(20);
   const [showStickyButton, setShowStickyButton] = useState(false);
@@ -94,13 +101,31 @@ export default function WebinarAgenteIA() {
     };
   }, []);
 
+  useEffect(() => {
+    // Inicializar el Pixel de Meta
+    if (typeof window !== 'undefined') {
+      // Cargar el script del Pixel
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(script);
+
+      // Esperar a que el script se cargue
+      script.onload = () => {
+        // Inicializar el Pixel
+        (window as any).fbq('init', '2237381153298856');
+        (window as any).fbq('track', 'PageView');
+      };
+    }
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Aquí iría la lógica de envío del formulario
     
     // Track Facebook Pixel Conversion
-    if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', 'Lead', {
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'Lead', {
         content_name: 'Webinar Agente IA',
         content_category: 'Webinar',
         value: 0,
@@ -150,24 +175,24 @@ export default function WebinarAgenteIA() {
                 className="w-full h-[800px] md:h-[683px] border-0"
                 title="Formulario de Registro"
                 onLoad={() => {
-                  // Track Facebook Pixel ViewContent when form is loaded
-                  if (typeof window !== 'undefined' && window.fbq) {
-                    window.fbq('track', 'ViewContent', {
+                  if (typeof window !== 'undefined' && (window as any).fbq) {
+                    // Track ViewContent
+                    (window as any).fbq('track', 'ViewContent', {
                       content_name: 'Webinar Registration Form',
                       content_category: 'Webinar',
                       value: 0,
                       currency: 'USD'
                     });
 
-                    // Configurar un intervalo para verificar el estado del formulario
+                    // Configurar intervalo para verificar envío del formulario
                     const checkFormSubmission = setInterval(() => {
                       const iframe = document.querySelector('iframe');
                       if (iframe) {
                         try {
                           const formSubmitted = iframe.contentWindow?.document.querySelector('.freebirdFormviewerViewResponseConfirmationMessage');
                           if (formSubmitted) {
-                            // Track Facebook Pixel Lead cuando el formulario es enviado
-                            window.fbq('track', 'Lead', {
+                            // Track Lead
+                            (window as any).fbq('track', 'Lead', {
                               content_name: 'Webinar Registration Form',
                               content_category: 'Webinar',
                               value: 0,
@@ -181,7 +206,6 @@ export default function WebinarAgenteIA() {
                       }
                     }, 1000);
 
-                    // Limpiar el intervalo cuando el componente se desmonte
                     return () => clearInterval(checkFormSubmission);
                   }
                 }}
