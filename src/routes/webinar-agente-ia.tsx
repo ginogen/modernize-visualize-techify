@@ -37,7 +37,10 @@ const ciudades = [
 // Declaración de tipos para fbq
 declare global {
   interface Window {
-    fbq: any;
+    fbq: {
+      (command: 'init', pixelId: string): void;
+      (command: 'track', eventName: string, parameters?: Record<string, any>): void;
+    };
   }
 }
 
@@ -102,17 +105,13 @@ export default function WebinarAgenteIA() {
   }, []);
 
   useEffect(() => {
-    // Inicializar el Pixel de Meta
     if (typeof window !== 'undefined') {
-      // Cargar el script del Pixel
       const script = document.createElement('script');
       script.async = true;
       script.src = 'https://connect.facebook.net/en_US/fbevents.js';
       document.head.appendChild(script);
 
-      // Esperar a que el script se cargue
       script.onload = () => {
-        // Inicializar el Pixel
         (window as any).fbq('init', '2237381153298856');
         (window as any).fbq('track', 'PageView');
       };
