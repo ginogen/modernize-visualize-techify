@@ -123,7 +123,7 @@ export default function WebinarAgenteIA() {
     
     // Track Facebook Pixel Conversion
     if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'Lead', {
+      ((window as any).fbq as any)('track', 'Lead', {
         content_name: 'Webinar Agente IA',
         content_category: 'Webinar',
         value: 0,
@@ -175,7 +175,7 @@ export default function WebinarAgenteIA() {
                 onLoad={() => {
                   if (typeof window !== 'undefined' && (window as any).fbq) {
                     // Track ViewContent
-                    (window as any).fbq('track', 'ViewContent', {
+                    ((window as any).fbq as any)('track', 'ViewContent', {
                       content_name: 'Webinar Registration Form',
                       content_category: 'Webinar',
                       value: 0,
@@ -190,7 +190,7 @@ export default function WebinarAgenteIA() {
                           const formSubmitted = iframe.contentWindow?.document.querySelector('.freebirdFormviewerViewResponseConfirmationMessage');
                           if (formSubmitted) {
                             // Track Lead
-                            (window as any).fbq('track', 'Lead', {
+                            ((window as any).fbq as any)('track', 'Lead', {
                               content_name: 'Webinar Registration Form',
                               content_category: 'Webinar',
                               value: 0,
