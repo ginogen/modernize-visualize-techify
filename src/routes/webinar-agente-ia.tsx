@@ -34,16 +34,6 @@ const ciudades = [
   { ciudad: "Santa Fe", pais: "Argentina" }
 ];
 
-// Declaración de tipos para fbq
-declare global {
-  interface Window {
-    fbq: {
-      (command: 'init', pixelId: string): void;
-      (command: 'track', eventName: string, parameters?: Record<string, any>): void;
-    };
-  }
-}
-
 export default function WebinarAgenteIA() {
   const [registeredCount, setRegisteredCount] = useState(20);
   const [showStickyButton, setShowStickyButton] = useState(false);
@@ -106,15 +96,30 @@ export default function WebinarAgenteIA() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // Definir fbq antes de cargar el script
+      (window as any).fbq = (window as any).fbq || function() {
+        ((window as any).fbq as any).queue = ((window as any).fbq as any).queue || [];
+        ((window as any).fbq as any).version = '2.0';
+        ((window as any).fbq as any).queue.push(arguments);
+      };
+
+      // Cargar el script
       const script = document.createElement('script');
       script.async = true;
       script.src = 'https://connect.facebook.net/en_US/fbevents.js';
       document.head.appendChild(script);
 
-      script.onload = () => {
-        (window as any).fbq('init', '2237381153298856');
-        (window as any).fbq('track', 'PageView');
-      };
+      // Inicializar el pixel
+      ((window as any).fbq as any)('init', 'YOUR_PIXEL_ID');
+      ((window as any).fbq as any)('track', 'PageView');
+
+      // Trackear el evento de registro
+      ((window as any).fbq as any)('track', 'Lead', {
+        content_name: 'Webinar Agente IA',
+        content_category: 'Webinar',
+        value: 0.00,
+        currency: 'USD'
+      });
     }
   }, []);
 
