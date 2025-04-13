@@ -103,23 +103,17 @@ export default function WebinarAgenteIA() {
         ((window as any).fbq as any).queue.push(arguments);
       };
 
-      // Cargar el script
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://connect.facebook.net/en_US/fbevents.js';
-      document.head.appendChild(script);
+      // Cargar el script solo si no existe
+      if (!document.querySelector('script[src*="fbevents.js"]')) {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+        document.head.appendChild(script);
+      }
 
-      // Inicializar el pixel
-      ((window as any).fbq as any)('init', 'YOUR_PIXEL_ID');
+      // Inicializar el pixel con el ID correcto
+      ((window as any).fbq as any)('init', '2237381153298856');
       ((window as any).fbq as any)('track', 'PageView');
-
-      // Trackear el evento de registro
-      ((window as any).fbq as any)('track', 'Lead', {
-        content_name: 'Webinar Agente IA',
-        content_category: 'Webinar',
-        value: 0.00,
-        currency: 'USD'
-      });
     }
   }, []);
 
