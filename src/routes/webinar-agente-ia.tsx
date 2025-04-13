@@ -158,6 +158,31 @@ export default function WebinarAgenteIA() {
                       value: 0,
                       currency: 'USD'
                     });
+
+                    // Configurar un intervalo para verificar el estado del formulario
+                    const checkFormSubmission = setInterval(() => {
+                      const iframe = document.querySelector('iframe');
+                      if (iframe) {
+                        try {
+                          const formSubmitted = iframe.contentWindow?.document.querySelector('.freebirdFormviewerViewResponseConfirmationMessage');
+                          if (formSubmitted) {
+                            // Track Facebook Pixel Lead cuando el formulario es enviado
+                            window.fbq('track', 'Lead', {
+                              content_name: 'Webinar Registration Form',
+                              content_category: 'Webinar',
+                              value: 0,
+                              currency: 'USD'
+                            });
+                            clearInterval(checkFormSubmission);
+                          }
+                        } catch (e) {
+                          // Error de CORS, continuamos intentando
+                        }
+                      }
+                    }, 1000);
+
+                    // Limpiar el intervalo cuando el componente se desmonte
+                    return () => clearInterval(checkFormSubmission);
                   }
                 }}
               >
