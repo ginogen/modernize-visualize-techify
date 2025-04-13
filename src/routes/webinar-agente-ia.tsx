@@ -42,8 +42,28 @@ export default function WebinarAgenteIA() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    countryCode: '+54', // Código por defecto para Argentina
+    business: ''
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  const countryCodes = [
+    { code: '+54', country: 'Argentina' },
+    { code: '+56', country: 'Chile' },
+    { code: '+52', country: 'México' },
+    { code: '+55', country: 'Brasil' },
+    { code: '+51', country: 'Perú' },
+    { code: '+57', country: 'Colombia' },
+    { code: '+58', country: 'Venezuela' },
+    { code: '+593', country: 'Ecuador' },
+    { code: '+591', country: 'Bolivia' },
+    { code: '+598', country: 'Uruguay' },
+    { code: '+595', country: 'Paraguay' }
+  ];
 
   useEffect(() => {
     // Simular contador de registros
@@ -97,38 +117,119 @@ export default function WebinarAgenteIA() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       // Definir fbq antes de cargar el script
-      (window as any).fbq = (window as any).fbq || function() {
+      (window as any).fbq = function() {
         ((window as any).fbq as any).queue = ((window as any).fbq as any).queue || [];
         ((window as any).fbq as any).version = '2.0';
         ((window as any).fbq as any).queue.push(arguments);
       };
 
-      // Cargar el script solo si no existe
-      if (!document.querySelector('script[src*="fbevents.js"]')) {
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://connect.facebook.net/en_US/fbevents.js';
-        document.head.appendChild(script);
-      }
+      // Cargar el script de Facebook Pixel
+      const script = document.createElement('script');
+      script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        // Inicializar el píxel después de cargar el script
+        if ((window as any).fbq) {
+          ((window as any).fbq as any)('init', '2237381153298856');
+          ((window as any).fbq as any)('track', 'PageView');
+        }
+      };
+      document.head.appendChild(script);
 
-      // Inicializar el pixel con el ID correcto
-      ((window as any).fbq as any)('init', '2237381153298856');
-      ((window as any).fbq as any)('track', 'PageView');
+      // Agregar el noscript para usuarios sin JavaScript
+      const noscript = document.createElement('noscript');
+      const img = document.createElement('img');
+      img.setAttribute('height', '1');
+      img.setAttribute('width', '1');
+      img.style.display = 'none';
+      img.src = 'https://www.facebook.com/tr?id=2237381153298856&ev=PageView&noscript=1';
+      noscript.appendChild(img);
+      document.head.appendChild(noscript);
+
+      return () => {
+        // Limpiar el script cuando el componente se desmonte
+        document.head.removeChild(script);
+        document.head.removeChild(noscript);
+      };
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    // Detectar el país del usuario basado en su IP
+    const detectCountry = async () => {
+      try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        const countryCode = countryCodes.find(
+          code => code.country === data.country_name
+        );
+        if (countryCode) {
+          setFormData(prev => ({
+            ...prev,
+            countryCode: countryCode.code
+          }));
+        }
+      } catch (error) {
+        console.error('Error al detectar el país:', error);
+      }
+    };
+
+    detectCountry();
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí iría la lógica de envío del formulario
-    
-    // Track Facebook Pixel Conversion
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      ((window as any).fbq as any)('track', 'Lead', {
-        content_name: 'Webinar Agente IA',
-        content_category: 'Webinar',
-        value: 0,
-        currency: 'USD'
+    setIsSubmitting(true);
+    setSubmitError('');
+
+    try {
+      // Track Facebook Pixel Conversion
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        console.log('Disparando evento Lead');
+        ((window as any).fbq as any)('track', 'Lead');
+      }
+
+      // Enviar datos al webhook de Make
+      const response = await fetch('https://hook.us1.make.com/j0rii790di4spvuiaysbhyf2yq9u5hes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          fullPhone: `${formData.countryCode}${formData.phone}`,
+          source: 'webinar-agente-ia',
+          timestamp: new Date().toISOString()
+        })
       });
+
+      if (!response.ok) {
+        throw new Error('Error al enviar el formulario');
+      }
+
+      setSubmitSuccess(true);
+      // Limpiar el formulario
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        countryCode: '+54',
+        business: ''
+      });
+
+    } catch (error) {
+      setSubmitError('Hubo un error al enviar el formulario. Por favor, intenta nuevamente.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -168,54 +269,118 @@ export default function WebinarAgenteIA() {
         >
           <div className="bg-white rounded-2xl shadow-lg border border-neonGreen/20 overflow-hidden">
             <div className="p-4 md:p-6">
-              <iframe 
-                src="https://docs.google.com/forms/d/e/1FAIpQLSer_lFzg5RP1-MHRwDh6IfPykRBmC2FFKmI2hL652kafYhspQ/viewform?embedded=true" 
-                className="w-full h-[800px] md:h-[683px] border-0"
-                title="Formulario de Registro"
-                onLoad={() => {
-                  if (typeof window !== 'undefined' && (window as any).fbq) {
-                    // Track ViewContent
-                    ((window as any).fbq as any)('track', 'ViewContent', {
-                      content_name: 'Webinar Registration Form',
-                      content_category: 'Webinar',
-                      value: 0,
-                      currency: 'USD'
-                    });
+              {submitSuccess ? (
+                <div className="text-center">
+                  <CheckCircle2 className="w-16 h-16 text-neonGreen mx-auto mb-4" />
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">¡Registro exitoso!</h2>
+                  <p className="text-gray-600 mb-6">
+                    Te enviaremos los detalles del webinar por correo electrónico.
+                  </p>
+                  <Button
+                    className="bg-neonGreen hover:bg-neonGreen/90 text-gray-900 font-bold"
+                    onClick={() => setSubmitSuccess(false)}
+                  >
+                    Registrar otra persona
+                  </Button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                      Nombre completo *
+                    </label>
+                    <Input
+                      id="name"
+                      name="name"
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className="w-full"
+                    />
+                  </div>
 
-                    // Configurar intervalo para verificar envío del formulario
-                    const checkFormSubmission = setInterval(() => {
-                      const iframe = document.querySelector('iframe');
-                      if (iframe) {
-                        try {
-                          const formSubmitted = iframe.contentWindow?.document.querySelector('.freebirdFormviewerViewResponseConfirmationMessage');
-                          if (formSubmitted) {
-                            // Track Lead
-                            ((window as any).fbq as any)('track', 'Lead', {
-                              content_name: 'Webinar Registration Form',
-                              content_category: 'Webinar',
-                              value: 0,
-                              currency: 'USD'
-                            });
-                            clearInterval(checkFormSubmission);
-                          }
-                        } catch (e) {
-                          // Error de CORS, continuamos intentando
-                        }
-                      }
-                    }, 1000);
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                      Email *
+                    </label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="w-full"
+                    />
+                  </div>
 
-                    return () => clearInterval(checkFormSubmission);
-                  }
-                }}
-              >
-                Cargando…
-              </iframe>
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                      Teléfono *
+                    </label>
+                    <div className="flex gap-2">
+                      <select
+                        name="countryCode"
+                        value={formData.countryCode}
+                        onChange={handleInputChange}
+                        className="w-24 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-neonGreen focus:outline-none focus:ring-1 focus:ring-neonGreen"
+                      >
+                        {countryCodes.map(({ code, country }) => (
+                          <option key={code} value={code}>
+                            {code} {country}
+                          </option>
+                        ))}
+                      </select>
+                      <Input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        required
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        className="flex-1"
+                        placeholder="Número de teléfono"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="business" className="block text-sm font-medium text-gray-700 mb-1">
+                      ¿Qué tipo de negocio tienes? *
+                    </label>
+                    <Input
+                      id="business"
+                      name="business"
+                      type="text"
+                      required
+                      value={formData.business}
+                      onChange={handleInputChange}
+                      className="w-full"
+                    />
+                  </div>
+
+                  {submitError && (
+                    <div className="text-red-500 text-sm">
+                      {submitError}
+                    </div>
+                  )}
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-neonGreen hover:bg-neonGreen/90 text-gray-900 font-bold text-lg px-8 py-6"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Enviando...' : 'Registrarme Ahora'}
+                  </Button>
+                </form>
+              )}
             </div>
           </div>
         </motion.div>
 
         {/* What You'll Learn */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
