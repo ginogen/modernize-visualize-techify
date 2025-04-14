@@ -267,6 +267,14 @@ export default function WebinarAgenteIA() {
           className="max-w-3xl mx-auto mb-12 md:mb-24"
           id="registration-form"
         >
+          <div className="text-center mb-8">
+            <h2 className="text-4xl md:text-5xl font-bold text-neonGreen mb-4">
+              WEBINAR GRATUITO
+            </h2>
+            <p className="text-2xl md:text-3xl font-bold text-gray-900">
+              22/04 - 17hs Argentina
+            </p>
+          </div>
           <div className="bg-white rounded-2xl shadow-lg border border-neonGreen/20 overflow-hidden">
             <div className="p-4 md:p-6">
               {submitSuccess ? (
