@@ -62,7 +62,8 @@ export default function WebinarAgenteIA() {
     { code: '+593', country: 'Ecuador' },
     { code: '+591', country: 'Bolivia' },
     { code: '+598', country: 'Uruguay' },
-    { code: '+595', country: 'Paraguay' }
+    { code: '+595', country: 'Paraguay' },
+    { code: '+34', country: 'España' }
   ];
 
   useEffect(() => {
