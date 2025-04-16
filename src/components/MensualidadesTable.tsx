@@ -22,23 +22,28 @@ export function MensualidadesTable() {
   const getFechaBase = () => {
     // Usar la fecha actual real
     const fechaActual = new Date();
-    // Establecer al primer día del mes actual
-    return new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
+    console.log('Fecha actual sin modificar:', fechaActual);
+    return fechaActual;
   };
 
   const getMesAnterior = () => {
     const fechaBase = getFechaBase();
-    return format(subMonths(fechaBase, 1), 'yyyy-MM', { locale: es });
+    const mesAnterior = subMonths(fechaBase, 1);
+    console.log('Mes anterior:', mesAnterior);
+    return format(mesAnterior, 'yyyy-MM', { locale: es });
   };
 
   const getMesActual = () => {
     const fechaBase = getFechaBase();
+    console.log('Mes actual:', fechaBase);
     return format(fechaBase, 'yyyy-MM', { locale: es });
   };
 
   const getProximoMes = () => {
     const fechaBase = getFechaBase();
-    return format(addMonths(fechaBase, 1), 'yyyy-MM', { locale: es });
+    const proximoMes = addMonths(fechaBase, 1);
+    console.log('Próximo mes:', proximoMes);
+    return format(proximoMes, 'yyyy-MM', { locale: es });
   };
 
   useEffect(() => {
@@ -118,8 +123,10 @@ export function MensualidadesTable() {
   };
 
   const getTotalPorMes = (mes: string, moneda: string) => {
+    console.log('Calculando total para mes:', mes, 'moneda:', moneda);
     return mensualidades.reduce((total, mensualidad) => {
       const monto = mensualidad.pagos?.[`${mes}_${moneda}`] || 0;
+      console.log('Mensualidad:', mensualidad.cliente_id, 'monto:', monto);
       return total + monto;
     }, 0);
   };
@@ -158,29 +165,36 @@ export function MensualidadesTable() {
           { mes: getMesAnterior(), label: 'Mes Anterior' },
           { mes: getMesActual(), label: 'Mes Actual' },
           { mes: getProximoMes(), label: 'Próximo Mes' }
-        ].map(({ mes, label }) => (
-          <div key={mes} className="space-y-2">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">
-                  {label} - {format(new Date(mes), 'MMMM yyyy', { locale: es })}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">Total en $</span>
-                    <span className="font-semibold">${getTotalPorMes(mes, 'ARS').toLocaleString()}</span>
+        ].map(({ mes, label }) => {
+          // Crear una fecha con el primer día del mes para evitar problemas con días específicos
+          const [year, month] = mes.split('-');
+          const fecha = new Date(parseInt(year), parseInt(month) - 1, 1);
+          console.log('Fecha para card:', label, fecha, format(fecha, 'MMMM yyyy', { locale: es }));
+          
+          return (
+            <div key={mes} className="space-y-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">
+                    {label} - {format(fecha, 'MMMM yyyy', { locale: es })}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">Total en $</span>
+                      <span className="font-semibold">${getTotalPorMes(mes, 'ARS').toLocaleString()}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">Total en U$D</span>
+                      <span className="font-semibold">U$D {getTotalPorMes(mes, 'USD').toLocaleString()}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">Total en U$D</span>
-                    <span className="font-semibold">U$D {getTotalPorMes(mes, 'USD').toLocaleString()}</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        ))}
+                </CardContent>
+              </Card>
+            </div>
+          );
+        })}
       </div>
 
       {/* Filtros */}
