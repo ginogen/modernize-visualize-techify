@@ -19,12 +19,34 @@ export function MensualidadesTable() {
     activos: 'todos'
   });
 
+  const getFechaBase = () => {
+    // Usar la fecha actual real
+    const fechaActual = new Date();
+    // Establecer al primer día del mes actual
+    return new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
+  };
+
+  const getMesAnterior = () => {
+    const fechaBase = getFechaBase();
+    return format(subMonths(fechaBase, 1), 'yyyy-MM', { locale: es });
+  };
+
+  const getMesActual = () => {
+    const fechaBase = getFechaBase();
+    return format(fechaBase, 'yyyy-MM', { locale: es });
+  };
+
+  const getProximoMes = () => {
+    const fechaBase = getFechaBase();
+    return format(addMonths(fechaBase, 1), 'yyyy-MM', { locale: es });
+  };
+
   useEffect(() => {
-    // Generar los próximos 12 meses
+    // Generar los próximos 12 meses desde la fecha base
     const mesesArray = [];
-    const hoy = new Date();
+    const fechaBase = getFechaBase();
     for (let i = 0; i < 12; i++) {
-      const mes = addMonths(hoy, i);
+      const mes = addMonths(fechaBase, i);
       mesesArray.push(format(mes, 'yyyy-MM', { locale: es }));
     }
     setMeses(mesesArray);
@@ -101,10 +123,6 @@ export function MensualidadesTable() {
       return total + monto;
     }, 0);
   };
-
-  const getMesAnterior = () => format(subMonths(new Date(), 1), 'yyyy-MM', { locale: es });
-  const getMesActual = () => format(new Date(), 'yyyy-MM', { locale: es });
-  const getProximoMes = () => format(addMonths(new Date(), 1), 'yyyy-MM', { locale: es });
 
   const getMontoActual = (mensualidad: any) => {
     const mesActual = getMesActual();
