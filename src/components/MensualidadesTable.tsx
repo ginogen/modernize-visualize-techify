@@ -136,11 +136,17 @@ export function MensualidadesTable() {
       
       {/* Resumen de totales por mes */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        {[getMesAnterior(), getMesActual(), getProximoMes()].map((mes) => (
+        {[
+          { mes: getMesAnterior(), label: 'Mes Anterior' },
+          { mes: getMesActual(), label: 'Mes Actual' },
+          { mes: getProximoMes(), label: 'Próximo Mes' }
+        ].map(({ mes, label }) => (
           <div key={mes} className="space-y-2">
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">{format(new Date(mes), 'MMMM yyyy', { locale: es })}</CardTitle>
+                <CardTitle className="text-lg">
+                  {label} - {format(new Date(mes), 'MMMM yyyy', { locale: es })}
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -215,9 +221,18 @@ export function MensualidadesTable() {
                     </CardTitle>
                     {!isExpanded && (
                       <div className="flex items-center gap-4 text-sm text-gray-600">
-                        <span>Plataforma: {mensualidad?.plataforma || 'No seleccionada'}</span>
-                        <span>Moneda: {mensualidad?.moneda === 'ARS' ? '$' : 'U$D'}</span>
-                        <span>Monto actual: {mensualidad?.moneda === 'ARS' ? '$' : 'U$D'} {montoActual.toLocaleString()}</span>
+                        <span className="flex items-center gap-1">
+                          <span className="font-medium">Plataforma:</span>
+                          <span>{mensualidad?.plataforma || 'No seleccionada'}</span>
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span className="font-medium">Moneda:</span>
+                          <span>{mensualidad?.moneda === 'ARS' ? '$' : 'U$D'}</span>
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span className="font-medium">Monto:</span>
+                          <span>{mensualidad?.moneda === 'ARS' ? '$' : 'U$D'} {montoActual.toLocaleString()}</span>
+                        </span>
                       </div>
                     )}
                   </div>
@@ -225,6 +240,7 @@ export function MensualidadesTable() {
                     variant="ghost"
                     size="icon"
                     onClick={() => toggleCard(cliente.id)}
+                    className="h-8 w-8"
                   >
                     {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                   </Button>
