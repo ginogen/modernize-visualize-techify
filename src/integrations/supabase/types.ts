@@ -59,7 +59,7 @@ export interface Database {
         Row: {
           id: string
           descripcion: string
-          cliente_id: string | null
+          cliente_id: string
           fecha_estimada: string | null
           completada: boolean
           created_at: string
@@ -68,7 +68,7 @@ export interface Database {
         Insert: {
           id?: string
           descripcion: string
-          cliente_id?: string | null
+          cliente_id: string
           fecha_estimada?: string | null
           completada?: boolean
           created_at?: string
@@ -77,7 +77,7 @@ export interface Database {
         Update: {
           id?: string
           descripcion?: string
-          cliente_id?: string | null
+          cliente_id?: string
           fecha_estimada?: string | null
           completada?: boolean
           created_at?: string
@@ -92,6 +92,55 @@ export interface Database {
           },
           {
             foreignKeyName: "tareas_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      mensualidades: {
+        Row: {
+          id: string
+          cliente_id: string
+          suscripcion_activa: boolean
+          plataforma: 'Stripe' | 'MercadoPago' | 'Transferencia' | null
+          moneda: 'ARS' | 'USD'
+          pagos: Json
+          created_at: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          cliente_id: string
+          suscripcion_activa?: boolean
+          plataforma?: 'Stripe' | 'MercadoPago' | 'Transferencia' | null
+          moneda?: 'ARS' | 'USD'
+          pagos?: Json
+          created_at?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          cliente_id?: string
+          suscripcion_activa?: boolean
+          plataforma?: 'Stripe' | 'MercadoPago' | 'Transferencia' | null
+          moneda?: 'ARS' | 'USD'
+          pagos?: Json
+          created_at?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mensualidades_cliente_id_fkey"
+            columns: ["cliente_id"]
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mensualidades_user_id_fkey"
             columns: ["user_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]

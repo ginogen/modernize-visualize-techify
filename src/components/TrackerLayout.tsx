@@ -4,6 +4,7 @@ import { TrackerSidebar } from './TrackerSidebar';
 import { TrackerTable } from './TrackerTable';
 import { ClientesTable } from './ClientesTable';
 import { PagosTable } from './PagosTable';
+import { MensualidadesTable } from './MensualidadesTable';
 import { TrackerProvider } from '@/contexts/TrackerContext';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
@@ -49,6 +50,7 @@ export function TrackerLayout() {
             <Route path="/" element={<TrackerTable />} />
             <Route path="/clientes" element={<ClientesTable />} />
             <Route path="/pagos" element={<PagosTable />} />
+            <Route path="/mensualidades" element={<MensualidadesTable />} />
           </Routes>
         </div>
       </div>

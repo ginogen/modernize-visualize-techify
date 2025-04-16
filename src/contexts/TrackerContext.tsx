@@ -1,17 +1,19 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { Cliente, ClienteFormData, Tarea, TareaFormData } from '../lib/types';
+import { Cliente, ClienteFormData, Tarea, TareaFormData, Mensualidad } from '../lib/types';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface TrackerContextType {
   clientes: Cliente[];
   tareas: Tarea[];
+  mensualidades: Mensualidad[];
   addCliente: (clienteData: ClienteFormData) => Promise<void>;
   updateCliente: (id: string, clienteData: Partial<ClienteFormData>) => Promise<void>;
   deleteCliente: (id: string) => Promise<void>;
   addTarea: (tareaData: TareaFormData) => Promise<void>;
   updateTarea: (id: string, tareaData: Partial<TareaFormData>) => Promise<void>;
   deleteTarea: (id: string) => Promise<void>;
+  updateMensualidad: (clienteId: string, mensualidadData: Partial<Mensualidad>) => Promise<void>;
   isLoading: boolean;
   error: string | null;
 }
@@ -21,6 +23,7 @@ const TrackerContext = createContext<TrackerContextType | undefined>(undefined);
 export function TrackerProvider({ children }: { children: React.ReactNode }) {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [tareas, setTareas] = useState<Tarea[]>([]);
+  const [mensualidades, setMensualidades] = useState<Mensualidad[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
@@ -29,6 +32,7 @@ export function TrackerProvider({ children }: { children: React.ReactNode }) {
     if (!user) {
       setClientes([]);
       setTareas([]);
+      setMensualidades([]);
       setError(null);
       setIsLoading(false);
       return;
@@ -42,16 +46,23 @@ export function TrackerProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(true);
       setError(null);
       
-      const [{ data: clientesData, error: clientesError }, { data: tareasData, error: tareasError }] = await Promise.all([
+      const [
+        { data: clientesData, error: clientesError },
+        { data: tareasData, error: tareasError },
+        { data: mensualidadesData, error: mensualidadesError }
+      ] = await Promise.all([
         supabase.from('clientes').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
-        supabase.from('tareas').select('*').eq('user_id', user.id).order('created_at', { ascending: false })
+        supabase.from('tareas').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
+        supabase.from('mensualidades').select('*').eq('user_id', user.id).order('created_at', { ascending: false })
       ]);
 
       if (clientesError) throw clientesError;
       if (tareasError) throw tareasError;
+      if (mensualidadesError) throw mensualidadesError;
 
       setClientes(clientesData || []);
       setTareas(tareasData || []);
+      setMensualidades(mensualidadesData || []);
     } catch (err) {
       console.error('Error al cargar datos:', err);
       setError(err instanceof Error ? err.message : 'Error al cargar los datos');
@@ -125,6 +136,13 @@ export function TrackerProvider({ children }: { children: React.ReactNode }) {
         .eq('cliente_id', id)
         .eq('user_id', user.id);
 
+      // Eliminamos las mensualidades asociadas
+      await supabase
+        .from('mensualidades')
+        .delete()
+        .eq('cliente_id', id)
+        .eq('user_id', user.id);
+
       const { error } = await supabase
         .from('clientes')
         .delete()
@@ -134,6 +152,7 @@ export function TrackerProvider({ children }: { children: React.ReactNode }) {
       if (error) throw error;
       
       setTareas(prev => prev.filter(t => t.cliente_id !== id));
+      setMensualidades(prev => prev.filter(m => m.cliente_id !== id));
       setClientes(prev => prev.filter(c => c.id !== id));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al eliminar el cliente');
@@ -151,23 +170,15 @@ export function TrackerProvider({ children }: { children: React.ReactNode }) {
         user_id: user.id
       };
 
-      console.log('Creando tarea:', newTarea); // Para debugging
-
       const { data, error } = await supabase
         .from('tareas')
         .insert([newTarea])
         .select()
         .single();
 
-      if (error) {
-        console.error('Error al crear tarea:', error); // Para debugging
-        throw error;
-      }
-      
-      console.log('Tarea creada:', data); // Para debugging
+      if (error) throw error;
       setTareas(prev => [data, ...prev]);
     } catch (err) {
-      console.error('Error completo:', err); // Para debugging
       setError(err instanceof Error ? err.message : 'Error al crear la tarea');
       throw err;
     }
@@ -209,16 +220,66 @@ export function TrackerProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const updateMensualidad = async (clienteId: string, mensualidadData: Partial<Mensualidad>) => {
+    if (!user) throw new Error('Usuario no autenticado');
+    try {
+      // Primero buscar la mensualidad existente
+      const { data: existingMensualidad } = await supabase
+        .from('mensualidades')
+        .select('id')
+        .eq('cliente_id', clienteId)
+        .eq('user_id', user.id)
+        .single();
+
+      if (existingMensualidad) {
+        // Si existe, actualizar el registro existente
+        const { data, error } = await supabase
+          .from('mensualidades')
+          .update({
+            ...mensualidadData,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', existingMensualidad.id)
+          .select()
+          .single();
+
+        if (error) throw error;
+        setMensualidades(prev => prev.map(m => m.id === existingMensualidad.id ? data : m));
+      } else {
+        // Si no existe, crear un nuevo registro
+        const { data, error } = await supabase
+          .from('mensualidades')
+          .insert({
+            ...mensualidadData,
+            cliente_id: clienteId,
+            user_id: user.id,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+          .select()
+          .single();
+
+        if (error) throw error;
+        setMensualidades(prev => [...prev, data]);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al actualizar la mensualidad');
+      throw err;
+    }
+  };
+
   return (
     <TrackerContext.Provider value={{
       clientes,
       tareas,
+      mensualidades,
       addCliente,
       updateCliente,
       deleteCliente,
       addTarea,
       updateTarea,
       deleteTarea,
+      updateMensualidad,
       isLoading,
       error
     }}>
