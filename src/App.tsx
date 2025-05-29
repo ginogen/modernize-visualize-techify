@@ -14,6 +14,7 @@ import AIChatbots from "./pages/ServiceDetail/AIChatbots";
 import Portfolio from "./pages/Portfolio";
 import PortfolioDetail from "./pages/PortfolioDetail";
 import About from "./pages/About";
+import Capacitacion from "./pages/Capacitacion";
 import Onboarding from "./pages/Onboarding";
 import ClientPortal from "./pages/ClientPortal";
 import ChatbotDefinition from "./pages/ChatbotDefinition";
@@ -123,6 +124,7 @@ function App() {
                 <Route path="/services/custom-software" element={<CustomSoftware />} />
                 <Route path="/portfolio" element={<Portfolio />} />
                 <Route path="/portfolio/:id" element={<PortfolioDetail />} />
+                <Route path="/capacitacion" element={<Capacitacion />} />
                 <Route path="/onboarding" element={<Onboarding />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register-admin" element={<RegisterAdmin />} />

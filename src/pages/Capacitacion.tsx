@@ -1,15 +1,14 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle, Star, Users, Zap, Shield, Globe, Code, BrainCircuit, Bot, Puzzle, Play, ChevronDown } from "lucide-react";
+import { ArrowRight, CheckCircle, Star, Users, Clock, Award, BookOpen, Video, Calendar, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import VideoTestimonials from "@/components/VideoTestimonials";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const Index = () => {
+const Capacitacion = () => {
   const { language, t } = useLanguage();
   
   useEffect(() => {
@@ -186,7 +185,7 @@ const Index = () => {
               className="mb-6"
             >
               <Badge className="bg-neonGreen/10 text-neonGreen border-neonGreen/20 px-4 py-2 text-sm font-mono">
-                🚀 {t("hero.badge")}
+                🎓 Capacitación Profesional en IA
               </Badge>
             </motion.div>
 
@@ -196,7 +195,7 @@ const Index = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-white to-neonGreen bg-clip-text text-transparent leading-tight"
             >
-              {t("hero.title")}
+              Domina la Inteligencia Artificial
             </motion.h1>
 
             <motion.p
@@ -205,7 +204,7 @@ const Index = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed"
             >
-              {t("hero.description")}
+              Programas de capacitación especializados para profesionales y empresas que buscan liderar la transformación digital con IA.
             </motion.p>
 
             <motion.div
@@ -215,97 +214,15 @@ const Index = () => {
               className="flex justify-center items-center mb-12"
             >
               <Button size="lg" className="bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-semibold px-8 py-4 text-lg button-glow">
-                {t("hero.get.started")} <ArrowRight className="ml-2 h-5 w-5" />
+                Explorar Cursos <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.8 }}
-              className="flex justify-center"
-            >
-              <ChevronDown className="h-8 w-8 text-white/60 animate-bounce" />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 bg-background section-enhanced-bg">
-        {/* Light background overlay */}
-        <div className="absolute inset-0 light-bg-overlay"></div>
-        
-        {/* Floating shapes */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-neonGreen/8 light-floating-shapes"></div>
-          <div className="absolute bottom-20 right-20 w-24 h-24 bg-blue-400/8 light-floating-shapes"></div>
-          <div className="absolute top-1/2 right-1/4 w-20 h-20 bg-purple-400/6 light-floating-shapes"></div>
-        </div>
-        
-        {/* Enhanced particles effect */}
-        <div className="absolute inset-0 light-particles">
-          {[...Array(40)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-neonGreen/30 rounded-full"
-              initial={{ 
-                x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200), 
-                y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 600),
-                opacity: 0,
-                scale: 0
-              }}
-              animate={{ 
-                opacity: [0, 0.8, 0],
-                scale: [0, 1.5, 0],
-                y: [null, Math.random() * -150 - 75]
-              }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: Math.random() * 5 + 3,
-                delay: Math.random() * 6,
-                ease: "easeOut"
-              }}
-            />
-          ))}
-        </div>
-        
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
-          >
-            {[
-              { number: "50+", label: "Proyectos Completados", icon: "/assets/icons/proyectos.png" },
-              { number: "98%", label: "Satisfacción del Cliente", icon: "/assets/icons/rating.png" },
-              { number: "50+", label: "Clientes Activos", icon: "/assets/icons/clientesac.png" },
-              { number: "24/7", label: "Soporte Técnico", icon: "/assets/icons/soporte.png" }
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUp}
-                className="text-center"
-              >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-neonGreen/10 rounded-full mb-4">
-                  <img 
-                    src={stat.icon} 
-                    alt={stat.label}
-                    className="h-8 w-8 object-contain"
-                  />
-                </div>
-                <div className="text-3xl md:text-4xl font-bold text-foreground mb-2">{stat.number}</div>
-                <div className="text-muted-foreground">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section id="services" className="py-20 bg-muted/30 section-enhanced-bg">
+      {/* Programs Section */}
+      <section id="programs" className="py-20 bg-muted/30 section-enhanced-bg">
         {/* Light background overlay */}
         <div className="absolute inset-0 light-bg-overlay"></div>
         
@@ -353,13 +270,13 @@ const Index = () => {
             className="text-center mb-16"
           >
             <Badge className="mb-4 bg-neonGreen/10 text-neonGreen border-neonGreen/20">
-              Nuestros Servicios
+              Programas de Capacitación
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Soluciones que <span className="text-neonGreen">Transforman</span>
+              Programas que <span className="text-neonGreen">Transforman</span> Carreras
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Ofrecemos servicios de vanguardia en inteligencia artificial y desarrollo web para impulsar tu negocio hacia el futuro digital.
+              Desde fundamentos hasta implementación avanzada, nuestros programas están diseñados para profesionales de todos los niveles.
             </p>
           </motion.div>
 
@@ -373,61 +290,84 @@ const Index = () => {
             {[
               {
                 icon: "/assets/icons/cerebroia.png",
-                title: t("services.ai.integration"),
-                description: t("services.ai.integration.desc"),
-                features: ["Machine Learning", "Análisis Predictivo", "Automatización Inteligente"]
+                title: "Fundamentos de IA",
+                description: "Introducción completa a la inteligencia artificial y machine learning",
+                duration: "8 semanas",
+                level: "Principiante",
+                features: ["Conceptos básicos de IA", "Python para IA", "Algoritmos ML", "Proyecto final"]
               },
               {
                 icon: "/assets/icons/desarrollo.png",
-                title: t("services.custom.dev"),
-                description: t("services.custom.dev.desc"),
-                features: ["React & Next.js", "Node.js & Python", "Bases de Datos"]
+                title: "IA para Desarrolladores",
+                description: "Implementación práctica de soluciones de IA en aplicaciones reales",
+                duration: "12 semanas",
+                level: "Intermedio",
+                features: ["APIs de IA", "Frameworks ML", "Deployment", "Casos de uso reales"]
               },
               {
                 icon: "/assets/icons/chatboti.png",
-                title: t("services.chatbot"),
-                description: t("services.chatbot.desc"),
-                features: ["NLP Avanzado", "Integración Multi-canal", "Análisis de Sentimientos"]
+                title: "Chatbots Avanzados",
+                description: "Creación de chatbots inteligentes con NLP y procesamiento de lenguaje",
+                duration: "6 semanas",
+                level: "Intermedio",
+                features: ["NLP avanzado", "Diseño conversacional", "Integración", "Análisis de sentimientos"]
               },
               {
                 icon: "/assets/icons/procesos.png",
-                title: t("services.process.automation"),
-                description: t("services.process.automation.desc"),
-                features: ["Workflows Automatizados", "APIs Personalizadas", "Integración de Sistemas"]
+                title: "Automatización Empresarial",
+                description: "Automatización de procesos empresariales con IA y RPA",
+                duration: "10 semanas",
+                level: "Avanzado",
+                features: ["RPA + IA", "Análisis de procesos", "Optimización", "ROI measurement"]
               },
               {
                 icon: "/assets/icons/web.png",
-                title: "Desarrollo Web Completo",
-                description: "Sitios web modernos, responsivos y optimizados para conversión",
-                features: ["Diseño Responsivo", "SEO Optimizado", "Performance Máximo"]
+                title: "IA en Desarrollo Web",
+                description: "Integración de IA en aplicaciones web modernas y escalables",
+                duration: "8 semanas",
+                level: "Intermedio",
+                features: ["IA en frontend", "Backend inteligente", "APIs ML", "Performance"]
               },
               {
                 icon: "/assets/icons/consultoria.png",
-                title: "Consultoría Digital",
-                description: "Estrategias digitales personalizadas para acelerar tu crecimiento",
-                features: ["Auditoría Digital", "Estrategia de Crecimiento", "Transformación Digital"]
+                title: "Liderazgo en IA",
+                description: "Estrategias ejecutivas para liderar la transformación digital con IA",
+                duration: "4 semanas",
+                level: "Ejecutivo",
+                features: ["Estrategia IA", "ROI y métricas", "Gestión de equipos", "Casos de éxito"]
               }
-            ].map((service, index) => (
+            ].map((program, index) => (
               <motion.div key={index} variants={fadeInUp}>
                 <Card className="h-full hover:shadow-xl transition-all duration-300 border-0 bg-card/50 backdrop-blur-sm group hover:scale-105">
                   <CardContent className="p-8">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-neonGreen/10 rounded-xl mb-6 group-hover:bg-neonGreen/20 transition-colors">
                       <img 
-                        src={service.icon} 
-                        alt={service.title}
+                        src={program.icon} 
+                        alt={program.title}
                         className="h-8 w-8 object-contain"
                       />
                     </div>
-                    <h3 className="text-xl font-bold mb-4">{service.title}</h3>
-                    <p className="text-muted-foreground mb-6">{service.description}</p>
+                    
+                    <div className="flex items-center gap-2 mb-4">
+                      <Badge variant="outline" className="text-xs">{program.level}</Badge>
+                      <Badge variant="outline" className="text-xs">{program.duration}</Badge>
+                    </div>
+                    
+                    <h3 className="text-xl font-bold mb-4">{program.title}</h3>
+                    <p className="text-muted-foreground mb-6">{program.description}</p>
+                    
                     <ul className="space-y-2">
-                      {service.features.map((feature, idx) => (
+                      {program.features.map((feature, idx) => (
                         <li key={idx} className="flex items-center text-sm">
                           <CheckCircle className="h-4 w-4 text-neonGreen mr-2 flex-shrink-0" />
                           {feature}
                         </li>
                       ))}
                     </ul>
+                    
+                    <Button className="w-full mt-6 bg-neonGreen/10 text-neonGreen hover:bg-neonGreen hover:text-darkBlue transition-colors">
+                      Ver Detalles
+                    </Button>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -436,7 +376,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Process Section */}
+      {/* Methodology Section */}
       <section className="py-20 bg-background section-enhanced-bg">
         {/* Light background overlay */}
         <div className="absolute inset-0 light-bg-overlay"></div>
@@ -484,13 +424,13 @@ const Index = () => {
             className="text-center mb-16"
           >
             <Badge className="mb-4 bg-neonGreen/10 text-neonGreen border-neonGreen/20">
-              Nuestro Proceso
+              Nuestra Metodología
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Cómo <span className="text-neonGreen">Trabajamos</span>
+              Aprendizaje <span className="text-neonGreen">Práctico</span> y Efectivo
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Un proceso probado que garantiza resultados excepcionales en cada proyecto.
+              Metodología probada que combina teoría, práctica y proyectos reales para garantizar el aprendizaje efectivo.
             </p>
           </motion.div>
 
@@ -502,21 +442,24 @@ const Index = () => {
             className="grid md:grid-cols-4 gap-8"
           >
             {[
-              { step: "01", title: "Descubrimiento", description: "Analizamos tus necesidades y objetivos específicos" },
-              { step: "02", title: "Estrategia", description: "Diseñamos una solución personalizada y escalable" },
-              { step: "03", title: "Desarrollo", description: "Implementamos con las mejores prácticas y tecnologías" },
-              { step: "04", title: "Lanzamiento", description: "Desplegamos y optimizamos para máximo rendimiento" }
-            ].map((process, index) => (
+              { step: "01", title: "Teoría Fundamental", description: "Conceptos sólidos y fundamentos teóricos", icon: BookOpen },
+              { step: "02", title: "Práctica Guiada", description: "Ejercicios prácticos con mentorías personalizadas", icon: Target },
+              { step: "03", title: "Proyectos Reales", description: "Implementación en casos de uso empresariales", icon: Video },
+              { step: "04", title: "Certificación", description: "Evaluación y certificación de competencias", icon: Award }
+            ].map((method, index) => (
               <motion.div
                 key={index}
                 variants={fadeInUp}
                 className="text-center relative"
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-neonGreen text-darkBlue rounded-full font-bold text-xl mb-6">
-                  {process.step}
+                  {method.step}
                 </div>
-                <h3 className="text-xl font-bold mb-4">{process.title}</h3>
-                <p className="text-muted-foreground">{process.description}</p>
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-neonGreen/10 rounded-lg mb-4">
+                  <method.icon className="h-6 w-6 text-neonGreen" />
+                </div>
+                <h3 className="text-xl font-bold mb-4">{method.title}</h3>
+                <p className="text-muted-foreground">{method.description}</p>
                 {index < 3 && (
                   <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-neonGreen to-transparent"></div>
                 )}
@@ -525,9 +468,6 @@ const Index = () => {
           </motion.div>
         </div>
       </section>
-
-      {/* Video Testimonials Section */}
-      <VideoTestimonials />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-darkBlue to-darkBlue/90 text-white">
@@ -540,14 +480,14 @@ const Index = () => {
             className="max-w-4xl mx-auto"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              ¿Listo para <span className="text-neonGreen">Transformar</span> tu Negocio?
+              ¿Listo para <span className="text-neonGreen">Impulsar</span> tu Carrera?
             </h2>
             <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
-              Únete a más de 50 empresas que ya han revolucionado sus procesos con nuestras soluciones de IA.
+              Únete a más de 500 profesionales que ya han transformado sus carreras con nuestros programas de capacitación en IA.
             </p>
             <div className="flex justify-center">
               <Button size="lg" className="bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-semibold px-8 py-4 text-lg button-glow">
-                Comenzar Ahora <ArrowRight className="ml-2 h-5 w-5" />
+                Comenzar Mi Capacitación <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
           </motion.div>
@@ -559,4 +499,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Capacitacion; 
