@@ -26,6 +26,7 @@ import EditProposal from "./pages/admin/EditProposal";
 import Proposal from "./pages/Proposal";
 import BotIABonificado from "./pages/BotIABonificado";
 import PropuestaBot from "./pages/PropuestaBot";
+import PropuestaPartner from "./pages/PropuestaPartner";
 import WebinarAgenteIA from "./routes/webinar-agente-ia";
 import { TrackerLayout } from "./components/TrackerLayout";
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -131,6 +132,7 @@ function App() {
                 <Route path="/register-admin" element={<RegisterAdmin />} />
                 <Route path="/propuesta/:slug" element={<Proposal />} />
                 <Route path="/propuesta-bot" element={<PropuestaBot />} />
+                <Route path="/propuesta-partner" element={<PropuestaPartner />} />
                 <Route path="/bot-ia-bonificado" element={<BotIABonificado />} />
                 <Route path="/webinar-agente-ia" element={<WebinarAgenteIA />} />
                 
