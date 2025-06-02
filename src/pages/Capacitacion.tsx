@@ -486,7 +486,11 @@ const Capacitacion = () => {
               Únete a más de 500 profesionales que ya han transformado sus carreras con nuestros programas de capacitación en IA.
             </p>
             <div className="flex justify-center">
-              <Button size="lg" className="bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-semibold px-8 py-4 text-lg button-glow">
+              <Button 
+                size="lg" 
+                className="bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-semibold px-8 py-4 text-lg button-glow"
+                onClick={() => window.open('https://calendar.app.google/XXwTHc1qvikRrd2f6', '_blank')}
+              >
                 Comenzar Mi Capacitación <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>

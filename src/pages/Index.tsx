@@ -214,7 +214,11 @@ const Index = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="flex justify-center items-center mb-12"
             >
-              <Button size="lg" className="bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-semibold px-8 py-4 text-lg button-glow">
+              <Button 
+                size="lg" 
+                className="bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-semibold px-8 py-4 text-lg button-glow"
+                onClick={() => window.open('https://calendar.app.google/XXwTHc1qvikRrd2f6', '_blank')}
+              >
                 {t("hero.get.started")} <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </motion.div>
@@ -527,7 +531,7 @@ const Index = () => {
       </section>
 
       {/* Video Testimonials Section */}
-      <VideoTestimonials />
+      {/* <VideoTestimonials /> */}
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-darkBlue to-darkBlue/90 text-white">
@@ -546,7 +550,11 @@ const Index = () => {
               Únete a más de 50 empresas que ya han revolucionado sus procesos con nuestras soluciones de IA.
             </p>
             <div className="flex justify-center">
-              <Button size="lg" className="bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-semibold px-8 py-4 text-lg button-glow">
+              <Button 
+                size="lg" 
+                className="bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-semibold px-8 py-4 text-lg button-glow"
+                onClick={() => window.open('https://calendar.app.google/XXwTHc1qvikRrd2f6', '_blank')}
+              >
                 Comenzar Ahora <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>

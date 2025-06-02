@@ -230,6 +230,7 @@ const VideoTestimonials = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="bg-neonGreen text-darkBlue px-8 py-4 rounded-lg font-semibold hover:bg-neonGreen/90 transition-colors button-glow"
+            onClick={() => window.open('https://calendar.app.google/XXwTHc1qvikRrd2f6', '_blank')}
           >
             Comenzar Mi Proyecto
           </motion.button>

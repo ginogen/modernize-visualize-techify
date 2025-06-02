@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, BrainCircuit, Code, Bot, Puzzle } from "lucide-react";
@@ -84,7 +83,10 @@ const Hero = () => {
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-wrap gap-4">
-              <Button className="button-glow bg-neonGreen text-darkBlue hover:bg-neonGreen/80 font-mono">
+              <Button 
+                className="button-glow bg-neonGreen text-darkBlue hover:bg-neonGreen/80 font-mono"
+                onClick={() => window.open('https://calendar.app.google/XXwTHc1qvikRrd2f6', '_blank')}
+              >
                 {t("hero.get.started")} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </motion.div>

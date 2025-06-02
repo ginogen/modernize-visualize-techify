@@ -27,6 +27,7 @@ import Proposal from "./pages/Proposal";
 import BotIABonificado from "./pages/BotIABonificado";
 import PropuestaBot from "./pages/PropuestaBot";
 import PropuestaPartner from "./pages/PropuestaPartner";
+import PropuestaIASalud from "./pages/PropuestaIASalud";
 import WebinarAgenteIA from "./routes/webinar-agente-ia";
 import { TrackerLayout } from "./components/TrackerLayout";
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -133,6 +134,7 @@ function App() {
                 <Route path="/propuesta/:slug" element={<Proposal />} />
                 <Route path="/propuesta-bot" element={<PropuestaBot />} />
                 <Route path="/propuesta-partner" element={<PropuestaPartner />} />
+                <Route path="/propuesta-ia-salud" element={<PropuestaIASalud />} />
                 <Route path="/bot-ia-bonificado" element={<BotIABonificado />} />
                 <Route path="/webinar-agente-ia" element={<WebinarAgenteIA />} />
                 
