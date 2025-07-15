@@ -257,6 +257,17 @@ const Landing48Horas = () => {
           </div>
         </div>
       )}
+      <a
+        href="https://wa.me/17864087985"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
+        style={{ pointerEvents: isGenerating ? 'none' : 'auto' }}
+      >
+        <Button className="bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-bold text-lg px-8 py-4 rounded-full shadow-xl animate-bounce">
+          Quiero mi landing
+        </Button>
+      </a>
       <Header />
       {/* Hero Section igual que antes */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -340,7 +351,7 @@ const Landing48Horas = () => {
               Describe tu proyecto y <span className="text-neonGreen">ve el resultado</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Nuestra IA generará un primer boceto de tu sitio web basado en tu descripción
+              Nuestra IA generará un primer boceto de tu sitio web basado en tu descripción y esto nos servira para entender rapidamente lo que estas buscando. Son bocetos incompletos que pueden contener errores, no te lleves por eso.
             </p>
           </motion.div>
 
