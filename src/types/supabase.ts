@@ -1,7 +1,3 @@
-Need to install the following packages:
-supabase@2.20.12
-Ok to proceed? (y) 
-
 export type Json =
   | string
   | number
@@ -110,6 +106,48 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      },
+      landing_leads: {
+        Row: {
+          id: string;
+          nombre: string;
+          email: string;
+          whatsapp: string;
+          ciudad: string;
+          negocio: string;
+          prompt: string;
+          color_principal: string;
+          colores_secundarios: string[];
+          fecha: string;
+          generated_code: string | null;
+        };
+        Insert: {
+          id?: string;
+          nombre: string;
+          email: string;
+          whatsapp: string;
+          ciudad: string;
+          negocio: string;
+          prompt: string;
+          color_principal: string;
+          colores_secundarios: string[];
+          fecha?: string;
+          generated_code?: string | null;
+        };
+        Update: {
+          id?: string;
+          nombre?: string;
+          email?: string;
+          whatsapp?: string;
+          ciudad?: string;
+          negocio?: string;
+          prompt?: string;
+          color_principal?: string;
+          colores_secundarios?: string[];
+          fecha?: string;
+          generated_code?: string | null;
+        };
+        Relationships: [];
       }
     }
     Views: {

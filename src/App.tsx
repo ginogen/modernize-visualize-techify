@@ -29,11 +29,14 @@ import PropuestaBot from "./pages/PropuestaBot";
 import PropuestaPartner from "./pages/PropuestaPartner";
 import PropuestaIASalud from "./pages/PropuestaIASalud";
 import PuntoRojoAutomate from "./pages/PuntoRojoAutomate";
+import Landing48Horas from "./pages/Landing48Horas";
+import Landing48HorasAds from "./pages/Landing48HorasAds";
 import WebinarAgenteIA from "./routes/webinar-agente-ia";
 import { TrackerLayout } from "./components/TrackerLayout";
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { TrackerProvider } from './contexts/TrackerContext';
 import LoginPage from './pages/LoginPage';
+import PreviewLanding from "./pages/landing-48-horas/preview/[id]";
 
 const queryClient = new QueryClient();
 
@@ -138,6 +141,9 @@ function App() {
                 <Route path="/propuesta-ia-salud" element={<PropuestaIASalud />} />
                 <Route path="/punto-rojo-automate" element={<PuntoRojoAutomate />} />
                 <Route path="/bot-ia-bonificado" element={<BotIABonificado />} />
+                <Route path="/landing-48-horas" element={<Landing48Horas />} />
+                <Route path="/landing-48-horas/preview/:id" element={<PreviewLanding />} />
+                <Route path="/landing-48-horas/ads" element={<Landing48HorasAds />} />
                 <Route path="/webinar-agente-ia" element={<WebinarAgenteIA />} />
                 
                 {/* Rutas protegidas que requieren autenticación */}

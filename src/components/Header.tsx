@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
-import { Menu, X, UserCircle2, Home, GraduationCap } from "lucide-react";
+import { Menu, X, UserCircle2, Home, GraduationCap, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -55,6 +55,7 @@ const Header = () => {
   const navItems = [
     { label: "Home", path: "/", icon: Home },
     { label: "Capacitación", path: "/capacitacion", icon: GraduationCap },
+    { label: "48 Horas", path: "/landing-48-horas", icon: Clock },
   ];
 
   return (
