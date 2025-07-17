@@ -38,6 +38,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { TrackerProvider } from './contexts/TrackerContext';
 import LoginPage from './pages/LoginPage';
 import PreviewLanding from "./pages/landing-48-horas/preview/[id]";
+import PropuestaLavadoVehiculos from "./pages/PropuestaLavadoVehiculos";
 
 const queryClient = new QueryClient();
 
@@ -147,6 +148,7 @@ function App() {
                 <Route path="/landing-48-horas/preview/:id" element={<PreviewLanding />} />
                 <Route path="/landing-48-horas/ads" element={<Landing48HorasAds />} />
                 <Route path="/webinar-agente-ia" element={<WebinarAgenteIA />} />
+                <Route path="/propuesta-lavado-vehiculos" element={<PropuestaLavadoVehiculos />} />
                 
                 {/* Rutas protegidas que requieren autenticación */}
                 <Route path="/client-portal" element={
