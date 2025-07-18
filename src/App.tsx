@@ -39,6 +39,7 @@ import { TrackerProvider } from './contexts/TrackerContext';
 import LoginPage from './pages/LoginPage';
 import PreviewLanding from "./pages/landing-48-horas/preview/[id]";
 import PropuestaLavadoVehiculos from "./pages/PropuestaLavadoVehiculos";
+import PropuestaClonUber from "./pages/PropuestaClonUber";
 
 const queryClient = new QueryClient();
 
@@ -149,6 +150,7 @@ function App() {
                 <Route path="/landing-48-horas/ads" element={<Landing48HorasAds />} />
                 <Route path="/webinar-agente-ia" element={<WebinarAgenteIA />} />
                 <Route path="/propuesta-lavado-vehiculos" element={<PropuestaLavadoVehiculos />} />
+                <Route path="/propuesta-clon-uber" element={<PropuestaClonUber />} />
                 
                 {/* Rutas protegidas que requieren autenticación */}
                 <Route path="/client-portal" element={
