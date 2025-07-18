@@ -65,7 +65,7 @@ const PropuestaClonUber = () => {
               Solución móvil inspirada en Uber, lista para Android, con funcionalidades clave y diseño profesional.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }} className="flex justify-center items-center mb-12">
-              <Button size="lg" className="bg-green-400 text-black hover:bg-green-400/90 font-semibold px-8 py-4 text-lg button-glow" onClick={() => window.open('https://wa.me/5491123456789', '_blank')}>
+              <Button size="lg" className="bg-green-400 text-black hover:bg-green-400/90 font-semibold px-8 py-4 text-lg button-glow" onClick={() => window.open('https://wa.me/17864087985', '_blank')}>
                 Solicitar propuesta <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </motion.div>
@@ -309,7 +309,7 @@ const PropuestaClonUber = () => {
               ))}
             </div>
             <div className="flex justify-center">
-              <Button size="lg" className="bg-green-400 text-black hover:bg-green-400/90 font-semibold px-8 py-4 text-lg button-glow" onClick={() => window.open('https://wa.me/5491123456789', '_blank')}>
+              <Button size="lg" className="bg-green-400 text-black hover:bg-green-400/90 font-semibold px-8 py-4 text-lg button-glow" onClick={() => window.open('https://wa.me/17864087985', '_blank')}>
                 Solicitar propuesta <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
