@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { Shield, Users, FileText, Briefcase, Bell, LayoutList, Brain, Calendar, Laptop, Database, Globe, CheckCircle, ArrowRight, Clock, DollarSign, BarChart3, Settings } from "lucide-react";
+import { Shield, FileText, Briefcase, LayoutList, Calendar, Laptop, Database, Globe, CheckCircle, ArrowRight, Clock, DollarSign, BarChart3, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -93,11 +93,8 @@ const DesarrolloSoftwareLegal = () => {
                     {[
                       "Acceso seguro por Login (Google)",
                       "Permisos y roles (Admin, Editor, Visor)",
-                      "Trabajo colaborativo en tiempo real",
                       "Expedientes individuales por casos",
-                      "Automatización de procesos personalizados",
-                      "Vista Kanban o Lista adaptativa",
-                      "Integración con IA y plantillas (opcional)"
+                      "Vista Kanban o Lista adaptativa"
                     ].map((feature, index) => (
                       <div key={index} className="flex items-start space-x-3">
                         <CheckCircle className="h-6 w-6 text-blue-400 mt-1 flex-shrink-0" />
@@ -113,20 +110,6 @@ const DesarrolloSoftwareLegal = () => {
                     <Shield className="h-12 w-12 text-blue-400 mb-3" />
                     <h4 className="font-semibold text-center">Acceso Seguro</h4>
                     <p className="text-sm text-muted-foreground text-center mt-2">Login con Google</p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-card/50 backdrop-blur-sm border-0 shadow-xl">
-                  <CardContent className="p-6 flex flex-col items-center justify-center h-full">
-                    <Users className="h-12 w-12 text-blue-400 mb-3" />
-                    <h4 className="font-semibold text-center">Trabajo Colaborativo</h4>
-                    <p className="text-sm text-muted-foreground text-center mt-2">En tiempo real</p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-card/50 backdrop-blur-sm border-0 shadow-xl">
-                  <CardContent className="p-6 flex flex-col items-center justify-center h-full">
-                    <Bell className="h-12 w-12 text-blue-400 mb-3" />
-                    <h4 className="font-semibold text-center">Automatización</h4>
-                    <p className="text-sm text-muted-foreground text-center mt-2">Notificaciones y avisos</p>
                   </CardContent>
                 </Card>
                 <Card className="bg-card/50 backdrop-blur-sm border-0 shadow-xl">
@@ -162,7 +145,6 @@ const DesarrolloSoftwareLegal = () => {
                     { icon: <Database className="h-10 w-10 text-blue-400 mx-auto mb-2" />, title: "Supabase", desc: "Base de datos robusta" },
                     { icon: <Globe className="h-10 w-10 text-blue-400 mx-auto mb-2" />, title: "Vercel", desc: "Despliegue optimizado" },
                     { icon: <Shield className="h-10 w-10 text-blue-400 mx-auto mb-2" />, title: "Auth Google", desc: "Seguridad garantizada" },
-                    { icon: <Brain className="h-10 w-10 text-blue-400 mx-auto mb-2" />, title: "IA Integrable", desc: "Asistencia inteligente" },
                     { icon: <BarChart3 className="h-10 w-10 text-blue-400 mx-auto mb-2" />, title: "Escalable", desc: "Crecimiento sin límites" },
                   ].map((tech, index) => (
                     <div key={index} className="text-center bg-background/50 p-6 rounded-lg border border-border/50 flex flex-col items-center">
@@ -231,7 +213,7 @@ const DesarrolloSoftwareLegal = () => {
                     </div>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="text-center">
-                        <div className="text-6xl font-bold text-blue-400 mb-2">3-4</div>
+                        <div className="text-6xl font-bold text-blue-400 mb-2">2-3</div>
                         <p className="text-2xl text-muted-foreground mb-4">meses</p>
                         <div className="bg-background/50 p-4 rounded-lg">
                           <div className="flex items-center justify-center space-x-2 mb-3">
@@ -245,17 +227,16 @@ const DesarrolloSoftwareLegal = () => {
                         <h4 className="font-semibold mb-4 text-center">Fases del Proyecto</h4>
                         <div className="space-y-3">
                           {[
-                            { fase: "Análisis y PRD", tiempo: "1-2 semanas", icon: "📋" },
-                            { fase: "Diseño UI/UX", tiempo: "2-3 semanas", icon: "🎨" },
-                            { fase: "Desarrollo", tiempo: "8-10 semanas", icon: "⚙️" },
-                            { fase: "Pruebas y ajustes", tiempo: "2-3 semanas", icon: "🧪" }
+                            { fase: "Análisis y PRD", icon: "📋" },
+                            { fase: "Diseño UI/UX", icon: "🎨" },
+                            { fase: "Desarrollo", icon: "⚙️" },
+                            { fase: "Pruebas y ajustes", icon: "🧪" }
                           ].map((item, index) => (
                             <div key={index} className="bg-background/50 p-3 rounded-lg flex items-center justify-between">
                               <div className="flex items-center space-x-3">
                                 <span className="text-2xl">{item.icon}</span>
                                 <p className="font-semibold">{item.fase}</p>
                               </div>
-                              <span className="text-sm text-muted-foreground">{item.tiempo}</span>
                             </div>
                           ))}
                         </div>
@@ -273,129 +254,44 @@ const DesarrolloSoftwareLegal = () => {
                   </Badge>
                   <h3 className="text-3xl font-bold mb-6">Opciones de Inversión</h3>
                 </div>
-                <div className="space-y-8">
-                  {/* Opción 1 */}
-                  <Card className="bg-card/50 backdrop-blur-sm border-0 shadow-xl">
-                    <CardContent className="p-8">
-                      <div className="flex items-center justify-between mb-4">
-                        <h4 className="text-2xl font-bold text-gray-400">💼 Opción 1: Desarrollo Cerrado</h4>
-                        <Badge className="bg-gray-400/10 text-gray-400 border-gray-400/20">Proyecto único</Badge>
-                      </div>
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div>
-                          <div className="text-4xl font-bold mb-2">USD 4.000</div>
-                          <p className="text-sm text-muted-foreground mb-4">Posible en 3 cuotas</p>
-                          <div className="space-y-2 text-sm">
-                            <div className="flex items-center">
-                              <CheckCircle className="h-4 w-4 text-gray-400 mr-2" />
-                              Proyecto llave en mano
-                            </div>
-                            <div className="flex items-center">
-                              <CheckCircle className="h-4 w-4 text-gray-400 mr-2" />
-                              Soporte exclusivo para errores/bugs
-                            </div>
-                            <div className="flex items-center">
-                              <CheckCircle className="h-4 w-4 text-gray-400 mr-2" />
-                              Sin cambios o nuevas funcionalidades
-                            </div>
-                          </div>
-                        </div>
-                        <div className="bg-background/50 p-4 rounded-lg">
-                          <h5 className="font-semibold mb-2">Costos adicionales:</h5>
-                          <div className="space-y-1 text-sm text-muted-foreground">
-                            <p>• Soporte mensual: $150.000</p>
-                            <p>• Servidor: U$D 25/mes</p>
-                            <p>• Base de datos: U$D 25/mes</p>
-                            <p>• Dominio: No incluido</p>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  
-                  {/* Opción 2 - Destacada */}
-                  <Card className="bg-gradient-to-br from-blue-400/20 to-purple-400/20 backdrop-blur-sm border-2 border-blue-400/30 shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 right-0 bg-blue-400 text-black px-4 py-1 text-sm font-bold rounded-bl-lg">
-                      RECOMENDADO
+                <Card className="bg-gradient-to-br from-blue-400/20 to-purple-400/20 backdrop-blur-sm border-2 border-blue-400/30 shadow-2xl relative overflow-hidden">
+                  <CardContent className="p-8">
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="text-2xl font-bold text-blue-400">💼 Desarrollo de Software Legal</h4>
+                      <Badge className="bg-blue-400/20 text-blue-400 border-blue-400/30">Proyecto único</Badge>
                     </div>
-                    <CardContent className="p-8">
-                      <div className="flex items-center justify-between mb-4">
-                        <h4 className="text-2xl font-bold text-blue-400">🚀 Opción 2: Partner Tech</h4>
-                        <Badge className="bg-blue-400/20 text-blue-400 border-blue-400/30">Colaboración continua</Badge>
-                      </div>
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div>
-                          <div className="text-4xl font-bold text-blue-400 mb-2">$950.000/mes</div>
-                          <p className="text-sm text-muted-foreground mb-4">Contrato mínimo: 6 meses</p>
-                          <div className="space-y-2 text-sm">
-                            <div className="flex items-center">
-                              <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
-                              <span className="font-semibold">Desarrollo y mantenimiento continuo</span>
-                            </div>
-                            <div className="flex items-center">
-                              <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
-                              <span className="font-semibold">Nuevas funcionalidades incluidas</span>
-                            </div>
-                            <div className="flex items-center">
-                              <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
-                              <span className="font-semibold">Soporte completo en tecnología</span>
-                            </div>
-                            <div className="flex items-center">
-                              <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
-                              <span className="font-semibold">Actualizaciones y mejoras</span>
-                            </div>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <div className="text-4xl font-bold text-blue-400 mb-2">USD 2.100</div>
+                        <p className="text-sm text-muted-foreground mb-4">También se puede pagar en Pesos a Cambio Oficial</p>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex items-center">
+                            <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
+                            <span className="font-semibold">Proyecto llave en mano</span>
                           </div>
-                        </div>
-                        <div className="bg-blue-400/10 p-4 rounded-lg border border-blue-400/20">
-                          <h5 className="font-semibold mb-2 text-blue-400">Incluye además:</h5>
-                          <div className="space-y-1 text-sm">
-                            <p>✓ Actualización de sitios web</p>
-                            <p>✓ Automatizaciones internas</p>
-                            <p>✓ Desarrollo de futuras apps</p>
-                            <p>✓ Consultoría en publicidad digital</p>
+                          <div className="flex items-center">
+                            <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
+                            <span className="font-semibold">Soporte exclusivo para errores/bugs</span>
                           </div>
-                          <div className="mt-3 pt-3 border-t border-blue-400/20">
-                            <p className="text-xs text-muted-foreground">No incluye: Servidor, DB, Dominio</p>
+                          <div className="flex items-center">
+                            <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
+                            <span className="font-semibold">Entrega en 2-3 meses</span>
                           </div>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-      {/* Partner Tech Benefits */}
-      <section className="py-20 bg-background section-enhanced-bg">
-        <div className="container mx-auto px-4">
-          <motion.div initial="initial" whileInView="animate" viewport={{ once: true }} variants={fadeInUp} className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 bg-purple-400/10 text-purple-400 border-purple-400/20">
-              <Users className="h-4 w-4 mr-2" />
-              Modelo Partner Tech
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Su Equipo <span className="text-blue-400">Tecnológico</span>
-            </h2>
-            <p className="text-xl text-muted-foreground mb-12">
-              Más que un proveedor, un socio estratégico en tecnología
-            </p>
-            <div className="grid md:grid-cols-2 gap-6">
-              {[
-                { icon: <Globe className="h-10 w-10 text-blue-400" />, title: "Actualización de sitios web", desc: "Mantenimiento y mejoras continuas" },
-                { icon: <Settings className="h-10 w-10 text-blue-400" />, title: "Automatizaciones internas", desc: "Optimización de procesos con n8n" },
-                { icon: <Laptop className="h-10 w-10 text-blue-400" />, title: "Desarrollo de futuras apps", desc: "Expansión tecnológica ilimitada" },
-                { icon: <BarChart3 className="h-10 w-10 text-blue-400" />, title: "Consultoría digital", desc: "Estrategias de publicidad y marketing" }
-              ].map((benefit, index) => (
-                <Card key={index} className="bg-card/50 backdrop-blur-sm border-0 shadow-xl">
-                  <CardContent className="p-6 flex flex-col items-center">
-                    {benefit.icon}
-                    <h4 className="font-semibold mb-2 mt-4">{benefit.title}</h4>
-                    <p className="text-muted-foreground text-sm">{benefit.desc}</p>
+                      <div className="bg-blue-400/10 p-4 rounded-lg border border-blue-400/20">
+                        <h5 className="font-semibold mb-2 text-blue-400">Costos adicionales:</h5>
+                        <div className="space-y-1 text-sm">
+                          <p>• Soporte mensual: $150.000</p>
+                          <p>• Servidor: U$D 25/mes</p>
+                          <p>• Base de datos: U$D 25/mes</p>
+                          <p>• Dominio: No incluido</p>
+                        </div>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
-              ))}
+              </motion.div>
             </div>
           </motion.div>
         </div>
