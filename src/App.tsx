@@ -42,6 +42,7 @@ import PropuestaLavadoVehiculos from "./pages/PropuestaLavadoVehiculos";
 import PropuestaClonUber from "./pages/PropuestaClonUber";
 import PropuestaDesarrolloWeb from "./pages/PropuestaDesarrolloWeb";
 import DesarrolloSoftwareLegal from "./pages/DesarrolloSoftwareLegal";
+import LandingBotServicios from "./pages/LandingBotServicios";
 
 const queryClient = new QueryClient();
 
@@ -155,6 +156,7 @@ function App() {
                 <Route path="/propuesta-clon-uber" element={<PropuestaClonUber />} />
                 <Route path="/propuesta-desarrollo-web" element={<PropuestaDesarrolloWeb />} />
                 <Route path="/desarrollo-software-legal" element={<DesarrolloSoftwareLegal />} />
+                <Route path="/landing-bot-servicios" element={<LandingBotServicios />} />
                 
                 {/* Rutas protegidas que requieren autenticación */}
                 <Route path="/client-portal" element={
