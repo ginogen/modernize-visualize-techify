@@ -43,6 +43,7 @@ import PropuestaClonUber from "./pages/PropuestaClonUber";
 import PropuestaDesarrolloWeb from "./pages/PropuestaDesarrolloWeb";
 import DesarrolloSoftwareLegal from "./pages/DesarrolloSoftwareLegal";
 import LandingBotServicios from "./pages/LandingBotServicios";
+import PropuestaGestionReservas from "./pages/PropuestaGestionReservas";
 
 const queryClient = new QueryClient();
 
@@ -157,6 +158,7 @@ function App() {
                 <Route path="/propuesta-desarrollo-web" element={<PropuestaDesarrolloWeb />} />
                 <Route path="/desarrollo-software-legal" element={<DesarrolloSoftwareLegal />} />
                 <Route path="/landing-bot-servicios" element={<LandingBotServicios />} />
+                <Route path="/propuesta-gestion-reservas" element={<PropuestaGestionReservas />} />
                 
                 {/* Rutas protegidas que requieren autenticación */}
                 <Route path="/client-portal" element={
