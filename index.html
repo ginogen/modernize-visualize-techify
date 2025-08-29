@@ -5,6 +5,10 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="preload" href="/src/styles/minimal.css" as="style" />
+    
     <!-- Primary Meta Tags -->
     <title>Builders AI | Desarrollo de IA y Chatbots Personalizados | Automatización Empresarial</title>
     <meta name="title" content="Builders AI | Desarrollo de IA y Chatbots Personalizados | Automatización Empresarial" />
@@ -65,8 +69,18 @@
     
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://ucarecdn.com https://sdk.dfktv2.com https://cdn.gpteng.co https://connect.facebook.net https://analytics.tiktok.com https://ads.tiktok.com; connect-src * https://analytics.tiktok.com https://ads.tiktok.com; img-src * data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; frame-src 'self' https://js.stripe.com https://sdk.dfktv2.com https://docs.google.com https://www.youtube.com https://www.youtube-nocookie.com;">
     
-    <!-- Facebook Pixel Code -->
-    <script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <img height="1" width="1" style="display:none" 
+      src="https://www.facebook.com/tr?id=2237381153298856&ev=PageView&noscript=1"/>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Third-party scripts loaded after main content -->
+    <script defer>
+      // Facebook Pixel Code
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -79,25 +93,16 @@
       fbq('track', 'PageView');
     </script>
     
-    <!-- TikTok Pixel Code Start -->
-    <script>
-    !function (w, d, t) {
-      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))};};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
-    var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e;},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
-    ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
-    
-    ttq.load('D1QJEPBC77UD8FVUVH0G');
-    ttq.page();
-    }(window, document, 'ttq');
+    <script defer>
+      // TikTok Pixel Code
+      !function (w, d, t) {
+        w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))};};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+        var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e;},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+        ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+        
+        ttq.load('D1QJEPBC77UD8FVUVH0G');
+        ttq.page();
+      }(window, document, 'ttq');
     </script>
-    <!-- TikTok Pixel Code End -->
-  </head>
-  <body>
-    <div id="root"></div>
-    <noscript>
-      <img height="1" width="1" style="display:none" 
-      src="https://www.facebook.com/tr?id=2237381153298856&ev=PageView&noscript=1"/>
-    </noscript>
-    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

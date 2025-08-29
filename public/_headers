@@ -1,0 +1,35 @@
+/*
+  # Cache static assets for 1 year
+  Cache-Control: public, max-age=31536000, immutable
+
+*.css
+  # Cache CSS files for 1 month
+  Cache-Control: public, max-age=2592000
+
+*.js
+  # Cache JS files for 1 month  
+  Cache-Control: public, max-age=2592000
+
+*.woff2
+*.woff
+*.ttf
+  # Cache fonts for 1 year
+  Cache-Control: public, max-age=31536000, immutable
+
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.avif
+*.svg
+  # Cache images for 6 months
+  Cache-Control: public, max-age=15768000
+
+/
+  # Cache HTML for 1 hour
+  Cache-Control: public, max-age=3600
+
+/api/*
+  # Don't cache API responses
+  Cache-Control: no-cache, no-store, must-revalidate

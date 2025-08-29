@@ -371,6 +371,7 @@ const Index = () => {
                           alt={project.title}
                           className="browser-screenshot-fullpage"
                           loading="lazy"
+                          decoding="async"
                           style={{ animationDelay: `${index * 2}s` }}
                         />
                         <div className="browser-image-placeholder">
