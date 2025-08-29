@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { HelmetProvider } from 'react-helmet-async';
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -124,13 +125,14 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <AuthProvider>
-            <Router>
-              <Routes>
+      <HelmetProvider>
+        <LanguageProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <AuthProvider>
+              <Router>
+                <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Services />} />
@@ -204,6 +206,7 @@ function App() {
           </AuthProvider>
         </TooltipProvider>
       </LanguageProvider>
+    </HelmetProvider>
     </QueryClientProvider>
   );
 }

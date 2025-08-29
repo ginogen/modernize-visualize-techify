@@ -1,564 +1,451 @@
-import { useEffect } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle, Star, Users, Zap, Shield, Globe, Code, BrainCircuit, Bot, Puzzle, Play, ChevronDown } from "lucide-react";
+import { ArrowRight, CheckCircle, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import VideoTestimonials from "@/components/VideoTestimonials";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SEO from "@/components/SEO/SEO";
+import "../styles/minimal.css";
 
 const Index = () => {
-  const { language, t } = useLanguage();
-  
-  useEffect(() => {
-    // Scroll to top when component mounts or language changes
-    window.scrollTo(0, 0);
-    
-    // Add smooth scrolling between sections
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        if (targetId) {
-          document.querySelector(targetId)?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-    
-    // Enhance section transitions with IntersectionObserver
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fade-in');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: "0px 0px -100px 0px" });
-    
-    const animatedElements = document.querySelectorAll('.animate-on-scroll');
-    animatedElements.forEach((el) => observer.observe(el));
-    
-    return () => {
-      animatedElements.forEach((el) => observer.unobserve(el));
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.removeEventListener('click', () => {});
-      });
-    };
-  }, [language]);
-
-  const fadeInUp = {
-    initial: { opacity: 0, y: 60 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
-  };
-
-  const staggerContainer = {
-    animate: {
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
+  const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-background">
+    <div className="min-h-screen bg-white">
+      <SEO
+        title="Builders AI | Desarrollo de IA y Chatbots Personalizados | Automatización Empresarial"
+        description="Transformamos tu negocio con soluciones de IA personalizadas. Chatbots inteligentes para WhatsApp, automatización de procesos empresariales y desarrollo web. +50 proyectos exitosos. Consulta gratis."
+        keywords="desarrollo IA, chatbot empresarial, chatbot WhatsApp, automatización procesos, inteligencia artificial, desarrollo software personalizado, transformación digital, builders ai, agencia IA"
+        url="https://www.builders-ai.com/"
+      />
+
+      {/* Grid Background */}
+      <div className="fixed inset-0 grid-bg pointer-events-none" />
+
       <Header />
-      
+
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Enhanced Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-darkBlue via-slate-900 to-black"></div>
-        <div className="absolute inset-0 hero-bg-overlay"></div>
-        
-        {/* Animated Grid Pattern */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-20"></div>
-        
-        {/* Floating Geometric Shapes */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-neonGreen/5 rounded-full blur-3xl animate-pulse floating-shapes"></div>
-          <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse floating-shapes"></div>
-          <div className="absolute bottom-1/4 left-1/3 w-48 h-48 bg-purple-500/5 rounded-full blur-3xl animate-pulse floating-shapes"></div>
-        </div>
-        
-        {/* Dynamic Particles */}
-        <div className="absolute inset-0">
-          {[...Array(100)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-neonGreen/40 rounded-full"
-              initial={{ 
-                x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200), 
-                y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800),
-                opacity: 0,
-                scale: 0
-              }}
-              animate={{ 
-                opacity: [0, 1, 0],
-                scale: [0, 1, 0],
-                y: [null, Math.random() * -200 - 100]
-              }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: Math.random() * 4 + 3,
-                delay: Math.random() * 5,
-                ease: "easeOut"
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Glowing Orbs */}
-        <div className="absolute inset-0">
-          <motion.div
-            className="absolute top-20 right-20 w-32 h-32 bg-neonGreen/10 rounded-full blur-xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3]
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 4,
-              ease: "easeInOut"
-            }}
-          />
-          <motion.div
-            className="absolute bottom-20 left-20 w-24 h-24 bg-blue-400/10 rounded-full blur-xl"
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.2, 0.5, 0.2]
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 5,
-              ease: "easeInOut",
-              delay: 1
-            }}
-          />
-        </div>
-
-        {/* Animated Lines */}
-        <div className="absolute inset-0">
-          <svg className="w-full h-full opacity-10" viewBox="0 0 1200 800">
-            <motion.path
-              d="M0,400 Q300,200 600,400 T1200,400"
-              stroke="url(#gradient1)"
-              strokeWidth="2"
-              fill="none"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 3, repeat: Infinity, repeatType: "reverse" }}
-            />
-            <motion.path
-              d="M0,300 Q400,100 800,300 T1200,300"
-              stroke="url(#gradient2)"
-              strokeWidth="1"
-              fill="none"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 4, repeat: Infinity, repeatType: "reverse", delay: 1 }}
-            />
-            <defs>
-              <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#39FF14" stopOpacity="0" />
-                <stop offset="50%" stopColor="#39FF14" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#39FF14" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
-                <stop offset="50%" stopColor="#3B82F6" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-
-        <div className="container mx-auto px-4 py-32 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mb-6"
-            >
-              <Badge className="bg-neonGreen/10 text-neonGreen border-neonGreen/20 px-4 py-2 text-sm font-mono">
-                🚀 {t("hero.badge")}
-              </Badge>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-white to-neonGreen bg-clip-text text-transparent leading-tight"
-            >
-              {t("hero.title")}
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed"
-            >
-              {t("hero.description")}
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex justify-center items-center mb-12"
-            >
-              <Button 
-                size="lg" 
-                className="bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-semibold px-8 py-4 text-lg button-glow"
-                onClick={() => window.open('https://calendar.app.google/XXwTHc1qvikRrd2f6', '_blank')}
+      <section className="relative pt-32 pb-20 px-4">
+        <div className="container-narrow">
+          <div className="max-w-3xl">
+            <h1 className="text-display font-semibold text-gray-900 mb-6">
+              Transformamos negocios con inteligencia artificial
+            </h1>
+            <p className="text-subtitle mb-8">
+              Creamos soluciones de IA personalizadas que automatizan procesos,
+              mejoran la experiencia del cliente y aceleran el crecimiento.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Button
+                className="btn-primary"
+                onClick={() =>
+                  window.open(
+                    "https://calendar.app.google/XXwTHc1qvikRrd2f6",
+                    "_blank"
+                  )
+                }
               >
-                {t("hero.get.started")} <ArrowRight className="ml-2 h-5 w-5" />
+                Agenda una consulta <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.8 }}
-              className="flex justify-center"
-            >
-              <ChevronDown className="h-8 w-8 text-white/60 animate-bounce" />
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-background section-enhanced-bg">
-        {/* Light background overlay */}
-        <div className="absolute inset-0 light-bg-overlay"></div>
-        
-        {/* Floating shapes */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-neonGreen/8 light-floating-shapes"></div>
-          <div className="absolute bottom-20 right-20 w-24 h-24 bg-blue-400/8 light-floating-shapes"></div>
-          <div className="absolute top-1/2 right-1/4 w-20 h-20 bg-purple-400/6 light-floating-shapes"></div>
-        </div>
-        
-        {/* Enhanced particles effect */}
-        <div className="absolute inset-0 light-particles">
-          {[...Array(40)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-neonGreen/30 rounded-full"
-              initial={{ 
-                x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200), 
-                y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 600),
-                opacity: 0,
-                scale: 0
-              }}
-              animate={{ 
-                opacity: [0, 0.8, 0],
-                scale: [0, 1.5, 0],
-                y: [null, Math.random() * -150 - 75]
-              }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: Math.random() * 5 + 3,
-                delay: Math.random() * 6,
-                ease: "easeOut"
-              }}
-            />
-          ))}
-        </div>
-        
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
-          >
+      <section className="py-20 border-y border-gray-100">
+        <div className="container-narrow">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { number: "50+", label: "Proyectos Completados", icon: "/assets/icons/proyectos.png" },
-              { number: "98%", label: "Satisfacción del Cliente", icon: "/assets/icons/rating.png" },
-              { number: "50+", label: "Clientes Activos", icon: "/assets/icons/clientesac.png" },
-              { number: "24/7", label: "Soporte Técnico", icon: "/assets/icons/soporte.png" }
+              { number: "50+", label: "Proyectos completados" },
+              { number: "98%", label: "Satisfacción del cliente" },
+              { number: "24/7", label: "Soporte disponible" },
+              { number: "3", label: "Países con presencia" },
             ].map((stat, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUp}
-                className="text-center"
-              >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-neonGreen/10 rounded-full mb-4">
-                  <img 
-                    src={stat.icon} 
-                    alt={stat.label}
-                    className="h-8 w-8 object-contain"
-                  />
-                </div>
-                <div className="text-3xl md:text-4xl font-bold text-foreground mb-2">{stat.number}</div>
-                <div className="text-muted-foreground">{stat.label}</div>
-              </motion.div>
+              <div key={index} className="text-center">
+                <div className="stat-number">{stat.number}</div>
+                <div className="stat-label">{stat.label}</div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 bg-muted/30 section-enhanced-bg">
-        {/* Light background overlay */}
-        <div className="absolute inset-0 light-bg-overlay"></div>
-        
-        {/* Floating shapes */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-32 right-32 w-40 h-40 bg-blue-400/10 light-floating-shapes"></div>
-          <div className="absolute bottom-32 left-32 w-28 h-28 bg-neonGreen/8 light-floating-shapes"></div>
-          <div className="absolute top-1/3 left-1/2 w-24 h-24 bg-purple-400/8 light-floating-shapes"></div>
-        </div>
-        
-        {/* Enhanced particles effect */}
-        <div className="absolute inset-0 light-particles">
-          {[...Array(35)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-blue-400/25 rounded-full"
-              initial={{ 
-                x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200), 
-                y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 600),
-                opacity: 0,
-                scale: 0
-              }}
-              animate={{ 
-                opacity: [0, 0.7, 0],
-                scale: [0, 1.2, 0],
-                x: [null, Math.random() * 120 - 60],
-                y: [null, Math.random() * -100 - 50]
-              }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: Math.random() * 7 + 4,
-                delay: Math.random() * 8,
-                ease: "easeInOut"
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-center mb-16"
-          >
-            <Badge className="mb-4 bg-neonGreen/10 text-neonGreen border-neonGreen/20">
-              Nuestros Servicios
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Soluciones que <span className="text-neonGreen">Transforman</span>
+      <section className="py-20">
+        <div className="container-narrow">
+          <div className="max-w-2xl mb-16">
+            <h2 className="text-4xl font-semibold text-gray-900 mb-4">
+              Nuestros servicios
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Ofrecemos servicios de vanguardia en inteligencia artificial y desarrollo web para impulsar tu negocio hacia el futuro digital.
+            <p className="text-lg text-gray-600">
+              Tres servicios principales diseñados para transformar tu negocio con tecnología de vanguardia.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {[
-              {
-                icon: "/assets/icons/cerebroia.png",
-                title: t("services.ai.integration"),
-                description: t("services.ai.integration.desc"),
-                features: ["Machine Learning", "Análisis Predictivo", "Automatización Inteligente"]
-              },
-              {
-                icon: "/assets/icons/desarrollo.png",
-                title: t("services.custom.dev"),
-                description: t("services.custom.dev.desc"),
-                features: ["React & Next.js", "Node.js & Python", "Bases de Datos"]
-              },
-              {
-                icon: "/assets/icons/chatboti.png",
-                title: t("services.chatbot"),
-                description: t("services.chatbot.desc"),
-                features: ["NLP Avanzado", "Integración Multi-canal", "Análisis de Sentimientos"]
-              },
-              {
-                icon: "/assets/icons/procesos.png",
-                title: t("services.process.automation"),
-                description: t("services.process.automation.desc"),
-                features: ["Workflows Automatizados", "APIs Personalizadas", "Integración de Sistemas"]
-              },
-              {
-                icon: "/assets/icons/web.png",
-                title: "Desarrollo Web Completo",
-                description: "Sitios web modernos, responsivos y optimizados para conversión",
-                features: ["Diseño Responsivo", "SEO Optimizado", "Performance Máximo"]
-              },
-              {
-                icon: "/assets/icons/consultoria.png",
-                title: "Consultoría Digital",
-                description: "Estrategias digitales personalizadas para acelerar tu crecimiento",
-                features: ["Auditoría Digital", "Estrategia de Crecimiento", "Transformación Digital"]
-              }
-            ].map((service, index) => (
-              <motion.div key={index} variants={fadeInUp}>
-                <Card className="h-full hover:shadow-xl transition-all duration-300 border-0 bg-card/50 backdrop-blur-sm group hover:scale-105">
-                  <CardContent className="p-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-neonGreen/10 rounded-xl mb-6 group-hover:bg-neonGreen/20 transition-colors">
-                      <img 
-                        src={service.icon} 
-                        alt={service.title}
-                        className="h-8 w-8 object-contain"
-                      />
-                    </div>
-                    <h3 className="text-xl font-bold mb-4">{service.title}</h3>
-                    <p className="text-muted-foreground mb-6">{service.description}</p>
-                    <ul className="space-y-2">
-                      {service.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-center text-sm">
-                          <CheckCircle className="h-4 w-4 text-neonGreen mr-2 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
+          <div className="space-y-16">
+            {/* Desarrollo de Software */}
+            <div className="service-section">
+              <h3 className="text-3xl font-semibold text-gray-900 mb-4">
+                Desarrollo de Software
+              </h3>
+              <p className="text-lg text-gray-600 mb-8 max-w-3xl">
+                Creamos aplicaciones web y móviles personalizadas utilizando las tecnologías más modernas. 
+                Desde MVPs hasta plataformas enterprise, desarrollamos soluciones que escalan con tu negocio.
+              </p>
+              
+              <div className="grid md:grid-cols-3 gap-4">
+                <Card className="service-card">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="text-lg font-medium">Aplicaciones Web</h4>
+                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                  </div>
+                  <p className="text-sm text-gray-600">React, Next.js y tecnologías modernas</p>
                 </Card>
-              </motion.div>
-            ))}
-          </motion.div>
+                <Card className="service-card">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="text-lg font-medium">APIs y Backend</h4>
+                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                  </div>
+                  <p className="text-sm text-gray-600">Arquitecturas escalables y seguras</p>
+                </Card>
+                <Card className="service-card">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="text-lg font-medium">E-commerce</h4>
+                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                  </div>
+                  <p className="text-sm text-gray-600">Tiendas online optimizadas</p>
+                </Card>
+              </div>
+            </div>
+
+            {/* AI Agents */}
+            <div className="service-section">
+              <h3 className="text-3xl font-semibold text-gray-900 mb-4">
+                AI Agents
+              </h3>
+              <p className="text-lg text-gray-600 mb-8 max-w-3xl">
+                Desarrollamos agentes de inteligencia artificial personalizados que automatizan tareas complejas,
+                mejoran la atención al cliente y optimizan procesos empresariales.
+              </p>
+              
+              <div className="grid md:grid-cols-3 gap-4">
+                <Card className="service-card">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="text-lg font-medium">Chatbots WhatsApp</h4>
+                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                  </div>
+                  <p className="text-sm text-gray-600">Atención 24/7 con IA conversacional</p>
+                </Card>
+                <Card className="service-card">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="text-lg font-medium">Asistentes Virtuales</h4>
+                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                  </div>
+                  <p className="text-sm text-gray-600">Agentes especializados por industria</p>
+                </Card>
+                <Card className="service-card">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="text-lg font-medium">Análisis Inteligente</h4>
+                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                  </div>
+                  <p className="text-sm text-gray-600">Procesamiento de datos con IA</p>
+                </Card>
+              </div>
+            </div>
+
+            {/* Automatizaciones */}
+            <div className="service-section">
+              <h3 className="text-3xl font-semibold text-gray-900 mb-4">
+                Automatizaciones
+              </h3>
+              <p className="text-lg text-gray-600 mb-8 max-w-3xl">
+                Implementamos sistemas de automatización que conectan tus herramientas existentes,
+                eliminan tareas repetitivas y optimizan flujos de trabajo empresariales.
+              </p>
+              
+              <div className="grid md:grid-cols-3 gap-4">
+                <Card className="service-card">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="text-lg font-medium">Workflows</h4>
+                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                  </div>
+                  <p className="text-sm text-gray-600">Automatización de procesos empresariales</p>
+                </Card>
+                <Card className="service-card">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="text-lg font-medium">Integraciones</h4>
+                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                  </div>
+                  <p className="text-sm text-gray-600">Conecta todas tus herramientas</p>
+                </Card>
+                <Card className="service-card">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="text-lg font-medium">Reportes Automáticos</h4>
+                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                  </div>
+                  <p className="text-sm text-gray-600">Datos en tiempo real sin esfuerzo</p>
+                </Card>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-background section-enhanced-bg">
-        {/* Light background overlay */}
-        <div className="absolute inset-0 light-bg-overlay"></div>
-        
-        {/* Floating shapes */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-24 left-1/4 w-36 h-36 bg-purple-400/10 light-floating-shapes"></div>
-          <div className="absolute bottom-24 right-1/4 w-32 h-32 bg-neonGreen/8 light-floating-shapes"></div>
-          <div className="absolute top-2/3 left-3/4 w-20 h-20 bg-blue-400/8 light-floating-shapes"></div>
-        </div>
-        
-        {/* Enhanced particles effect */}
-        <div className="absolute inset-0 light-particles">
-          {[...Array(30)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-purple-400/25 rounded-full"
-              initial={{ 
-                x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200), 
-                y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 600),
-                opacity: 0,
-                scale: 0
-              }}
-              animate={{ 
-                opacity: [0, 0.6, 0],
-                scale: [0, 2, 0],
-                rotate: [0, 360]
-              }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: Math.random() * 8 + 6,
-                delay: Math.random() * 10,
-                ease: "linear"
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-center mb-16"
-          >
-            <Badge className="mb-4 bg-neonGreen/10 text-neonGreen border-neonGreen/20">
-              Nuestro Proceso
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Cómo <span className="text-neonGreen">Trabajamos</span>
+      <section className="py-20 bg-gray-50/50">
+        <div className="container-narrow">
+          <div className="max-w-2xl mb-16">
+            <h2 className="text-4xl font-semibold text-gray-900 mb-4">
+              Cómo trabajamos
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Un proceso probado que garantiza resultados excepcionales en cada proyecto.
+            <p className="text-lg text-gray-600">
+              Un proceso simple y efectivo para transformar tus ideas en
+              soluciones reales.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid md:grid-cols-4 gap-8"
-          >
+          <div className="grid md:grid-cols-4 gap-8">
             {[
-              { step: "01", title: "Descubrimiento", description: "Analizamos tus necesidades y objetivos específicos" },
-              { step: "02", title: "Estrategia", description: "Diseñamos una solución personalizada y escalable" },
-              { step: "03", title: "Desarrollo", description: "Implementamos con las mejores prácticas y tecnologías" },
-              { step: "04", title: "Lanzamiento", description: "Desplegamos y optimizamos para máximo rendimiento" }
+              {
+                step: "01",
+                title: "Descubrimiento",
+                description:
+                  "Analizamos tus necesidades y definimos objetivos claros.",
+              },
+              {
+                step: "02",
+                title: "Diseño",
+                description:
+                  "Creamos una solución personalizada para tu negocio.",
+              },
+              {
+                step: "03",
+                title: "Desarrollo",
+                description:
+                  "Construimos con las mejores prácticas y tecnología.",
+              },
+              {
+                step: "04",
+                title: "Lanzamiento",
+                description: "Implementamos y optimizamos para máximo impacto.",
+              },
             ].map((process, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUp}
-                className="text-center relative"
-              >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-neonGreen text-darkBlue rounded-full font-bold text-xl mb-6">
-                  {process.step}
-                </div>
-                <h3 className="text-xl font-bold mb-4">{process.title}</h3>
-                <p className="text-muted-foreground">{process.description}</p>
-                {index < 3 && (
-                  <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-neonGreen to-transparent"></div>
-                )}
-              </motion.div>
+              <div key={index} className="process-step">
+                <div className="process-number">PASO {process.step}</div>
+                <h3 className="text-lg font-semibold mb-2">{process.title}</h3>
+                <p className="text-sm text-gray-600">{process.description}</p>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Video Testimonials Section */}
-      {/* <VideoTestimonials /> */}
+      {/* Testimonials Section */}
+      <section className="py-20 border-t border-gray-100">
+        <div className="container-narrow">
+          <div className="max-w-2xl mb-16">
+            <h2 className="text-4xl font-semibold text-gray-900 mb-4">
+              Lo que dicen nuestros clientes
+            </h2>
+            <p className="text-lg text-gray-600">
+              Empresas que han transformado sus operaciones con nuestras
+              soluciones.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                quote:
+                  "La implementación del chatbot redujo nuestros tiempos de respuesta en un 80% y mejoró significativamente la satisfacción del cliente.",
+                author: "María García",
+                role: "CEO, TechStore",
+              },
+              {
+                quote:
+                  "El sistema de automatización que desarrollaron nos permitió escalar operaciones sin aumentar costos. Excelente trabajo.",
+                author: "Carlos Rodríguez",
+                role: "Director de Operaciones, LogiCorp",
+              },
+              {
+                quote:
+                  "Builders AI no solo entregó tecnología, sino que transformó nuestra forma de trabajar. Son verdaderos partners estratégicos.",
+                author: "Ana Martínez",
+                role: "CTO, FinanceHub",
+              },
+            ].map((testimonial, index) => (
+              <Card key={index} className="card-minimal">
+                <p className="text-gray-600 mb-4 italic">
+                  "{testimonial.quote}"
+                </p>
+                <div>
+                  <div className="font-semibold">{testimonial.author}</div>
+                  <div className="text-sm text-gray-500">
+                    {testimonial.role}
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Portfolio Section */}
+      <section className="py-20 bg-gray-50/50">
+        <div className="container-narrow">
+          <div className="max-w-2xl mb-16 text-center mx-auto">
+            <h2 className="text-4xl font-semibold text-gray-900 mb-4">
+              Proyectos destacados
+            </h2>
+            <p className="text-lg text-gray-600">
+              Landing pages que hemos diseñado y desarrollado para impulsar el
+              crecimiento digital de nuestros clientes.
+            </p>
+          </div>
+
+          <div className="portfolio-showcase">
+            {[
+              {
+                url: "https://airibot.lat/",
+                title: "AiriBot",
+                description: "Plataforma de chatbots con IA para empresas",
+                tags: ["Landing Page", "SaaS", "IA"],
+                color: "#3B82F6",
+                screenshot: "/portfolio/airibot-preview.jpg",
+              },
+              {
+                url: "https://autentika.lat/",
+                title: "Autentika",
+                description: "Solución de autenticación digital",
+                tags: ["Landing Page", "Fintech", "Seguridad"],
+                color: "#10B981",
+                screenshot: "/portfolio/autentika-preview.jpg",
+              },
+              {
+                url: "https://keepi-space-share.lovable.app",
+                title: "Keepi Space Share",
+                description: "Aplicación para compartir y gestionar espacios",
+                tags: ["Web App", "UX/UI", "Marketplace"],
+                color: "#F59E0B",
+                screenshot: "/portfolio/keepi-preview.jpg",
+              },
+              {
+                url: "https://vibecoders.lat/",
+                title: "Vibecoders",
+                description: "Agencia de desarrollo de software",
+                tags: ["Landing Page", "Agencia", "Tech"],
+                color: "#8B5CF6",
+                screenshot: "/portfolio/vibecoders-preview.jpg",
+              },
+            ].map((project, index) => (
+              <div key={index} className="browser-showcase-container">
+                <div className="browser-showcase">
+                  <div className="browser-showcase-header">
+                    <div className="browser-dots">
+                      <span
+                        className="browser-dot"
+                        style={{ background: "#FF5F57" }}
+                      ></span>
+                      <span
+                        className="browser-dot"
+                        style={{ background: "#FFBD2E" }}
+                      ></span>
+                      <span
+                        className="browser-dot"
+                        style={{ background: "#28CA42" }}
+                      ></span>
+                    </div>
+                    <div className="browser-url-bar">
+                      <span className="browser-url-text">{project.url}</span>
+                    </div>
+                    <div className="browser-status">
+                      <div className="browser-status-dot"></div>
+                    </div>
+                  </div>
+                  <div className="browser-showcase-viewport">
+                    <div className="browser-scroll-container">
+                      <div className="browser-scroll-content">
+                        <img
+                          src={project.screenshot}
+                          alt={project.title}
+                          className="browser-screenshot-fullpage"
+                          loading="lazy"
+                          style={{ animationDelay: `${index * 2}s` }}
+                        />
+                        <div className="browser-image-placeholder">
+                          <div className="browser-placeholder-grid">
+                            <div className="browser-placeholder-block"></div>
+                            <div className="browser-placeholder-block"></div>
+                            <div className="browser-placeholder-block"></div>
+                            <div className="browser-placeholder-block"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="browser-scroll-indicator">
+                        <div className="browser-progress-bar"></div>
+                      </div>
+
+                      <div className="browser-scroll-gradients">
+                        <div className="browser-gradient-top"></div>
+                        <div className="browser-gradient-bottom"></div>
+                      </div>
+
+                      <div className="browser-scroll-hint">
+                        <span>Scroll automático - Pausa al pasar el mouse</span>
+                      </div>
+                    </div>
+
+                    <div className="browser-showcase-overlay">
+                      <div className="browser-showcase-info">
+                        <h3
+                          className="browser-showcase-title"
+                          style={{ color: project.color }}
+                        >
+                          {project.title}
+                        </h3>
+                        <p className="browser-showcase-description">
+                          {project.description}
+                        </p>
+                        <div className="browser-showcase-tags">
+                          {project.tags.map((tag) => (
+                            <span key={tag} className="browser-showcase-tag">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-darkBlue to-darkBlue/90 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="max-w-4xl mx-auto"
+      <section className="py-20 bg-gray-900 text-white">
+        <div className="container-narrow text-center">
+          <h2 className="text-4xl font-semibold mb-4">
+            ¿Listo para transformar tu negocio?
+          </h2>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Agenda una consulta gratuita y descubre cómo la IA puede
+            revolucionar tu empresa.
+          </p>
+          <Button
+            className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-3"
+            onClick={() =>
+              window.open(
+                "https://calendar.app.google/XXwTHc1qvikRrd2f6",
+                "_blank"
+              )
+            }
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              ¿Listo para <span className="text-neonGreen">Transformar</span> tu Negocio?
-            </h2>
-            <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
-              Únete a más de 50 empresas que ya han revolucionado sus procesos con nuestras soluciones de IA.
-            </p>
-            <div className="flex justify-center">
-              <Button 
-                size="lg" 
-                className="bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-semibold px-8 py-4 text-lg button-glow"
-                onClick={() => window.open('https://calendar.app.google/XXwTHc1qvikRrd2f6', '_blank')}
-              >
-                Comenzar Ahora <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
-          </motion.div>
+            Comenzar ahora <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
         </div>
       </section>
 
