@@ -1,6 +1,7 @@
 import { ArrowRight, CheckCircle, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -164,7 +165,7 @@ const Index = () => {
                 eliminan tareas repetitivas y optimizan flujos de trabajo empresariales.
               </p>
               
-              <div className="grid md:grid-cols-3 gap-4">
+              <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <Card className="service-card">
                   <div className="flex items-start justify-between mb-2">
                     <h4 className="text-lg font-medium">Workflows</h4>
@@ -186,6 +187,24 @@ const Index = () => {
                   </div>
                   <p className="text-sm text-gray-600">Datos en tiempo real sin esfuerzo</p>
                 </Card>
+                <Link to="/automatizar-facturas">
+                  <Card className="service-card cursor-pointer hover:shadow-md transition-shadow">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="text-lg font-medium">Automatizar Facturas</h4>
+                      <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                    </div>
+                    <p className="text-sm text-gray-600">Facturación automática integrada con AFIP</p>
+                  </Card>
+                </Link>
+                <Link to="/automatizar-documentos-word">
+                  <Card className="service-card cursor-pointer hover:shadow-md transition-shadow">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="text-lg font-medium">Automatizar Documentos en Word</h4>
+                      <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                    </div>
+                    <p className="text-sm text-gray-600">Plantillas y documentos automáticos</p>
+                  </Card>
+                </Link>
               </div>
             </div>
           </div>

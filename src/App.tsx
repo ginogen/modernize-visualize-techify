@@ -45,6 +45,8 @@ import PropuestaDesarrolloWeb from "./pages/PropuestaDesarrolloWeb";
 import DesarrolloSoftwareLegal from "./pages/DesarrolloSoftwareLegal";
 import LandingBotServicios from "./pages/LandingBotServicios";
 import PropuestaGestionReservas from "./pages/PropuestaGestionReservas";
+import AutomatizarFacturas from "./pages/AutomatizarFacturas";
+import AutomatizarDocumentosWord from "./pages/AutomatizarDocumentosWord";
 
 const queryClient = new QueryClient();
 
@@ -161,6 +163,8 @@ function App() {
                 <Route path="/desarrollo-software-legal" element={<DesarrolloSoftwareLegal />} />
                 <Route path="/landing-bot-servicios" element={<LandingBotServicios />} />
                 <Route path="/propuesta-gestion-reservas" element={<PropuestaGestionReservas />} />
+                <Route path="/automatizar-facturas" element={<AutomatizarFacturas />} />
+                <Route path="/automatizar-documentos-word" element={<AutomatizarDocumentosWord />} />
                 
                 {/* Rutas protegidas que requieren autenticación */}
                 <Route path="/client-portal" element={
