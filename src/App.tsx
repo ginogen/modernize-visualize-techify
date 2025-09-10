@@ -47,6 +47,7 @@ import LandingBotServicios from "./pages/LandingBotServicios";
 import PropuestaGestionReservas from "./pages/PropuestaGestionReservas";
 import AutomatizarFacturas from "./pages/AutomatizarFacturas";
 import AutomatizarDocumentosWord from "./pages/AutomatizarDocumentosWord";
+import PropuestaMarketing from "./pages/PropuestaMarketing";
 
 const queryClient = new QueryClient();
 
@@ -165,6 +166,7 @@ function App() {
                 <Route path="/propuesta-gestion-reservas" element={<PropuestaGestionReservas />} />
                 <Route path="/automatizar-facturas" element={<AutomatizarFacturas />} />
                 <Route path="/automatizar-documentos-word" element={<AutomatizarDocumentosWord />} />
+                <Route path="/propuesta-marketing" element={<PropuestaMarketing />} />
                 
                 {/* Rutas protegidas que requieren autenticación */}
                 <Route path="/client-portal" element={
