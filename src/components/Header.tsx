@@ -30,21 +30,8 @@ const Header = () => {
             />
           </Link>
           
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* CTA Button - now always visible */}
+          <div className="block">
             <Button 
               className="bg-gray-900 text-white hover:bg-gray-800 text-sm px-6 py-2"
               onClick={() => window.open('https://calendar.app.google/XXwTHc1qvikRrd2f6', '_blank')}
@@ -52,46 +39,8 @@ const Header = () => {
               Agenda una consulta
             </Button>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2"
-          >
-            {isOpen ? (
-              <X className="h-5 w-5 text-gray-600" />
-            ) : (
-              <Menu className="h-5 w-5 text-gray-600" />
-            )}
-          </button>
         </div>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden py-4 border-t border-gray-100">
-            <nav className="flex flex-col space-y-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className="text-sm font-medium text-gray-600 hover:text-gray-900"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <Button 
-                className="bg-gray-900 text-white hover:bg-gray-800 text-sm w-full"
-                onClick={() => {
-                  window.open('https://calendar.app.google/XXwTHc1qvikRrd2f6', '_blank');
-                  setIsOpen(false);
-                }}
-              >
-                Agenda una consulta
-              </Button>
-            </nav>
-          </div>
-        )}
       </div>
     </header>
   );
