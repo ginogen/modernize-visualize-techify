@@ -64,115 +64,7 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Capacitación y webinars -->
-  <url>
-    <loc>https://www.builders-ai.com/capacitacion</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://www.builders-ai.com/webinar-agente-ia</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Portfolio -->
-  <url>
-    <loc>https://www.builders-ai.com/portfolio</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Propuestas públicas -->
-  <url>
-    <loc>https://www.builders-ai.com/propuesta-desarrollo-web</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.builders-ai.com/propuesta-bot</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.builders-ai.com/desarrollo-software-legal</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.builders-ai.com/propuesta-ia-salud</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.builders-ai.com/propuesta-48-horas</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.builders-ai.com/propuesta-clon-uber</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.builders-ai.com/propuesta-gestion-reservas</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.builders-ai.com/propuesta-lavado-vehiculos</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.builders-ai.com/propuesta-partner</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.builders-ai.com/punto-rojo-automate</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Definiciones y recursos -->
-  <url>
-    <loc>https://www.builders-ai.com/chatbot-definition</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <!-- Acerca de -->
-  <url>
-    <loc>https://www.builders-ai.com/about</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
+  
 
   <!-- Artículos de automatización (contenido valioso) -->
   <url>
@@ -185,6 +77,20 @@
   <url>
     <loc>https://www.builders-ai.com/automatizar-documentos-word</loc>
     <lastmod>2025-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.builders-ai.com/automatizar-mensajes-de-whatsapp</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.builders-ai.com/ia-para-abogados</loc>
+    <lastmod>2025-09-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>

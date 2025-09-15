@@ -2,8 +2,15 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { HelmetProvider } from 'react-helmet-async';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -35,9 +42,9 @@ import Landing48Horas from "./pages/Landing48Horas";
 import Landing48HorasAds from "./pages/Landing48HorasAds";
 import WebinarAgenteIA from "./routes/webinar-agente-ia";
 import { TrackerLayout } from "./components/TrackerLayout";
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { TrackerProvider } from './contexts/TrackerContext';
-import LoginPage from './pages/LoginPage';
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { TrackerProvider } from "./contexts/TrackerContext";
+import LoginPage from "./pages/LoginPage";
 import PreviewLanding from "./pages/landing-48-horas/preview/[id]";
 import PropuestaLavadoVehiculos from "./pages/PropuestaLavadoVehiculos";
 import PropuestaClonUber from "./pages/PropuestaClonUber";
@@ -48,6 +55,8 @@ import PropuestaGestionReservas from "./pages/PropuestaGestionReservas";
 import AutomatizarFacturas from "./pages/AutomatizarFacturas";
 import AutomatizarDocumentosWord from "./pages/AutomatizarDocumentosWord";
 import PropuestaMarketing from "./pages/PropuestaMarketing";
+import AutomatizarWhatsApp from "./pages/AutomatizarWhatsapp";
+import IAparaAbogados from "./pages/IAparaAbogados";
 
 const queryClient = new QueryClient();
 
@@ -62,30 +71,32 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
       if (!session) {
         setIsAuthenticated(false);
         setLoading(false);
         return;
       }
-      
+
       setIsAuthenticated(true);
-      
+
       // Obtener datos del usuario desde sessionStorage o desde Supabase
       const savedData = sessionStorage.getItem("clientData");
-      
+
       if (savedData) {
         const userData = JSON.parse(savedData);
         setUserRole(userData.role);
       } else {
         try {
           const { data: profileData } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', session.user.id)
+            .from("profiles")
+            .select("role")
+            .eq("id", session.user.id)
             .single();
-            
+
           if (profileData) {
             setUserRole(profileData.role);
             // No guardamos en sessionStorage aquí para evitar datos parciales
@@ -94,34 +105,36 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
           console.error("Error fetching user role:", error);
         }
       }
-      
+
       setLoading(false);
     };
-    
+
     checkAuth();
   }, [navigate, location.pathname]);
-  
+
   if (loading) {
-    return <div className="flex items-center justify-center h-screen">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-    </div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
   }
-  
+
   // Si la ruta requiere autenticación y el usuario no está autenticado
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
-  
+
   // Si la ruta requiere un rol específico y el usuario no tiene ese rol
   if (requiredRole && userRole !== requiredRole) {
     // Si es admin, redirigir a dashboard de admin
-    if (userRole === 'admin') {
+    if (userRole === "admin") {
       return <Navigate to="/admin" replace />;
     }
     // Si es cliente u otro rol, redirigir a portal de cliente
     return <Navigate to="/client-portal" replace />;
   }
-  
+
   return children;
 };
 
@@ -136,83 +149,169 @@ function App() {
             <AuthProvider>
               <Router>
                 <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/services/ai-chatbots" element={<AIChatbots />} />
-                <Route path="/services/custom-software" element={<CustomSoftware />} />
-                <Route path="/portfolio" element={<Portfolio />} />
-                <Route path="/portfolio/:id" element={<PortfolioDetail />} />
-                <Route path="/capacitacion" element={<Capacitacion />} />
-                <Route path="/onboarding" element={<Onboarding />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register-admin" element={<RegisterAdmin />} />
-                <Route path="/propuesta/:slug" element={<Proposal />} />
-                <Route path="/propuesta-bot" element={<PropuestaBot />} />
-                <Route path="/propuesta-partner" element={<PropuestaPartner />} />
-                <Route path="/propuesta-48horas" element={<Propuesta48Horas />} />
-                <Route path="/propuesta-ia-salud" element={<PropuestaIASalud />} />
-                <Route path="/punto-rojo-automate" element={<PuntoRojoAutomate />} />
-                <Route path="/bot-ia-bonificado" element={<BotIABonificado />} />
-                <Route path="/landing-48-horas" element={<Landing48Horas />} />
-                <Route path="/landing-48-horas/preview/:id" element={<PreviewLanding />} />
-                <Route path="/landing-48-horas/ads" element={<Landing48HorasAds />} />
-                <Route path="/webinar-agente-ia" element={<WebinarAgenteIA />} />
-                <Route path="/propuesta-lavado-vehiculos" element={<PropuestaLavadoVehiculos />} />
-                <Route path="/propuesta-clon-uber" element={<PropuestaClonUber />} />
-                <Route path="/propuesta-desarrollo-web" element={<PropuestaDesarrolloWeb />} />
-                <Route path="/desarrollo-software-legal" element={<DesarrolloSoftwareLegal />} />
-                <Route path="/landing-bot-servicios" element={<LandingBotServicios />} />
-                <Route path="/propuesta-gestion-reservas" element={<PropuestaGestionReservas />} />
-                <Route path="/automatizar-facturas" element={<AutomatizarFacturas />} />
-                <Route path="/automatizar-documentos-word" element={<AutomatizarDocumentosWord />} />
-                <Route path="/propuesta-marketing" element={<PropuestaMarketing />} />
-                
-                {/* Rutas protegidas que requieren autenticación */}
-                <Route path="/client-portal" element={
-                  <ProtectedRoute>
-                    <ClientPortal />
-                  </ProtectedRoute>
-                } />
-                <Route path="/chatbot-definition" element={
-                  <ProtectedRoute>
-                    <ChatbotDefinition />
-                  </ProtectedRoute>
-                } />
-                
-                {/* Rutas de Tracker */}
-                <Route path="/tracker/*" element={
-                  <ProtectedRoute>
-                    <TrackerProvider>
-                      <TrackerLayout />
-                    </TrackerProvider>
-                  </ProtectedRoute>
-                } />
-                
-                {/* Rutas de Admin */}
-                <Route path="/admin" element={
-                  <ProtectedRoute requiredRole="admin">
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                } />
-                <Route path="/admin/proposals/create" element={
-                  <ProtectedRoute requiredRole="admin">
-                    <CreateProposal />
-                  </ProtectedRoute>
-                } />
-                <Route path="/admin/proposals/edit/:id" element={
-                  <ProtectedRoute requiredRole="admin">
-                    <EditProposal />
-                  </ProtectedRoute>
-                } />
-                
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Router>
-          </AuthProvider>
-        </TooltipProvider>
-      </LanguageProvider>
-    </HelmetProvider>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/services" element={<Services />} />
+                  <Route
+                    path="/services/ai-chatbots"
+                    element={<AIChatbots />}
+                  />
+                  <Route
+                    path="/services/custom-software"
+                    element={<CustomSoftware />}
+                  />
+                  <Route path="/portfolio" element={<Portfolio />} />
+                  <Route path="/portfolio/:id" element={<PortfolioDetail />} />
+                  <Route path="/capacitacion" element={<Capacitacion />} />
+                  <Route path="/onboarding" element={<Onboarding />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register-admin" element={<RegisterAdmin />} />
+                  <Route path="/propuesta/:slug" element={<Proposal />} />
+                  <Route path="/propuesta-bot" element={<PropuestaBot />} />
+                  <Route
+                    path="/propuesta-partner"
+                    element={<PropuestaPartner />}
+                  />
+                  <Route
+                    path="/propuesta-48horas"
+                    element={<Propuesta48Horas />}
+                  />
+                  <Route
+                    path="/propuesta-ia-salud"
+                    element={<PropuestaIASalud />}
+                  />
+                  <Route
+                    path="/punto-rojo-automate"
+                    element={<PuntoRojoAutomate />}
+                  />
+                  <Route
+                    path="/bot-ia-bonificado"
+                    element={<BotIABonificado />}
+                  />
+                  <Route
+                    path="/landing-48-horas"
+                    element={<Landing48Horas />}
+                  />
+                  <Route
+                    path="/landing-48-horas/preview/:id"
+                    element={<PreviewLanding />}
+                  />
+                  <Route
+                    path="/landing-48-horas/ads"
+                    element={<Landing48HorasAds />}
+                  />
+                  <Route
+                    path="/webinar-agente-ia"
+                    element={<WebinarAgenteIA />}
+                  />
+                  <Route
+                    path="/propuesta-lavado-vehiculos"
+                    element={<PropuestaLavadoVehiculos />}
+                  />
+                  <Route
+                    path="/propuesta-clon-uber"
+                    element={<PropuestaClonUber />}
+                  />
+                  <Route
+                    path="/propuesta-desarrollo-web"
+                    element={<PropuestaDesarrolloWeb />}
+                  />
+                  <Route
+                    path="/desarrollo-software-legal"
+                    element={<DesarrolloSoftwareLegal />}
+                  />
+                  <Route
+                    path="/landing-bot-servicios"
+                    element={<LandingBotServicios />}
+                  />
+                  <Route
+                    path="/propuesta-gestion-reservas"
+                    element={<PropuestaGestionReservas />}
+                  />
+                  <Route
+                    path="/automatizar-facturas"
+                    element={<AutomatizarFacturas />}
+                  />
+                  <Route
+                    path="/automatizar-documentos-word"
+                    element={<AutomatizarDocumentosWord />}
+                  />
+                  <Route
+                    path="/propuesta-marketing"
+                    element={<PropuestaMarketing />}
+                  />
+                  <Route
+                    path="/automatizar-mensajes-de-whatsapp"
+                    element={<AutomatizarWhatsApp />}
+                  />
+                  <Route
+                    path="/ia-para-abogados"
+                    element={<IAparaAbogados />}
+                  />
+
+                  {/* Rutas protegidas que requieren autenticación */}
+                  <Route
+                    path="/client-portal"
+                    element={
+                      <ProtectedRoute>
+                        <ClientPortal />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/chatbot-definition"
+                    element={
+                      <ProtectedRoute>
+                        <ChatbotDefinition />
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  {/* Rutas de Tracker */}
+                  <Route
+                    path="/tracker/*"
+                    element={
+                      <ProtectedRoute>
+                        <TrackerProvider>
+                          <TrackerLayout />
+                        </TrackerProvider>
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  {/* Rutas de Admin */}
+                  <Route
+                    path="/admin"
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <AdminDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/proposals/create"
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <CreateProposal />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/proposals/edit/:id"
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <EditProposal />
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Router>
+            </AuthProvider>
+          </TooltipProvider>
+        </LanguageProvider>
+      </HelmetProvider>
     </QueryClientProvider>
   );
 }

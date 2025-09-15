@@ -80,7 +80,8 @@ const Index = () => {
               Nuestros servicios
             </h2>
             <p className="text-lg text-gray-600">
-              Tres servicios principales diseñados para transformar tu negocio con tecnología de vanguardia.
+              Tres servicios principales diseñados para transformar tu negocio
+              con tecnología de vanguardia.
             </p>
           </div>
 
@@ -91,31 +92,38 @@ const Index = () => {
                 Desarrollo de Software
               </h3>
               <p className="text-lg text-gray-600 mb-8 max-w-3xl">
-                Creamos aplicaciones web y móviles personalizadas utilizando las tecnologías más modernas. 
-                Desde MVPs hasta plataformas enterprise, desarrollamos soluciones que escalan con tu negocio.
+                Creamos aplicaciones web y móviles personalizadas utilizando las
+                tecnologías más modernas. Desde MVPs hasta plataformas
+                enterprise, desarrollamos soluciones que escalan con tu negocio.
               </p>
-              
+
               <div className="grid md:grid-cols-3 gap-4">
                 <Card className="service-card">
                   <div className="flex items-start justify-between mb-2">
                     <h4 className="text-lg font-medium">Aplicaciones Web</h4>
                     <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
                   </div>
-                  <p className="text-sm text-gray-600">React, Next.js y tecnologías modernas</p>
+                  <p className="text-sm text-gray-600">
+                    React, Next.js y tecnologías modernas
+                  </p>
                 </Card>
                 <Card className="service-card">
                   <div className="flex items-start justify-between mb-2">
                     <h4 className="text-lg font-medium">APIs y Backend</h4>
                     <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
                   </div>
-                  <p className="text-sm text-gray-600">Arquitecturas escalables y seguras</p>
+                  <p className="text-sm text-gray-600">
+                    Arquitecturas escalables y seguras
+                  </p>
                 </Card>
                 <Card className="service-card">
                   <div className="flex items-start justify-between mb-2">
                     <h4 className="text-lg font-medium">E-commerce</h4>
                     <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
                   </div>
-                  <p className="text-sm text-gray-600">Tiendas online optimizadas</p>
+                  <p className="text-sm text-gray-600">
+                    Tiendas online optimizadas
+                  </p>
                 </Card>
               </div>
             </div>
@@ -123,34 +131,50 @@ const Index = () => {
             {/* AI Agents */}
             <div className="service-section">
               <h3 className="text-3xl font-semibold text-gray-900 mb-4">
-                AI Agents
+                AI Agents e Inteligencia Artificial para Negocios y Empresas
               </h3>
               <p className="text-lg text-gray-600 mb-8 max-w-3xl">
-                Desarrollamos agentes de inteligencia artificial personalizados que automatizan tareas complejas,
-                mejoran la atención al cliente y optimizan procesos empresariales.
+                Desarrollamos agentes de inteligencia artificial personalizados
+                que automatizan tareas complejas, mejoran la atención al cliente
+                y optimizan procesos empresariales.
               </p>
-              
+
               <div className="grid md:grid-cols-3 gap-4">
+                <Link to="/ia-para-abogados">
+                  <Card className="service-card cursor-pointer hover:shadow-md transition-shadow">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="text-lg font-medium">
+                        Inteligencia Artificial para Abogados
+                      </h4>
+                      <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                    </div>
+                    <p className="text-sm text-gray-600">
+                      Herramientas y apps con IA para abogados y estudios
+                      juridicos
+                    </p>
+                  </Card>
+                </Link>
                 <Card className="service-card">
                   <div className="flex items-start justify-between mb-2">
-                    <h4 className="text-lg font-medium">Chatbots WhatsApp</h4>
+                    <h4 className="text-lg font-medium">
+                      Asistentes Virtuales
+                    </h4>
                     <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
                   </div>
-                  <p className="text-sm text-gray-600">Atención 24/7 con IA conversacional</p>
+                  <p className="text-sm text-gray-600">
+                    Agentes especializados por industria
+                  </p>
                 </Card>
                 <Card className="service-card">
                   <div className="flex items-start justify-between mb-2">
-                    <h4 className="text-lg font-medium">Asistentes Virtuales</h4>
+                    <h4 className="text-lg font-medium">
+                      Análisis Inteligente
+                    </h4>
                     <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
                   </div>
-                  <p className="text-sm text-gray-600">Agentes especializados por industria</p>
-                </Card>
-                <Card className="service-card">
-                  <div className="flex items-start justify-between mb-2">
-                    <h4 className="text-lg font-medium">Análisis Inteligente</h4>
-                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
-                  </div>
-                  <p className="text-sm text-gray-600">Procesamiento de datos con IA</p>
+                  <p className="text-sm text-gray-600">
+                    Procesamiento de datos con IA
+                  </p>
                 </Card>
               </div>
             </div>
@@ -161,48 +185,49 @@ const Index = () => {
                 Automatizaciones
               </h3>
               <p className="text-lg text-gray-600 mb-8 max-w-3xl">
-                Implementamos sistemas de automatización que conectan tus herramientas existentes,
-                eliminan tareas repetitivas y optimizan flujos de trabajo empresariales.
+                Implementamos sistemas de automatización que conectan tus
+                herramientas existentes, eliminan tareas repetitivas y optimizan
+                flujos de trabajo empresariales.
               </p>
-              
+
               <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
-                <Card className="service-card">
-                  <div className="flex items-start justify-between mb-2">
-                    <h4 className="text-lg font-medium">Workflows</h4>
-                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
-                  </div>
-                  <p className="text-sm text-gray-600">Automatización de procesos empresariales</p>
-                </Card>
-                <Card className="service-card">
-                  <div className="flex items-start justify-between mb-2">
-                    <h4 className="text-lg font-medium">Integraciones</h4>
-                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
-                  </div>
-                  <p className="text-sm text-gray-600">Conecta todas tus herramientas</p>
-                </Card>
-                <Card className="service-card">
-                  <div className="flex items-start justify-between mb-2">
-                    <h4 className="text-lg font-medium">Reportes Automáticos</h4>
-                    <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
-                  </div>
-                  <p className="text-sm text-gray-600">Datos en tiempo real sin esfuerzo</p>
-                </Card>
+                <Link to="/automatizar-mensajes-de-whatsapp">
+                  <Card className="service-card cursor-pointer hover:shadow-md transition-shadow">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="text-lg font-medium">
+                        Automatizar Mensajes de Whatsapp
+                      </h4>
+                      <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
+                    </div>
+                    <p className="text-sm text-gray-600">
+                      Breve introducción sobre automatizaciones para Whatsapp
+                    </p>
+                  </Card>
+                </Link>
                 <Link to="/automatizar-facturas">
                   <Card className="service-card cursor-pointer hover:shadow-md transition-shadow">
                     <div className="flex items-start justify-between mb-2">
-                      <h4 className="text-lg font-medium">Automatizar Facturas</h4>
+                      <h4 className="text-lg font-medium">
+                        Automatizar Facturas
+                      </h4>
                       <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
                     </div>
-                    <p className="text-sm text-gray-600">Facturación automática integrada con AFIP</p>
+                    <p className="text-sm text-gray-600">
+                      Facturación automática integrada con AFIP
+                    </p>
                   </Card>
                 </Link>
                 <Link to="/automatizar-documentos-word">
                   <Card className="service-card cursor-pointer hover:shadow-md transition-shadow">
                     <div className="flex items-start justify-between mb-2">
-                      <h4 className="text-lg font-medium">Automatizar Documentos en Word</h4>
+                      <h4 className="text-lg font-medium">
+                        Automatizar Documentos en Word
+                      </h4>
                       <ExternalLink className="h-4 w-4 text-gray-400 service-card-icon" />
                     </div>
-                    <p className="text-sm text-gray-600">Plantillas y documentos automáticos</p>
+                    <p className="text-sm text-gray-600">
+                      Plantillas y documentos automáticos
+                    </p>
                   </Card>
                 </Link>
               </div>
@@ -328,7 +353,8 @@ const Index = () => {
               {
                 url: "https://airibot.lat/",
                 title: "AIRI",
-                description: "Detective personal de vuelos baratos por WhatsApp con alertas instantáneas y búsqueda inteligente",
+                description:
+                  "Detective personal de vuelos baratos por WhatsApp con alertas instantáneas y búsqueda inteligente",
                 tags: ["Landing Page", "SaaS", "WhatsApp Bot"],
                 color: "#3B82F6",
                 screenshot: "/assets/icons/airi-fly-find-alerts.png",
@@ -336,7 +362,8 @@ const Index = () => {
               {
                 url: "#",
                 title: "Clínica Dental Sonrisa Perfecta",
-                description: "Clínica dental especializada en brindar sonrisas perfectas con tecnología de vanguardia y atención personalizada",
+                description:
+                  "Clínica dental especializada en brindar sonrisas perfectas con tecnología de vanguardia y atención personalizada",
                 tags: ["Landing Page", "Salud", "Dental"],
                 color: "#06B6D4",
                 screenshot: "/assets/icons/clinica-dental-landing-page.png",
@@ -344,7 +371,8 @@ const Index = () => {
               {
                 url: "#",
                 title: "KeePi",
-                description: "Plataforma para almacenar y gestionar tus pertenencias donde quieras de forma segura",
+                description:
+                  "Plataforma para almacenar y gestionar tus pertenencias donde quieras de forma segura",
                 tags: ["Web App", "Storage", "Marketplace"],
                 color: "#F59E0B",
                 screenshot: "/assets/icons/KeePi - Almacena donde quieras.png",
@@ -352,15 +380,18 @@ const Index = () => {
               {
                 url: "#",
                 title: "Artisan Furniture Co.",
-                description: "Landing page para empresa de muebles artesanales de lujo con enfoque en la excelencia y calidad",
+                description:
+                  "Landing page para empresa de muebles artesanales de lujo con enfoque en la excelencia y calidad",
                 tags: ["Landing Page", "E-commerce", "Furniture"],
                 color: "#8B4513",
-                screenshot: "/assets/icons/Artisan Furniture Co. - Handcrafted Excellence.png",
+                screenshot:
+                  "/assets/icons/Artisan Furniture Co. - Handcrafted Excellence.png",
               },
               {
                 url: "#",
                 title: "George Growth",
-                description: "Consultora especializada en crecimiento empresarial y desarrollo de negocios",
+                description:
+                  "Consultora especializada en crecimiento empresarial y desarrollo de negocios",
                 tags: ["Landing Page", "Consultoría", "Growth"],
                 color: "#1E40AF",
                 screenshot: "/assets/icons/George Growth – George Growth.png",
@@ -449,6 +480,52 @@ const Index = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="py-20 border-t border-gray-100">
+        <div className="container-narrow">
+          <div className="max-w-3xl mx-auto text-center">
+            <img
+              src="https://media.licdn.com/dms/image/v2/D4D03AQGUSYi1kuY81w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1695825782350?e=1760572800&v=beta&t=Q9puM4cASq1wec1rTtSZv9Rc_PyjFHstM9MDhKIA23o"
+              alt="Gino Gentile"
+              className="w-40 h-40 rounded-full mx-auto mb-6 object-cover shadow-md"
+            />
+            <h2 className="text-3xl font-semibold text-gray-900 mb-4">
+              Gino Gentile
+            </h2>
+            <p className="text-lg text-gray-600 mb-6">
+              Trabajé toda mi vida en marketing pero hace dos años me dedico al
+              mundo de las automatizaciones y programación. Siempre fue mi gran
+              pasión y a lo largo de los años fui tomando diferentes cursos que
+              me fueron preparando.
+            </p>
+            <div className="flex justify-center gap-4">
+              <Button
+                className="btn-primary"
+                onClick={() =>
+                  window.open(
+                    "https://calendar.app.google/XXwTHc1qvikRrd2f6",
+                    "_blank"
+                  )
+                }
+              >
+                Agenda una llamada
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() =>
+                  window.open(
+                    "https://www.linkedin.com/in/gino-gentile/",
+                    "_blank"
+                  )
+                }
+              >
+                Conóceme en LinkedIn
+              </Button>
+            </div>
           </div>
         </div>
       </section>
