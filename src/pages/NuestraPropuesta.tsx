@@ -175,17 +175,23 @@ const NuestraPropuesta = () => {
                   </li>
                 </ul>
               </div>
-              <div className="bg-gray-100 rounded-xl p-8 text-center">
-                <p className="text-gray-500 text-lg">[MOCKUP PARA INCLUIR IMAGEN]</p>
-                <p className="text-gray-400 text-sm mt-2">CRM Agencia de Viajes</p>
+              <div className="bg-gray-100 rounded-xl p-4 text-center">
+                <img 
+                  src="/assets/icons/yularacrm.png" 
+                  alt="CRM Agencia de Viajes - Dashboard y gestión de leads"
+                  className="w-full h-auto rounded-lg shadow-sm"
+                />
               </div>
             </div>
 
             {/* Asistente para Despacho de Abogados */}
             <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="bg-gray-100 rounded-xl p-8 text-center md:order-1">
-                <p className="text-gray-500 text-lg">[MOCKUP PARA INCLUIR IMAGEN]</p>
-                <p className="text-gray-400 text-sm mt-2">Bot WhatsApp Despacho Legal</p>
+              <div className="bg-gray-100 rounded-xl p-4 text-center md:order-1">
+                <img 
+                  src="/assets/icons/botliti.png" 
+                  alt="Bot WhatsApp Despacho Legal - Asistente virtual para abogados"
+                  className="w-full h-auto rounded-lg shadow-sm"
+                />
               </div>
               <div className="md:order-2">
                 <h3 className="text-2xl font-semibold text-gray-900 mb-4">
