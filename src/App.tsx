@@ -57,6 +57,7 @@ import AutomatizarDocumentosWord from "./pages/AutomatizarDocumentosWord";
 import PropuestaMarketing from "./pages/PropuestaMarketing";
 import AutomatizarWhatsApp from "./pages/AutomatizarWhatsapp";
 import IAparaAbogados from "./pages/IAparaAbogados";
+import NuestraPropuesta from "./pages/NuestraPropuesta";
 
 const queryClient = new QueryClient();
 
@@ -150,6 +151,7 @@ function App() {
               <Router>
                 <Routes>
                   <Route path="/" element={<Index />} />
+                  <Route path="/propuesta" element={<NuestraPropuesta />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/services" element={<Services />} />
                   <Route
