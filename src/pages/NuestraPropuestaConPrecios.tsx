@@ -430,27 +430,21 @@ const NuestraPropuestaConPrecios = () => {
       <section className="py-20 bg-white">
         <div className="container-narrow">
           <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-2xl font-semibold text-gray-900 mb-6">
+            <h3 className="text-3xl font-semibold text-gray-900 mb-4">
               Conoce más sobre cómo podemos ayudarte
             </h3>
-            <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", backgroundColor: "#f3f4f6", borderRadius: "0.75rem" }}>
-              <iframe 
-                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0, borderRadius: "0.75rem" }} 
-                src="https://www.tella.tv/video/cmfqwbw0y000u0bi57nvafgrr/embed?b=0&title=0&a=1&loop=0&autoPlay=true&t=0&muted=1&wt=0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen={true}
-                title="Video presentación"
-                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-              />
-              {/* Fallback message */}
-              <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center", padding: "2rem" }}>
-                <p className="text-gray-600 mb-4">Si el video no se muestra correctamente, puedes verlo directamente en:</p>
-                <Button
-                  className="btn-primary"
-                  onClick={() => window.open("https://www.tella.tv/video/cmfqwbw0y000u0bi57nvafgrr/view", "_blank")}
-                >
-                  Ver video <ExternalLink className="ml-2 h-4 w-4" />
-                </Button>
+            <p className="text-lg text-gray-600 mb-8">
+              Mira este video donde te explico en detalle nuestro proceso y cómo podemos transformar tu negocio
+            </p>
+            <div className="relative rounded-2xl overflow-hidden shadow-lg bg-gray-100">
+              <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                <iframe 
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }} 
+                  src="https://www.tella.tv/video/cmfqwbw0y000u0bi57nvafgrr/embed?b=0&title=0&a=1&loop=0&autoPlay=true&t=0&muted=1&wt=0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen={true}
+                  title="Video presentación - Cómo podemos ayudarte"
+                />
               </div>
             </div>
           </div>
