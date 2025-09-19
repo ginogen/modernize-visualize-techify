@@ -59,6 +59,8 @@ import AutomatizarWhatsApp from "./pages/AutomatizarWhatsapp";
 import IAparaAbogados from "./pages/IAparaAbogados";
 import NuestraPropuesta from "./pages/NuestraPropuesta";
 import NuestraPropuestaConPrecios from "./pages/NuestraPropuestaConPrecios";
+import LeadLanding from "./pages/LeadLanding";
+import LeadsIndex from "./pages/LeadsIndex";
 
 const queryClient = new QueryClient();
 
@@ -154,6 +156,15 @@ function App() {
                   <Route path="/" element={<Index />} />
                   <Route path="/propuesta" element={<NuestraPropuesta />} />
                   <Route path="/propuesta-con-precios" element={<NuestraPropuestaConPrecios />} />
+                  <Route 
+                    path="/leads" 
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <LeadsIndex />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route path="/leads/:slug" element={<LeadLanding />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/services" element={<Services />} />
                   <Route

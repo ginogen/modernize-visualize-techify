@@ -11,6 +11,10 @@ Disallow: /api/
 Disallow: /login
 Disallow: /register-admin
 
+# Disallow leads pages (private content)
+Disallow: /leads
+Disallow: /leads/
+
 # Sitemap location
 Sitemap: https://www.builders-ai.com/sitemap.xml
 
