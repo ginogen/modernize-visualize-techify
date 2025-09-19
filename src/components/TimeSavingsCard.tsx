@@ -96,7 +96,7 @@ export default function TimeSavingsCard({ lead }: TimeSavingsCardProps) {
                     ${monthlyCostSavings.toLocaleString()}
                   </div>
                   <div className="text-sm text-gray-600">
-                    Ahorro mensual estimado
+                    Ahorro mensual estimado (En U$D)
                   </div>
                 </div>
                 <div className="text-center">

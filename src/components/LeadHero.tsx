@@ -95,14 +95,9 @@ export default function LeadHero({ lead }: LeadHeroProps) {
           <div>
             <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
               <div className="mb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <span className="text-blue-600 font-bold text-lg">AI</span>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900">Mensaje Personalizado</h3>
-                    <p className="text-sm text-gray-600">Basado en análisis de su sitio web</p>
-                  </div>
+                <div className="mb-4">
+                  <h3 className="font-semibold text-gray-900">Mensaje Personalizado</h3>
+                  <p className="text-sm text-gray-600">Basado en análisis de su sitio web</p>
                 </div>
               </div>
 

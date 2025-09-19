@@ -153,22 +153,6 @@ export default function DiagnosticCards({ lead }: DiagnosticCardsProps) {
               </div>
             </div>
 
-            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-              <div className="text-sm font-medium text-gray-700 mb-2">Nivel Tecnológico:</div>
-              <div className="flex items-center gap-2">
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  lead.tech_readiness === 'advanced' ? 'bg-green-100 text-green-800' :
-                  lead.tech_readiness === 'intermediate' ? 'bg-yellow-100 text-yellow-800' :
-                  'bg-red-100 text-red-800'
-                }`}>
-                  {lead.tech_readiness === 'advanced' ? 'Avanzado' :
-                   lead.tech_readiness === 'intermediate' ? 'Intermedio' : 'Básico'}
-                </span>
-                <span className="text-sm text-gray-600">
-                  ({lead.tech_sophistication_score}/100)
-                </span>
-              </div>
-            </div>
           </Card>
 
           {/* Analytics & SEO Basics */}
