@@ -101,6 +101,22 @@ const LandingBotServicios = () => {
     },
     {
       id: 3,
+      title: "Automatización",
+      badge: "Nuevo",
+      badgeColor: "bg-orange-500/10 text-orange-400 border-orange-500/20",
+      icon: <Zap className="h-8 w-8" />,
+      features: [
+        "Automatización de proceso de extracción y carga de datos",
+        "Conexión con ERP via API",
+      ],
+      implementation: {
+        investmentImplementation: "$450.000",
+        paymentTerms: "Pago Único",
+      },
+      color: "from-orange-400 to-red-500",
+    },
+    {
+      id: 4,
       title: "Partner Tech",
       badge: "Integral",
       badgeColor: "bg-purple-500/10 text-purple-400 border-purple-500/20",
@@ -350,7 +366,7 @@ const LandingBotServicios = () => {
             </h2>
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {options.map((option, index) => (
               <motion.div
                 key={option.id}
