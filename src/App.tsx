@@ -59,6 +59,7 @@ import AutomatizarWhatsApp from "./pages/AutomatizarWhatsapp";
 import IAparaAbogados from "./pages/IAparaAbogados";
 import NuestraPropuesta from "./pages/NuestraPropuesta";
 import NuestraPropuestaConPrecios from "./pages/NuestraPropuestaConPrecios";
+import PropuestaAgendamiento from "./pages/PropuestaAgendamiento";
 import LeadLanding from "./pages/LeadLanding";
 import LeadsIndex from "./pages/LeadsIndex";
 
@@ -156,6 +157,7 @@ function App() {
                   <Route path="/" element={<Index />} />
                   <Route path="/propuesta" element={<NuestraPropuesta />} />
                   <Route path="/propuesta-con-precios" element={<NuestraPropuestaConPrecios />} />
+                  <Route path="/propuesta-agendamiento" element={<PropuestaAgendamiento />} />
                   <Route 
                     path="/leads" 
                     element={
