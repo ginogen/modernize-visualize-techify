@@ -488,20 +488,51 @@ const PropuestaIASalud = () => {
                       {/* Mensualidad */}
                       <div className="bg-neonGreen/10 p-6 rounded-lg border border-neonGreen/20">
                         <h4 className="text-xl font-bold text-neonGreen mb-2">📅 Mensualidad</h4>
-                        <div className="text-3xl font-bold mb-4">$490.000 ARS</div>
-                        <div className="space-y-2 text-sm">
+                        <div className="text-3xl font-bold mb-4">$710.000</div>
+                        
+                        <div className="mb-4 p-3 bg-background/50 rounded">
+                          <p className="text-xs font-semibold text-neonGreen mb-2">✅ El costo incluye:</p>
+                          <p className="text-xs text-muted-foreground">
+                            1 cuenta con hasta 5 miembros (Empleados) y 30mil contactos en base de datos
+                          </p>
+                        </div>
+
+                        <div className="space-y-2 text-sm mb-4">
                           {[
                             "Hosting del bot en nuestra plataforma",
                             "Soporte y ajustes ilimitados",
                             "Asesor exclusivo",
-                            "Acceso continuo a nuevas funcionalidades",
-                            "WhatsApp API con hasta 30.000 contactos mensuales incluidos"
+                            "Acceso continuo a nuevas funcionalidades"
                           ].map((benefit, index) => (
                             <div key={index} className="flex items-start">
                               <CheckCircle className="h-4 w-4 text-neonGreen mr-2 mt-0.5 flex-shrink-0" />
                               <span>{benefit}</span>
                             </div>
                           ))}
+                        </div>
+
+                        <div className="mt-4 p-3 bg-red-500/10 rounded border border-red-500/20">
+                          <p className="text-xs font-semibold text-red-400 mb-2">⚠️ Costos NO Incluidos:</p>
+                          <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
+                            <li>OpenAI API Credits (Consumos variables de la IA) - Deben proporcionar su API KEY</li>
+                            <li>Costos de Mensajes Salientes (Estos mensajes lo deberán pagar directamente a Meta)</li>
+                          </ul>
+                        </div>
+
+                        <div className="mt-4 p-3 bg-blue-500/10 rounded border border-blue-500/20">
+                          <p className="text-xs font-semibold text-blue-400 mb-2">💰 Costos Adicionales:</p>
+                          <ul className="text-xs text-muted-foreground space-y-1">
+                            <li>• Cuenta adicional (otra entidad, misma configuración): USD $99/mes</li>
+                            <li>• Miembro adicional (Empleado): USD $6/mes</li>
+                            <li>• 10k contactos adicionales (usuarios/pacientes): USD $35/mes</li>
+                          </ul>
+                        </div>
+
+                        <div className="mt-4 p-3 bg-yellow-500/10 rounded border border-yellow-500/20">
+                          <p className="text-xs font-semibold text-yellow-400 mb-1">💡 Recomendación:</p>
+                          <p className="text-xs text-muted-foreground">
+                            Se recomienda tener una base S3 o similar para guardar por tiempo prolongado las conversaciones de WhatsApp (mensajes, media, etc.) ya que por defecto WhatsApp API lo guarda por 30 días.
+                          </p>
                         </div>
                       </div>
                     </div>

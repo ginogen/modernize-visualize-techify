@@ -62,6 +62,7 @@ import NuestraPropuestaConPrecios from "./pages/NuestraPropuestaConPrecios";
 import PropuestaAgendamiento from "./pages/PropuestaAgendamiento";
 import LeadLanding from "./pages/LeadLanding";
 import LeadsIndex from "./pages/LeadsIndex";
+import FunkyArt from "./pages/FunkyArt";
 
 const queryClient = new QueryClient();
 
@@ -167,6 +168,7 @@ function App() {
                     } 
                   />
                   <Route path="/leads/:slug" element={<LeadLanding />} />
+                  <Route path="/funkyart" element={<FunkyArt />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/services" element={<Services />} />
                   <Route
