@@ -63,6 +63,7 @@ import PropuestaAgendamiento from "./pages/PropuestaAgendamiento";
 import LeadLanding from "./pages/LeadLanding";
 import LeadsIndex from "./pages/LeadsIndex";
 import FunkyArt from "./pages/FunkyArt";
+import PropuestaServiciosISO from "./pages/PropuestaServiciosISO";
 
 const queryClient = new QueryClient();
 
@@ -266,6 +267,10 @@ function App() {
                   <Route
                     path="/ia-para-abogados"
                     element={<IAparaAbogados />}
+                  />
+                  <Route
+                    path="/propuesta-servicios-iso"
+                    element={<PropuestaServiciosISO />}
                   />
 
                   {/* Rutas protegidas que requieren autenticación */}
