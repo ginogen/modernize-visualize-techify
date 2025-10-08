@@ -36,6 +36,7 @@ import BotIABonificado from "./pages/BotIABonificado";
 import PropuestaBot from "./pages/PropuestaBot";
 import PropuestaPartner from "./pages/PropuestaPartner";
 import PropuestaIASalud from "./pages/PropuestaIASalud";
+import PropuestaIAVoz from "./pages/PropuestaIAVoz";
 import PuntoRojoAutomate from "./pages/PuntoRojoAutomate";
 import Propuesta48Horas from "./pages/Propuesta48Horas";
 import Landing48Horas from "./pages/Landing48Horas";
@@ -64,6 +65,7 @@ import LeadLanding from "./pages/LeadLanding";
 import LeadsIndex from "./pages/LeadsIndex";
 import FunkyArt from "./pages/FunkyArt";
 import PropuestaServiciosISO from "./pages/PropuestaServiciosISO";
+import PropuestaSaintGobain from "./pages/PropuestaSaintGobain";
 
 const queryClient = new QueryClient();
 
@@ -201,6 +203,10 @@ function App() {
                     element={<PropuestaIASalud />}
                   />
                   <Route
+                    path="/propuesta-ia-voz"
+                    element={<PropuestaIAVoz />}
+                  />
+                  <Route
                     path="/punto-rojo-automate"
                     element={<PuntoRojoAutomate />}
                   />
@@ -271,6 +277,10 @@ function App() {
                   <Route
                     path="/propuesta-servicios-iso"
                     element={<PropuestaServiciosISO />}
+                  />
+                  <Route
+                    path="/propuesta-saint-gobain"
+                    element={<PropuestaSaintGobain />}
                   />
 
                   {/* Rutas protegidas que requieren autenticación */}

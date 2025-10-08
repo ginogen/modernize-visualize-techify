@@ -432,9 +432,185 @@ const PropuestaServiciosISO = () => {
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-sm text-gray-700">
               <strong>Nota importante:</strong> No incluye costos asociados a plataformas de terceros ni inversión publicitaria en Google Ads.
             </div>
-
-            
           </Card>
+
+          <Card className="max-w-2xl mx-auto bg-gradient-to-br from-blue-50 to-indigo-50 text-gray-900 p-8 border-2 border-blue-300 mt-8">
+            <div className="text-center mb-6">
+              <div className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                Extra Opcional
+              </div>
+              <h3 className="text-2xl font-bold mb-2">Migración Web con Optimización</h3>
+            </div>
+
+            <div className="border-t border-blue-200 pt-6 mb-6">
+              <p className="text-gray-700 mb-6">
+                Migración Web con mismo estilo y diseño pero cumpliendo con los estándares requeridos por Google a nivel velocidad y performance (Por encima de 90). De esta manera nos aseguramos una correcta implementación de la estrategia y una gran base por años.
+              </p>
+              
+              <div className="bg-white rounded-lg p-4 mb-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-gray-700">Tiempo de desarrollo:</span>
+                  <span className="text-blue-600 font-bold">2 Semanas</span>
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-semibold text-gray-700">Fee Desarrollo:</span>
+                  <span className="text-2xl font-bold text-indigo-600">$350.000</span>
+                </div>
+                <p className="text-sm text-gray-600 text-right">(se puede dividir en dos meses)</p>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="container-narrow">
+          <div className="max-w-2xl mb-16 text-center mx-auto">
+            <h2 className="text-4xl font-semibold text-gray-900 mb-4">
+              Portfolio
+            </h2>
+            <p className="text-lg text-gray-600">
+              Landing pages que hemos diseñado y desarrollado para impulsar el
+              crecimiento digital de nuestros clientes.
+            </p>
+          </div>
+
+          <div className="portfolio-showcase">
+            {[
+              {
+                url: "https://airibot.lat/",
+                title: "AIRI",
+                description:
+                  "Detective personal de vuelos baratos por WhatsApp con alertas instantáneas y búsqueda inteligente",
+                tags: ["Landing Page", "SaaS", "WhatsApp Bot"],
+                color: "#3B82F6",
+                screenshot: "/assets/icons/airi-fly-find-alerts.png",
+              },
+              {
+                url: "#",
+                title: "Clínica Dental Sonrisa Perfecta",
+                description:
+                  "Clínica dental especializada en brindar sonrisas perfectas con tecnología de vanguardia y atención personalizada",
+                tags: ["Landing Page", "Salud", "Dental"],
+                color: "#06B6D4",
+                screenshot: "/assets/icons/clinica-dental-landing-page.png",
+              },
+              {
+                url: "#",
+                title: "KeePi",
+                description:
+                  "Plataforma para almacenar y gestionar tus pertenencias donde quieras de forma segura",
+                tags: ["Web App", "Storage", "Marketplace"],
+                color: "#F59E0B",
+                screenshot: "/assets/icons/KeePi - Almacena donde quieras.png",
+              },
+              {
+                url: "#",
+                title: "Artisan Furniture Co.",
+                description:
+                  "Landing page para empresa de muebles artesanales de lujo con enfoque en la excelencia y calidad",
+                tags: ["Landing Page", "E-commerce", "Furniture"],
+                color: "#8B4513",
+                screenshot:
+                  "/assets/icons/Artisan Furniture Co. - Handcrafted Excellence.png",
+              },
+              {
+                url: "#",
+                title: "George Growth",
+                description:
+                  "Consultora especializada en crecimiento empresarial y desarrollo de negocios",
+                tags: ["Landing Page", "Consultoría", "Growth"],
+                color: "#1E40AF",
+                screenshot: "/assets/icons/George Growth – George Growth.png",
+              },
+            ].map((project, index) => (
+              <div key={index} className="browser-showcase-container">
+                <div className="browser-showcase">
+                  <div className="browser-showcase-header">
+                    <div className="browser-dots">
+                      <span
+                        className="browser-dot"
+                        style={{ background: "#FF5F57" }}
+                      ></span>
+                      <span
+                        className="browser-dot"
+                        style={{ background: "#FFBD2E" }}
+                      ></span>
+                      <span
+                        className="browser-dot"
+                        style={{ background: "#28CA42" }}
+                      ></span>
+                    </div>
+                    <div className="browser-url-bar">
+                      <span className="browser-url-text">{project.url}</span>
+                    </div>
+                    <div className="browser-status">
+                      <div className="browser-status-dot"></div>
+                    </div>
+                  </div>
+                  <div className="browser-showcase-viewport">
+                    <div className="browser-scroll-container">
+                      <div className="browser-scroll-content">
+                        <img
+                          src={project.screenshot}
+                          alt={project.title}
+                          className="browser-screenshot-fullpage"
+                          loading="lazy"
+                          decoding="async"
+                          style={{ animationDelay: `${index * 2}s` }}
+                        />
+                        <div className="browser-image-placeholder">
+                          <div className="browser-placeholder-grid">
+                            <div className="browser-placeholder-block"></div>
+                            <div className="browser-placeholder-block"></div>
+                            <div className="browser-placeholder-block"></div>
+                            <div className="browser-placeholder-block"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="browser-scroll-indicator">
+                        <div className="browser-progress-bar"></div>
+                      </div>
+
+                      <div className="browser-scroll-gradients">
+                        <div className="browser-gradient-top"></div>
+                        <div className="browser-gradient-bottom"></div>
+                      </div>
+
+                      <div className="browser-scroll-hint">
+                        <span>Scroll automático - Pausa al pasar el mouse</span>
+                      </div>
+                    </div>
+
+                    <div className="browser-showcase-overlay">
+                      <div className="browser-showcase-info">
+                        <h3
+                          className="browser-showcase-title"
+                          style={{ color: project.color }}
+                        >
+                          {project.title}
+                        </h3>
+                        <p className="browser-showcase-description">
+                          {project.description}
+                        </p>
+                        <div className="browser-showcase-tags">
+                          {project.tags.map((tag) => (
+                            <span key={tag} className="browser-showcase-tag">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

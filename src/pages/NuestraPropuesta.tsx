@@ -228,12 +228,12 @@ const NuestraPropuesta = () => {
         </div>
       </section>
 
-      {/* Portfolio Section - Reutilizada del Home */}
+      {/* Portfolio Section */}
       <section className="py-20 bg-gray-50/50">
         <div className="container-narrow">
           <div className="max-w-2xl mb-16 text-center mx-auto">
             <h2 className="text-4xl font-semibold text-gray-900 mb-4">
-              Proyectos destacados
+              Portfolio
             </h2>
             <p className="text-lg text-gray-600">
               Landing pages que hemos diseñado y desarrollado para impulsar el
