@@ -282,7 +282,7 @@ const PropuestaSaintGobain = () => {
                 <Card className="card-minimal">
                   <div className="flex items-center gap-3 mb-3">
                     <MessageSquare className="h-5 w-5 text-green-600" />
-                    <h4 className="font-semibold">WhatsApp (Opcional)</h4>
+                    <h4 className="font-semibold">WhatsApp</h4>
                   </div>
                   <p className="text-sm text-gray-600">
                     Integración con WhatsApp para confirmaciones y avisos
@@ -474,7 +474,7 @@ const PropuestaSaintGobain = () => {
             <Card className="card-minimal border-2 border-green-200 bg-green-50/30">
               <div className="text-center mb-6">
                 <div className="inline-block px-4 py-2 bg-green-100 rounded-full text-sm font-medium text-green-700 mb-4">
-                  Soporte Mensual (Opcional)
+                  Soporte Mensual
                 </div>
                 <div className="text-6xl font-bold text-gray-900 mb-2">USD 950</div>
                 <p className="text-gray-600">Por mes</p>
