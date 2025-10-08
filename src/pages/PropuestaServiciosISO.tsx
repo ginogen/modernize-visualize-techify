@@ -459,7 +459,7 @@ const PropuestaServiciosISO = () => {
                   <span className="font-semibold text-gray-700">Fee Desarrollo:</span>
                   <span className="text-2xl font-bold text-indigo-600">$350.000</span>
                 </div>
-                <p className="text-sm text-gray-600 text-right">(se puede dividir en dos meses)</p>
+                <p className="text-sm text-gray-600 text-right">(se puede dividir en dos meses CONTRATANDO EL FEE MENSUAL)</p>
               </div>
             </div>
           </Card>
