@@ -102,19 +102,7 @@ const PropuestaIAVoz = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12"
             >
-              <Button 
-                size="lg" 
-                className="bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-semibold px-8 py-4 text-lg button-glow"
-                onClick={() => {
-                  const widget = document.querySelector('elevenlabs-convai') as any;
-                  if (widget && widget.startConversation) {
-                    widget.startConversation();
-                  }
-                }}
-              >
-                <Headphones className="mr-2 h-5 w-5" />
-                Hablar con IA Voz
-              </Button>
+              
               <Button 
                 size="lg" 
                 variant="outline"
@@ -475,6 +463,7 @@ const PropuestaIAVoz = () => {
               </h2>
             </div>
 
+            {/* Tabla base de tiempos y fees */}
             <Card className="bg-card/50 backdrop-blur-sm border-0 shadow-xl mb-8">
               <CardContent className="p-8 md:p-12">
                 <div className="overflow-x-auto">
@@ -492,7 +481,7 @@ const PropuestaIAVoz = () => {
                       </tr>
                       <tr className="border-b border-border/50">
                         <td className="py-4 px-4 font-semibold">Fee de implementación</td>
-                        <td className="py-4 px-4 text-2xl font-bold">U$D 3.800</td>
+                        <td className="py-4 px-4 text-2xl font-bold">U$D 4.300</td>
                       </tr>
                       <tr>
                         <td className="py-4 px-4 font-semibold">Fee mensual de mantenimiento y optimización</td>
@@ -500,41 +489,94 @@ const PropuestaIAVoz = () => {
                       </tr>
                     </tbody>
                   </table>
+                  <p className="text-sm text-muted-foreground mb-4">
+                  En caso de aceptar ambas propuestas (Bot Omnicanalidad + Bot Llamadas podremos realizar un descuento de 15% en el Fee Mensual Fijo)
+                </p>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-red-500/10 backdrop-blur-sm border-2 border-red-500/20 shadow-xl">
+            {/* NUEVA sección variable por consumo (lo que pediste) */}
+            <Card className="bg-card/50 backdrop-blur-sm border-0 shadow-xl mb-8">
               <CardContent className="p-8 md:p-12">
-                <div className="flex items-start gap-4">
-                  <div className="text-4xl">⚠️</div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-red-400 mb-4">Importante</h3>
-                    <p className="text-muted-foreground mb-4">
-                      El presente presupuesto <strong>no incluye</strong> gastos variables relacionados con:
-                    </p>
-                    <ul className="space-y-2 text-muted-foreground">
-                      <li className="flex items-start gap-2">
-                        <span className="text-red-400 mt-1">•</span>
-                        <span>Costo por minuto de llamada</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-red-400 mt-1">•</span>
-                        <span>Costo por número telefónico (Twilio u otro proveedor)</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-red-400 mt-1">•</span>
-                        <span>Costo de consumo de modelos de lenguaje (LLM)</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-red-400 mt-1">•</span>
-                        <span>Ni otros cargos variables de infraestructura o terceros</span>
-                      </li>
-                    </ul>
-                  </div>
+                <h3 className="text-xl font-bold mb-4">Inversión Mensual Variable según Consumo de Minutos (AI Voice + LLM + VoIP)</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full mb-6">
+                    <thead>
+                      <tr className="border-b-2 border-neonGreen/20">
+                        <th className="text-left py-2 px-4 font-semibold text-muted-foreground">Rango de Consumo Mensual (minutos)</th>
+                        <th className="text-left py-2 px-4 font-semibold text-muted-foreground">Costo Final por Minuto (USD)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-border/50">
+                        <td className="py-2 px-4">0 – 15.000 (mínimo garantizado)</td>
+                        <td className="py-2 px-4">0.19</td>
+                      </tr>
+                      <tr className="border-b border-border/50">
+                        <td className="py-2 px-4">15.001 – 30.000</td>
+                        <td className="py-2 px-4">0.16</td>
+                      </tr>
+                      <tr className="border-b border-border/50">
+                        <td className="py-2 px-4">30.001 – 50.000</td>
+                        <td className="py-2 px-4">0.14</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2 px-4">50.001 – 75.000</td>
+                        <td className="py-2 px-4">0.12</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Por encima de los 75.000 minutos mensuales, el costo por minuto podrá ajustarse a la baja previo acuerdo entre las partes.
+                </p>
+                <p className="text-sm text-muted-foreground mb-6">
+                Se establece un período inicial de prueba y evaluación de hasta tres (3) meses, durante el cual se realizará la implementación completa del sistema, la configuración técnica y las pruebas operativas necesarias para validar su correcto funcionamiento.
+                </p>
+                <p className="text-sm text-muted-foreground mb-6">
+                Finalizado dicho período, y siempre que el Cliente confirme su satisfacción con el servicio, se procederá a la firma del acuerdo anual de permanencia por 12 meses bajo las condiciones comerciales establecidas.
+                </p>
+                <p className="text-sm text-muted-foreground mb-6">
+                Durante el período de prueba, los costos generados por consumo y uso del sistema serán facturados conforme al esquema de minutos y tarifas vigentes, sin eximir al Cliente de los cargos correspondientes por la implementación efectuada.
+                </p>
+
+                <h3 className="text-xl font-bold mb-4">Compromiso de Consumo Mínimo y Ajuste de Facturación</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  El Cliente se compromete a mantener un consumo mensual mínimo de 15.000 (quince mil) minutos correspondientes al uso de los servicios de voz (AI Voice + LLM + VoIP).
+                </p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  En caso de que el consumo mensual efectivo sea inferior al mínimo establecido, el Cliente acepta abonar igualmente el monto equivalente al mínimo de 15.000 minutos, al costo unitario vigente para dicho tramo, en concepto de cargo mínimo mensual garantizado.
+                </p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Dicho compromiso tiene por finalidad asegurar la continuidad del servicio, la disponibilidad técnica y los recursos de infraestructura asignados a la cuenta del Cliente.
+                </p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  El consumo será revisado mensualmente y se emitirá la correspondiente factura según los minutos efectivamente utilizados o el mínimo garantizado —lo que resulte mayor—.
+                </p>
+                <p className="text-sm text-muted-foreground mb-6">
+                  En caso de mantener durante tres (3) meses consecutivos un consumo inferior al mínimo acordado, la empresa proveedora podrá revisar las condiciones del plan o requerir una actualización del compromiso mínimo.
+                </p>
+
+                <h3 className="text-xl font-bold mb-4">Ajuste por Variación de Costos de Proveedores</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Los costos asociados al servicio podrán sufrir modificaciones en caso de producirse ajustes en las tarifas de los proveedores tecnológicos externos involucrados en la prestación del servicio (por ejemplo, plataformas de voz, inteligencia artificial, conectividad VoIP, almacenamiento o infraestructura en la nube).
+                </p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  En caso de que tales variaciones impacten directamente en el costo por minuto, la empresa proveedora podrá ajustar las tarifas de acuerdo con dichos cambios, previa notificación al Cliente con al menos 10 días hábiles de antelación, acompañada de la justificación correspondiente.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  En ningún caso los ajustes serán arbitrarios ni tendrán fines de lucro adicional, sino que responderán estrictamente a cambios de costos reales provenientes de proveedores externos o variaciones significativas en el tipo de cambio del dólar estadounidense.
+                </p>
+
+                <h3 className="text-xl font-bold mb-4">Concurrencia de Llamadas</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  El sistema puede manejar un máximo de 30 llamadas en simultáneo.
+                </p>
               </CardContent>
             </Card>
+
+            
           </motion.div>
         </div>
       </section>
@@ -599,7 +641,7 @@ const PropuestaIAVoz = () => {
 
       <Footer />
       
-      <elevenlabs-convai agent-id="agent_2901k6xaes0pfakteypayhzne1t5"></elevenlabs-convai>
+      
     </div>
   );
 };
