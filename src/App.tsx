@@ -56,6 +56,7 @@ import PropuestaGestionReservas from "./pages/PropuestaGestionReservas";
 import AutomatizarFacturas from "./pages/AutomatizarFacturas";
 import AutomatizarDocumentosWord from "./pages/AutomatizarDocumentosWord";
 import PropuestaMarketing from "./pages/PropuestaMarketing";
+import PropuestaMarketingES from "./pages/PropuestaMarketingES";
 import AutomatizarWhatsApp from "./pages/AutomatizarWhatsapp";
 import IAparaAbogados from "./pages/IAparaAbogados";
 import NuestraPropuesta from "./pages/NuestraPropuesta";
@@ -160,15 +161,21 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/propuesta" element={<NuestraPropuesta />} />
-                  <Route path="/propuesta-con-precios" element={<NuestraPropuestaConPrecios />} />
-                  <Route path="/propuesta-agendamiento" element={<PropuestaAgendamiento />} />
-                  <Route 
-                    path="/leads" 
+                  <Route
+                    path="/propuesta-con-precios"
+                    element={<NuestraPropuestaConPrecios />}
+                  />
+                  <Route
+                    path="/propuesta-agendamiento"
+                    element={<PropuestaAgendamiento />}
+                  />
+                  <Route
+                    path="/leads"
                     element={
                       <ProtectedRoute requiredRole="admin">
                         <LeadsIndex />
                       </ProtectedRoute>
-                    } 
+                    }
                   />
                   <Route path="/leads/:slug" element={<LeadLanding />} />
                   <Route path="/funkyart" element={<FunkyArt />} />
@@ -265,6 +272,10 @@ function App() {
                   <Route
                     path="/propuesta-marketing"
                     element={<PropuestaMarketing />}
+                  />
+                  <Route
+                    path="/propuesta-marketing-es"
+                    element={<PropuestaMarketingES />}
                   />
                   <Route
                     path="/automatizar-mensajes-de-whatsapp"

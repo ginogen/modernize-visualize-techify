@@ -511,15 +511,15 @@ const PropuestaIAVoz = () => {
                     <tbody>
                       <tr className="border-b border-border/50">
                         <td className="py-2 px-4">0 – 15.000 (mínimo garantizado)</td>
-                        <td className="py-2 px-4">0.19</td>
+                        <td className="py-2 px-4">0,19</td>
                       </tr>
                       <tr className="border-b border-border/50">
                         <td className="py-2 px-4">15.001 – 30.000</td>
-                        <td className="py-2 px-4">0.16</td>
+                        <td className="py-2 px-4">0,16</td>
                       </tr>
                       <tr className="border-b border-border/50">
                         <td className="py-2 px-4">30.001 – 50.000</td>
-                        <td className="py-2 px-4">0.14</td>
+                        <td className="py-2 px-4">0,14</td>
                       </tr>
                       <tr>
                         <td className="py-2 px-4">50.001 – 75.000</td>
