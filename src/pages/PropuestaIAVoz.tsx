@@ -492,6 +492,9 @@ const PropuestaIAVoz = () => {
                   <p className="text-sm text-muted-foreground mb-4">
                   En caso de aceptar ambas propuestas (Bot Omnicanalidad + Bot Llamadas podremos realizar un descuento de 15% en el Fee Mensual Fijo)
                 </p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  En caso de aceptar ambas propuestas (Bot Omnicanalidad + Bot Llamadas) podemos realizar el siguiente esquema de pagos: 50% al comenzar (Día 1), 25% al entregar implementacion (Día 45/60) y 25% restante en primer mes de Mensualidad.
+                </p>
                 </div>
               </CardContent>
             </Card>
@@ -532,7 +535,7 @@ const PropuestaIAVoz = () => {
                   Por encima de los 75.000 minutos mensuales, el costo por minuto podrá ajustarse a la baja previo acuerdo entre las partes.
                 </p>
                 <p className="text-sm text-muted-foreground mb-6">
-                Se establece un período inicial de prueba y evaluación de hasta tres (3) meses, durante el cual se realizará la implementación completa del sistema, la configuración técnica y las pruebas operativas necesarias para validar su correcto funcionamiento.
+                Se establece un período inicial de prueba y evaluación de hasta tres (3) meses, durante el cual se realizará la implementación completa del sistema, la configuración técnica y las pruebas operativas necesarias para validar su correcto funcionamiento, durante este período de prueba se permitira un minimo de 3600 minutos.
                 </p>
                 <p className="text-sm text-muted-foreground mb-6">
                 Finalizado dicho período, y siempre que el Cliente confirme su satisfacción con el servicio, se procederá a la firma del acuerdo anual de permanencia por 12 meses bajo las condiciones comerciales establecidas.
@@ -543,10 +546,11 @@ const PropuestaIAVoz = () => {
 
                 <h3 className="text-xl font-bold mb-4">Compromiso de Consumo Mínimo y Ajuste de Facturación</h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  El Cliente se compromete a mantener un consumo mensual mínimo de 15.000 (quince mil) minutos correspondientes al uso de los servicios de voz (AI Voice + LLM + VoIP).
+                  Luego de los 3 meses de prueba, se establece un compromiso de consumo mensual mínimo de 15.000 (quince mil) minutos correspondientes al uso de los servicios de voz (AI Voice + LLM + VoIP).
+                  
                 </p>
                 <p className="text-sm text-muted-foreground mb-4">
-                  En caso de que el consumo mensual efectivo sea inferior al mínimo establecido, el Cliente acepta abonar igualmente el monto equivalente al mínimo de 15.000 minutos, al costo unitario vigente para dicho tramo, en concepto de cargo mínimo mensual garantizado.
+                  En caso de que el consumo mensual efectivo sea inferior al mínimo establecido, el Cliente acepta abonar igualmente el monto equivalente al mínimo de 15.000 minutos, al costo unitario vigente para dicho tramo, en concepto de cargo mínimo mensual garantizado. (A excepción de los 3 meses de prueba)
                 </p>
                 <p className="text-sm text-muted-foreground mb-4">
                   Dicho compromiso tiene por finalidad asegurar la continuidad del servicio, la disponibilidad técnica y los recursos de infraestructura asignados a la cuenta del Cliente.
@@ -554,9 +558,7 @@ const PropuestaIAVoz = () => {
                 <p className="text-sm text-muted-foreground mb-4">
                   El consumo será revisado mensualmente y se emitirá la correspondiente factura según los minutos efectivamente utilizados o el mínimo garantizado —lo que resulte mayor—.
                 </p>
-                <p className="text-sm text-muted-foreground mb-6">
-                  En caso de mantener durante tres (3) meses consecutivos un consumo inferior al mínimo acordado, la empresa proveedora podrá revisar las condiciones del plan o requerir una actualización del compromiso mínimo.
-                </p>
+                
 
                 <h3 className="text-xl font-bold mb-4">Ajuste por Variación de Costos de Proveedores</h3>
                 <p className="text-sm text-muted-foreground mb-4">
