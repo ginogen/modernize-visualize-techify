@@ -124,6 +124,49 @@ const DesarrolloSoftwareLegal = () => {
           </motion.div>
         </div>
       </section>
+
+      <section className="py-20 bg-gray-50/50">
+        <div className="container-narrow">
+          <div className="max-w-2xl mb-16 text-center mx-auto">
+            <h2 className="text-4xl font-semibold text-gray-900 mb-4">
+              Vista Previa del Sistema
+            </h2>
+            <p className="text-lg text-gray-600">
+              Es una demo visual, sin funcionalidad real.
+            </p>
+          </div>
+
+          <div className="max-w-6xl mx-auto">
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+              <div className="bg-gray-100 px-4 py-3 border-b border-gray-200 flex items-center gap-2">
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div className="flex-1 text-center">
+                  <span className="text-sm text-gray-600 font-mono">Demo</span>
+                </div>
+              </div>
+              <div className="relative" style={{ paddingBottom: '75%' }}>
+                <iframe
+                  src="https://simple-case-mind.lovable.app"
+                  className="absolute inset-0 w-full h-full"
+                  style={{ border: 'none', minHeight: '800px' }}
+                  title="Demo de Software Legal"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <div className="text-center mt-6">
+              <p className="text-sm text-gray-500">
+                💡 Esta es una demostración del tipo de interfaz que podemos desarrollar. El sistema final será 100% personalizado según sus necesidades.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Stack Tecnológico */}
       <section className="py-20 bg-muted/30 section-enhanced-bg">
         <div className="container mx-auto px-4">
