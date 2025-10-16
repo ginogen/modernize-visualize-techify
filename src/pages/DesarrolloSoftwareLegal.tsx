@@ -277,12 +277,16 @@ const DesarrolloSoftwareLegal = () => {
                             <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
                             <span className="font-semibold">Entrega en 2-3 meses</span>
                           </div>
+                          <div className="flex items-center">
+                            <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
+                            <span className="font-semibold">Posibilidad de realizar el pago en hasta 4 Cuotas</span>
+                          </div>
                         </div>
                       </div>
                       <div className="bg-blue-400/10 p-4 rounded-lg border border-blue-400/20">
                         <h5 className="font-semibold mb-2 text-blue-400">Costos adicionales:</h5>
                         <div className="space-y-1 text-sm">
-                          <p>• Soporte mensual: $150.000</p>
+                          <p>• Soporte mensual: $120.000</p>
                           <p>• Servidor: U$D 25/mes</p>
                           <p>• Base de datos: U$D 25/mes</p>
                           <p>• Dominio: No incluido</p>

@@ -284,7 +284,7 @@ const NuestraPropuestaConPrecios = () => {
                   Partner Tech Intermediate
                 </h3>
                 <div className="text-3xl font-bold text-blue-600 mb-4">
-                  $420.000
+                  $490.000
                   <span className="text-lg font-normal text-gray-600">/mes</span>
                 </div>
               </div>
