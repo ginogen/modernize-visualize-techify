@@ -67,6 +67,7 @@ import LeadsIndex from "./pages/LeadsIndex";
 import FunkyArt from "./pages/FunkyArt";
 import PropuestaServiciosISO from "./pages/PropuestaServiciosISO";
 import PropuestaSaintGobain from "./pages/PropuestaSaintGobain";
+import PropuestaZona93 from "./pages/PropuestaZona93";
 
 const queryClient = new QueryClient();
 
@@ -289,9 +290,13 @@ function App() {
                     path="/propuesta-servicios-iso"
                     element={<PropuestaServiciosISO />}
                   />
+                    <Route
+                        path="/propuesta-saint-gobain"
+                        element={<PropuestaSaintGobain />}
+                      />
                   <Route
-                    path="/propuesta-saint-gobain"
-                    element={<PropuestaSaintGobain />}
+                    path="/propuesta-zona-93"
+                    element={<PropuestaZona93 />}
                   />
 
                   {/* Rutas protegidas que requieren autenticación */}
