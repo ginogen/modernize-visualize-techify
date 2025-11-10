@@ -214,6 +214,18 @@ const NuestraPropuestaConPrecios = () => {
         updateTrafficStats(weightedVariant.paragraph, 'paragraph');
         updateTrafficStats(weightedVariant.cta, 'cta');
 
+        // Track new variant assignment for Google Analytics (GTM)
+        if (typeof window !== 'undefined' && window.dataLayer) {
+          window.dataLayer.push({
+            'event': 'ab_test_assignment',
+            'variant_h1': weightedVariant.h1,
+            'variant_paragraph': weightedVariant.paragraph,
+            'variant_cta': weightedVariant.cta,
+            'assignment_type': 'balanced_weighted_distribution',
+            'variant_combination': `h1_${weightedVariant.h1}_p_${weightedVariant.paragraph}_cta_${weightedVariant.cta}`
+          });
+        }
+
         // Track new variant assignment for Meta Pixel
         if (typeof window !== 'undefined' && window.fbq) {
           window.fbq('trackCustom', 'ab_test_assignment', {
@@ -226,12 +238,14 @@ const NuestraPropuestaConPrecios = () => {
       }
     }
 
-    // Track variant view for analytics
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'ab_test_view', {
-        'custom_parameter_1': `h1_v${currentVariant.h1}`,
-        'custom_parameter_2': `p_v${currentVariant.paragraph}`,
-        'custom_parameter_3': `cta_v${currentVariant.cta}`
+    // Track variant view for analytics (GTM)
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({
+        'event': 'ab_test_view',
+        'variant_h1': currentVariant.h1,
+        'variant_paragraph': currentVariant.paragraph,
+        'variant_cta': currentVariant.cta,
+        'variant_combination': `h1_${currentVariant.h1}_p_${currentVariant.paragraph}_cta_${currentVariant.cta}`
       });
     }
   }, []);
@@ -269,11 +283,17 @@ const NuestraPropuestaConPrecios = () => {
               <Button
                 className="btn-primary px-8 py-3 text-lg text-black"
                 onClick={() => {
-                  // Track CTA click for Google Analytics
-                  if (typeof window !== 'undefined' && window.gtag) {
-                    window.gtag('event', 'cta_click', {
-                      'custom_parameter_1': `primary_cta_v${currentVariant.cta}`,
-                      'custom_parameter_2': AB_TEST_VARIANTS.cta[currentVariant.cta].primary
+                  // Track CTA click for Google Analytics (GTM)
+                  if (typeof window !== 'undefined' && window.dataLayer) {
+                    window.dataLayer.push({
+                      'event': 'cta_click',
+                      'cta_type': 'primary',
+                      'cta_text': AB_TEST_VARIANTS.cta[currentVariant.cta].primary,
+                      'cta_location': 'hero_section',
+                      'variant_h1': currentVariant.h1,
+                      'variant_paragraph': currentVariant.paragraph,
+                      'variant_cta': currentVariant.cta,
+                      'conversion_type': 'agenda_click'
                     });
                   }
 
@@ -309,11 +329,17 @@ const NuestraPropuestaConPrecios = () => {
                 variant="outline"
                 className="px-8 py-3 text-lg border-gray-300 hover:bg-gray-50"
                 onClick={() => {
-                  // Track CTA click for Google Analytics
-                  if (typeof window !== 'undefined' && window.gtag) {
-                    window.gtag('event', 'cta_click', {
-                      'custom_parameter_1': `secondary_cta_v${currentVariant.cta}`,
-                      'custom_parameter_2': AB_TEST_VARIANTS.cta[currentVariant.cta].secondary
+                  // Track CTA click for Google Analytics (GTM)
+                  if (typeof window !== 'undefined' && window.dataLayer) {
+                    window.dataLayer.push({
+                      'event': 'cta_click',
+                      'cta_type': 'secondary',
+                      'cta_text': AB_TEST_VARIANTS.cta[currentVariant.cta].secondary,
+                      'cta_location': 'hero_section',
+                      'variant_h1': currentVariant.h1,
+                      'variant_paragraph': currentVariant.paragraph,
+                      'variant_cta': currentVariant.cta,
+                      'conversion_type': 'whatsapp_click'
                     });
                   }
 
