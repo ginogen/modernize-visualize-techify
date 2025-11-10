@@ -21,7 +21,7 @@ const AB_TEST_VARIANTS = {
   paragraph: [
     "Deja de depender de software de terceros, cientos de suscripciones mensuales y mas gastos. Estamos en la era en la que tener tu propio software ya no significa una inversion de miles de dolares.",
     "Miles de empresas gastan fortunas en suscripciones de software. Nosotros te ayudamos a crear tu propia solución y eliminar esos gastos para siempre.",
-    "¿Sabías que las empresas gastan en promedio $5000 mensuales en software? Desarrollá tu propia herramienta y eliminá esos costos recurrentes.",
+    "¿Sabías que las empresas gastan en promedio U$D 400/900 mensuales en software que no es propio? Desarrollá tu propia herramienta y eliminá esos costos recurrentes.",
     "Suscripciones, licencias, dependencias de terceros. Es hora de tener el control total de tu tecnología con software desarrollado específicamente para tu negocio."
   ],
   cta: [
@@ -30,6 +30,78 @@ const AB_TEST_VARIANTS = {
     { primary: "Eliminar suscripciones ya", secondary: "Contactar ahora" },
     { primary: "Desarrollar mi software", secondary: "Hablar con experto" }
   ]
+};
+
+// Weighted Distribution for Controlled A/B Testing
+const VARIANT_WEIGHTS = {
+  h1: [40, 30, 20, 10],        // 40% control, 30% aggressive, 20% cost-focused, 10% independence
+  paragraph: [50, 25, 25, 0],   // 50% control, 25% each for variants 1&2, 0% for variant 3
+  cta: [60, 40, 0, 0]          // 60% control, 40% variant 1, disabled variants 2&3
+};
+
+// Function to select variant based on weights
+const selectWeightedVariant = (weights) => {
+  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+  let random = Math.random() * totalWeight;
+  
+  for (let i = 0; i < weights.length; i++) {
+    random -= weights[i];
+    if (random <= 0) return i;
+  }
+  return 0; // Fallback to first variant
+};
+
+// Traffic Balancer - Adjusts weights based on current distribution
+const getBalancedWeights = (originalWeights, trafficKey) => {
+  try {
+    const trafficData = localStorage.getItem(`traffic_${trafficKey}`);
+    if (!trafficData) return originalWeights;
+    
+    const traffic = JSON.parse(trafficData);
+    const now = Date.now();
+    const oneHour = 60 * 60 * 1000;
+    
+    // Only balance if we have recent traffic data (last hour)
+    if (now - traffic.lastUpdated > oneHour) return originalWeights;
+    
+    const totalViews = traffic.views.reduce((sum, count) => sum + count, 0);
+    if (totalViews < 20) return originalWeights; // Need minimum traffic to balance
+    
+    // Calculate desired vs actual distribution
+    const totalWeight = originalWeights.reduce((sum, weight) => sum + weight, 0);
+    const adjustedWeights = originalWeights.map((weight, index) => {
+      const targetPercentage = weight / totalWeight;
+      const actualPercentage = traffic.views[index] / totalViews;
+      const difference = targetPercentage - actualPercentage;
+      
+      // Adjust weight based on difference (max 50% adjustment)
+      const adjustment = Math.max(-0.5, Math.min(0.5, difference * 2));
+      return Math.max(1, weight * (1 + adjustment)); // Minimum weight of 1
+    });
+    
+    return adjustedWeights;
+  } catch (error) {
+    console.warn('Traffic balancer error:', error);
+    return originalWeights;
+  }
+};
+
+// Update traffic stats
+const updateTrafficStats = (variantIndex, trafficKey) => {
+  try {
+    const trafficData = localStorage.getItem(`traffic_${trafficKey}`);
+    let traffic = trafficData ? JSON.parse(trafficData) : {
+      views: [0, 0, 0, 0],
+      lastUpdated: Date.now()
+    };
+    
+    traffic.views[variantIndex] = (traffic.views[variantIndex] || 0) + 1;
+    traffic.lastUpdated = Date.now();
+    
+    localStorage.setItem(`traffic_${trafficKey}`, JSON.stringify(traffic));
+  } catch (error) {
+    console.warn('Traffic stats update error:', error);
+  }
 };
 
 const NuestraPropuestaConPrecios = () => {
@@ -72,36 +144,85 @@ const NuestraPropuestaConPrecios = () => {
       });
       
       // Store variant for analytics
-      sessionStorage.setItem('abTest', JSON.stringify({
+      localStorage.setItem('abTest', JSON.stringify({
         h1: h1Variant ? parseInt(h1Variant) || 0 : 0,
         paragraph: paragraphVariant ? parseInt(paragraphVariant) || 0 : 0,
         cta: ctaVariant ? parseInt(ctaVariant) || 0 : 0,
-        source: 'url'
+        source: 'url',
+        timestamp: Date.now()
       }));
     } else {
-      // Check if user already has a variant assigned
-      const storedVariant = sessionStorage.getItem('abTest');
+      // Check if user already has a variant assigned (persistent across sessions)
+      const storedVariant = localStorage.getItem('abTest');
       
       if (storedVariant) {
         const parsed = JSON.parse(storedVariant);
-        setCurrentVariant({
-          h1: parsed.h1 || 0,
-          paragraph: parsed.paragraph || 0,
-          cta: parsed.cta || 0
-        });
+        // Check if variant is not older than 30 days
+        const isExpired = parsed.timestamp && (Date.now() - parsed.timestamp) > (30 * 24 * 60 * 60 * 1000);
+        
+        if (!isExpired) {
+          setCurrentVariant({
+            h1: parsed.h1 || 0,
+            paragraph: parsed.paragraph || 0,
+            cta: parsed.cta || 0
+          });
+        } else {
+          // Expired, assign new balanced weighted variant
+          const balancedH1Weights = getBalancedWeights(VARIANT_WEIGHTS.h1, 'h1');
+          const balancedPWeights = getBalancedWeights(VARIANT_WEIGHTS.paragraph, 'paragraph');
+          const balancedCtaWeights = getBalancedWeights(VARIANT_WEIGHTS.cta, 'cta');
+          
+          const weightedVariant = {
+            h1: selectWeightedVariant(balancedH1Weights),
+            paragraph: selectWeightedVariant(balancedPWeights),
+            cta: selectWeightedVariant(balancedCtaWeights)
+          };
+          
+          setCurrentVariant(weightedVariant);
+          localStorage.setItem('abTest', JSON.stringify({
+            ...weightedVariant,
+            source: 'balanced_weighted',
+            timestamp: Date.now()
+          }));
+          
+          // Update traffic stats
+          updateTrafficStats(weightedVariant.h1, 'h1');
+          updateTrafficStats(weightedVariant.paragraph, 'paragraph');
+          updateTrafficStats(weightedVariant.cta, 'cta');
+        }
       } else {
-        // Randomly assign variants
-        const randomVariant = {
-          h1: Math.floor(Math.random() * AB_TEST_VARIANTS.h1.length),
-          paragraph: Math.floor(Math.random() * AB_TEST_VARIANTS.paragraph.length),
-          cta: Math.floor(Math.random() * AB_TEST_VARIANTS.cta.length)
+        // New user - assign balanced weighted variants
+        const balancedH1Weights = getBalancedWeights(VARIANT_WEIGHTS.h1, 'h1');
+        const balancedPWeights = getBalancedWeights(VARIANT_WEIGHTS.paragraph, 'paragraph');
+        const balancedCtaWeights = getBalancedWeights(VARIANT_WEIGHTS.cta, 'cta');
+        
+        const weightedVariant = {
+          h1: selectWeightedVariant(balancedH1Weights),
+          paragraph: selectWeightedVariant(balancedPWeights),
+          cta: selectWeightedVariant(balancedCtaWeights)
         };
         
-        setCurrentVariant(randomVariant);
-        sessionStorage.setItem('abTest', JSON.stringify({
-          ...randomVariant,
-          source: 'random'
+        setCurrentVariant(weightedVariant);
+        localStorage.setItem('abTest', JSON.stringify({
+          ...weightedVariant,
+          source: 'balanced_weighted',
+          timestamp: Date.now()
         }));
+
+        // Update traffic stats
+        updateTrafficStats(weightedVariant.h1, 'h1');
+        updateTrafficStats(weightedVariant.paragraph, 'paragraph');
+        updateTrafficStats(weightedVariant.cta, 'cta');
+
+        // Track new variant assignment for Meta Pixel
+        if (typeof window !== 'undefined' && window.fbq) {
+          window.fbq('trackCustom', 'ab_test_assignment', {
+            variant_h1: weightedVariant.h1,
+            variant_paragraph: weightedVariant.paragraph,
+            variant_cta: weightedVariant.cta,
+            assignment_type: 'balanced_weighted_distribution'
+          });
+        }
       }
     }
 
@@ -217,7 +338,7 @@ const NuestraPropuestaConPrecios = () => {
                   }
 
                   window.open(
-                    "https://wa.me/5491168626336?text=Hola!%20Me%20interesa%20conocer%20más%20sobre%20sus%20servicios",
+                    "https://wa.me/17864087985?text=Hola!%20Me%20interesa%20conocer%20más%20sobre%20sus%20servicios",
                     "_blank"
                   );
                 }}
