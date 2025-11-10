@@ -1,4 +1,5 @@
-import { ArrowRight, CheckCircle, ExternalLink, Code2, Zap, Bot, HelpCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowRight, CheckCircle, ExternalLink, Code2, Zap, Bot, HelpCircle, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -9,16 +10,118 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import SEO from "@/components/SEO/SEO";
 import "../styles/minimal.css";
 
+// A/B Testing Configuration
+const AB_TEST_VARIANTS = {
+  h1: [
+    "Te ayudamos a desarrollar tu propio software.",
+    "Deja de pagar suscripciones mensuales. Desarrollá tu propio software.",
+    "¿Cansado de suscripciones costosas? Creá tu propio software.",
+    "Independencia tecnológica: Desarrollá tu software sin depender de terceros."
+  ],
+  paragraph: [
+    "Deja de depender de software de terceros, cientos de suscripciones mensuales y mas gastos. Estamos en la era en la que tener tu propio software ya no significa una inversion de miles de dolares.",
+    "Miles de empresas gastan fortunas en suscripciones de software. Nosotros te ayudamos a crear tu propia solución y eliminar esos gastos para siempre.",
+    "¿Sabías que las empresas gastan en promedio $5000 mensuales en software? Desarrollá tu propia herramienta y eliminá esos costos recurrentes.",
+    "Suscripciones, licencias, dependencias de terceros. Es hora de tener el control total de tu tecnología con software desarrollado específicamente para tu negocio."
+  ],
+  cta: [
+    { primary: "Agendar consulta gratuita", secondary: "Hablar en WhatsApp" },
+    { primary: "Ver cómo funciona", secondary: "Consulta sin costo" },
+    { primary: "Eliminar suscripciones ya", secondary: "Contactar ahora" },
+    { primary: "Desarrollar mi software", secondary: "Hablar con experto" }
+  ]
+};
+
 const NuestraPropuestaConPrecios = () => {
   const { t } = useLanguage();
+  const [showStickyButton, setShowStickyButton] = useState(false);
+  const [currentVariant, setCurrentVariant] = useState({
+    h1: 0,
+    paragraph: 0,
+    cta: 0
+  });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setShowStickyButton(true);
+      } else {
+        setShowStickyButton(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // A/B Testing Logic
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check for URL parameters (for Meta Ads testing)
+    const h1Variant = urlParams.get('h1');
+    const paragraphVariant = urlParams.get('p');
+    const ctaVariant = urlParams.get('cta');
+    
+    if (h1Variant || paragraphVariant || ctaVariant) {
+      // Use URL parameters if provided
+      setCurrentVariant({
+        h1: h1Variant ? parseInt(h1Variant) || 0 : 0,
+        paragraph: paragraphVariant ? parseInt(paragraphVariant) || 0 : 0,
+        cta: ctaVariant ? parseInt(ctaVariant) || 0 : 0
+      });
+      
+      // Store variant for analytics
+      sessionStorage.setItem('abTest', JSON.stringify({
+        h1: h1Variant ? parseInt(h1Variant) || 0 : 0,
+        paragraph: paragraphVariant ? parseInt(paragraphVariant) || 0 : 0,
+        cta: ctaVariant ? parseInt(ctaVariant) || 0 : 0,
+        source: 'url'
+      }));
+    } else {
+      // Check if user already has a variant assigned
+      const storedVariant = sessionStorage.getItem('abTest');
+      
+      if (storedVariant) {
+        const parsed = JSON.parse(storedVariant);
+        setCurrentVariant({
+          h1: parsed.h1 || 0,
+          paragraph: parsed.paragraph || 0,
+          cta: parsed.cta || 0
+        });
+      } else {
+        // Randomly assign variants
+        const randomVariant = {
+          h1: Math.floor(Math.random() * AB_TEST_VARIANTS.h1.length),
+          paragraph: Math.floor(Math.random() * AB_TEST_VARIANTS.paragraph.length),
+          cta: Math.floor(Math.random() * AB_TEST_VARIANTS.cta.length)
+        };
+        
+        setCurrentVariant(randomVariant);
+        sessionStorage.setItem('abTest', JSON.stringify({
+          ...randomVariant,
+          source: 'random'
+        }));
+      }
+    }
+
+    // Track variant view for analytics
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'ab_test_view', {
+        'custom_parameter_1': `h1_v${currentVariant.h1}`,
+        'custom_parameter_2': `p_v${currentVariant.paragraph}`,
+        'custom_parameter_3': `cta_v${currentVariant.cta}`
+      });
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
       <SEO
-        title="Nuestra Propuesta con Precios | Builders AI - Automatización y Desarrollo de Software"
-        description="Simplificamos las operaciones de tu negocio mediante automatización inteligente, desarrollo de software personalizado y asistentes con IA. Conoce nuestros planes Partner Tech con precios transparentes."
-        keywords="automatización empresarial, desarrollo software personalizado, bots whatsapp, asistentes IA, CRM personalizado, automatizar facturas, automatización procesos, precios planes tech"
-        url="https://www.builders-ai.com/propuesta-con-precios"
+        title="Nuestra Propuesta | Builders AI - Automatización y Desarrollo de Software"
+        description="Simplificamos las operaciones de tu negocio mediante automatización inteligente, desarrollo de software personalizado y asistentes con IA. Conoce casos reales como Billence, CRMs personalizados y bots de WhatsApp."
+        keywords="automatización empresarial, desarrollo software personalizado, bots whatsapp, asistentes IA, CRM personalizado, automatizar facturas, Billence, casos de éxito"
+        url="https://www.builders-ai.com/nuestra-propuesta"
       />
 
       {/* Grid Background */}
@@ -29,110 +132,111 @@ const NuestraPropuestaConPrecios = () => {
       {/* Hero Section - Nuestra Propuesta */}
       <section className="relative pt-32 pb-20 px-4">
         <div className="container-narrow">
-          <div className="max-w-3xl">
-            <h1 className="text-display font-semibold text-gray-900 mb-6">
-              Nuestra Propuesta
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-display font-bold text-gray-900 mb-6">
+              {AB_TEST_VARIANTS.h1[currentVariant.h1]}
             </h1>
             <p className="text-subtitle mb-8">
-              Nos enfocamos en ayudar a nuestros clientes a simplicar sus operaciones 
-              en el día a día, identificar qué procesos son los que se pueden automatizar 
-              para lograr un ahorro real en tiempo y por lo tanto dinero.
+              {AB_TEST_VARIANTS.paragraph[currentVariant.paragraph]}
             </p>
+            <div className="mb-6">
+              <div className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-blue-800 text-sm font-medium">
+                Unite a 100+ clientes que ya desarrollaron sus sistemas
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                className="btn-primary px-8 py-3 text-lg text-black"
+                onClick={() => {
+                  // Track CTA click for Google Analytics
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'cta_click', {
+                      'custom_parameter_1': `primary_cta_v${currentVariant.cta}`,
+                      'custom_parameter_2': AB_TEST_VARIANTS.cta[currentVariant.cta].primary
+                    });
+                  }
+
+                  // Track for Meta Pixel - Standard Event
+                  if (typeof window !== 'undefined' && window.fbq) {
+                    window.fbq('track', 'Lead', {
+                      content_name: AB_TEST_VARIANTS.cta[currentVariant.cta].primary,
+                      variant_h1: currentVariant.h1,
+                      variant_paragraph: currentVariant.paragraph, 
+                      variant_cta: currentVariant.cta,
+                      button_type: 'primary',
+                      button_location: 'hero_section'
+                    });
+
+                    // Custom Event for detailed A/B tracking
+                    window.fbq('trackCustom', 'cta_click_agenda', {
+                      variant_combination: `h1_${currentVariant.h1}_p_${currentVariant.paragraph}_cta_${currentVariant.cta}`,
+                      test_group: `variant_${currentVariant.h1}_${currentVariant.paragraph}_${currentVariant.cta}`,
+                      button_text: AB_TEST_VARIANTS.cta[currentVariant.cta].primary,
+                      conversion_type: 'agenda_click'
+                    });
+                  }
+
+                  window.open(
+                    "https://calendar.app.google/XXwTHc1qvikRrd2f6",
+                    "_blank"
+                  );
+                }}
+              >
+                {AB_TEST_VARIANTS.cta[currentVariant.cta].primary} <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button
+                variant="outline"
+                className="px-8 py-3 text-lg border-gray-300 hover:bg-gray-50"
+                onClick={() => {
+                  // Track CTA click for Google Analytics
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'cta_click', {
+                      'custom_parameter_1': `secondary_cta_v${currentVariant.cta}`,
+                      'custom_parameter_2': AB_TEST_VARIANTS.cta[currentVariant.cta].secondary
+                    });
+                  }
+
+                  // Track for Meta Pixel - Standard Event
+                  if (typeof window !== 'undefined' && window.fbq) {
+                    window.fbq('track', 'InitiateCheckout', {
+                      content_name: AB_TEST_VARIANTS.cta[currentVariant.cta].secondary,
+                      variant_h1: currentVariant.h1,
+                      variant_paragraph: currentVariant.paragraph,
+                      variant_cta: currentVariant.cta,
+                      button_type: 'secondary',
+                      button_location: 'hero_section'
+                    });
+
+                    // Custom Event for detailed A/B tracking
+                    window.fbq('trackCustom', 'cta_click_whatsapp', {
+                      variant_combination: `h1_${currentVariant.h1}_p_${currentVariant.paragraph}_cta_${currentVariant.cta}`,
+                      test_group: `variant_${currentVariant.h1}_${currentVariant.paragraph}_${currentVariant.cta}`,
+                      button_text: AB_TEST_VARIANTS.cta[currentVariant.cta].secondary,
+                      conversion_type: 'whatsapp_click'
+                    });
+                  }
+
+                  window.open(
+                    "https://wa.me/5491168626336?text=Hola!%20Me%20interesa%20conocer%20más%20sobre%20sus%20servicios",
+                    "_blank"
+                  );
+                }}
+              >
+                {AB_TEST_VARIANTS.cta[currentVariant.cta].secondary} <MessageCircle className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Cómo lo hacemos Section */}
-      <section className="py-20 border-t border-gray-100">
-        <div className="container-narrow">
-          <div className="max-w-2xl mb-8">
-            <h2 className="text-4xl font-semibold text-gray-900 mb-4">
-              ¿Cómo lo hacemos?
-            </h2>
-            <p className="text-lg text-gray-600">
-              Conversando, reuniones virtuales 1:1 para enteder el funcionamiento 
-              de tu negocio, identificar ese dolor o tarea que no es tu actividad 
-              principal pero que te quita a vos o tus empleados tiempo valioso cada día.
-            </p>
-          </div>
-        </div>
-      </section>
 
-      {/* Qué podemos hacer Section */}
-      <section className="py-20 bg-gray-50/50">
-        <div className="container-narrow">
-          <div className="max-w-2xl mb-16">
-            <h2 className="text-4xl font-semibold text-gray-900 mb-4">
-              ¿Qué podemos hacer?
-            </h2>
-            <p className="text-lg text-gray-600">
-              Desde desarrollo de Software, automatizaciones y bot/asistentes virtuales 
-              con IA (sí, sabemos de IA bien aplicada). Para ser más concretos y entender 
-              cada uno de estos servicios:
-            </p>
-          </div>
-
-          <div className="space-y-16">
-            {/* Software */}
-            <div className="service-section">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="service-icon">
-                  <Code2 className="h-6 w-6 text-blue-600" />
-                </div>
-                <h3 className="text-3xl font-semibold text-gray-900">
-                  Software
-                </h3>
-              </div>
-              <p className="text-lg text-gray-600 mb-8 max-w-3xl">
-                En este caso podemos desarrollar desde un website, ecommerce, hasta 
-                herramientas internas estilo CRMs, aplicaciones para usuarios o cualquier 
-                tipo de app o herramienta que se te ocurra.
-              </p>
-            </div>
-
-            {/* Automatizaciones */}
-            <div className="service-section">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="service-icon">
-                  <Zap className="h-6 w-6 text-yellow-600" />
-                </div>
-                <h3 className="text-3xl font-semibold text-gray-900">
-                  Automatizaciones
-                </h3>
-              </div>
-              <p className="text-lg text-gray-600 mb-8 max-w-3xl">
-                Lo que te imagines, por ejemplo, automatizar la extracción de datos de 
-                facturas para cargar en un sistema determinado, automatizar generación 
-                de contenido (imágenes o videos), automatizar mailing, llamadas y más.
-              </p>
-            </div>
-
-            {/* Bots o Asistentes */}
-            <div className="service-section">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="service-icon">
-                  <Bot className="h-6 w-6 text-green-600" />
-                </div>
-                <h3 className="text-3xl font-semibold text-gray-900">
-                  Bots o Asistentes
-                </h3>
-              </div>
-              <p className="text-lg text-gray-600 mb-8 max-w-3xl">
-                Pueden ser de los que funcionan con Whatsapp para atender a tus clientes 
-                o asistentes virtuales que funcionan como tu secretario privado y puede 
-                realizar acciones con tu casilla de email, mensajes, base de datos, documentos.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Ejemplos Reales Section */}
       <section className="py-20 border-t border-gray-100">
         <div className="container-narrow">
           <div className="max-w-2xl mb-16">
             <h2 className="text-4xl font-semibold text-gray-900 mb-4">
-              Veamos algunos ejemplos reales
+              Esto ya hicimos y podriamos hacer para vos.
             </h2>
           </div>
 
@@ -187,14 +291,7 @@ const NuestraPropuestaConPrecios = () => {
 
             {/* Asistente para Despacho de Abogados */}
             <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="bg-gray-100 rounded-xl p-4 text-center md:order-1">
-                <img 
-                  src="/assets/icons/botliti.png" 
-                  alt="Bot WhatsApp Despacho Legal - Asistente virtual para abogados"
-                  className="w-full h-auto rounded-lg shadow-sm"
-                />
-              </div>
-              <div className="md:order-2">
+              <div>
                 <h3 className="text-2xl font-semibold text-gray-900 mb-4">
                   Asistente para Despacho de Abogados
                 </h3>
@@ -208,242 +305,52 @@ const NuestraPropuestaConPrecios = () => {
                   su confirmación y luego confirmar al abogado.
                 </p>
               </div>
+              <div className="bg-gray-100 rounded-xl p-4 text-center">
+                <img 
+                  src="/assets/icons/botliti.png" 
+                  alt="Bot WhatsApp Despacho Legal - Asistente virtual para abogados"
+                  className="w-full h-auto rounded-lg shadow-sm"
+                />
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Pricing Section - NEW */}
-      <section className="py-20 bg-gray-50/50 border-t border-gray-100">
-        <div className="container-narrow">
-          <div className="max-w-2xl mb-16 text-center mx-auto">
-            <h2 className="text-4xl font-semibold text-gray-900 mb-4">
-              Nuestros Planes Partner Tech
-            </h2>
-            <p className="text-lg text-gray-600">
-              Planes mensuales diseñados para ser tu socio tecnológico de confianza
-            </p>
-            <p className="text-sm text-gray-500 mt-2">
-              *Todos los precios están expresados en Pesos Argentinos - No hay otros costos ocultos
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Partner Tech Basic */}
-            <Card className="card-minimal relative p-8">
-              <div className="mb-6">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-                  Partner Tech Basic
-                </h3>
-                <div className="text-3xl font-bold text-blue-600 mb-4">
-                  $320.000
-                  <span className="text-lg font-normal text-gray-600">/mes</span>
-                </div>
-              </div>
-              <div className="space-y-3 mb-8">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Socio tecnológico para corrección de problemas técnicos</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">SEO básico (revisión de SEO On Page)</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-600">Creación de 1 automatización</span>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button type="button" className="inline-flex">
-                          <HelpCircle className="h-4 w-4 text-gray-400 hover:text-gray-600" />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="max-w-xs">Por ejemplo automatizar carga de facturas, de documentación, crear presentaciones, mensajes, etc</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Asesoramiento de consultas técnicas</span>
-                </div>
-              </div>
-            </Card>
-
-            {/* Partner Tech Intermediate */}
-            <Card className="card-minimal relative p-8 ring-2 ring-blue-600">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-                  Más Popular
-                </span>
-              </div>
-              <div className="mb-6">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-                  Partner Tech Intermediate
-                </h3>
-                <div className="text-3xl font-bold text-blue-600 mb-4">
-                  $490.000
-                  <span className="text-lg font-normal text-gray-600">/mes</span>
-                </div>
-              </div>
-              <div className="space-y-3 mb-8">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Todo lo del plan Basic</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-600">Investigación de palabras claves para mejoras en posicionamiento</span>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button type="button" className="inline-flex">
-                          <HelpCircle className="h-4 w-4 text-gray-400 hover:text-gray-600" />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="max-w-xs">Esto es lo que ayudará a que su sitio comience a tener mejor posicionamiento en Google en su sector</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Sistema de creación de artículos (hasta 4 mensuales)</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Mejoras en diseño y velocidad del sitio web</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Desarrollo de hasta 1 nueva sección o landing page</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-600">Asistente virtual a medida por WhatsApp</span>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button type="button" className="inline-flex">
-                          <HelpCircle className="h-4 w-4 text-gray-400 hover:text-gray-600" />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="max-w-xs">Puede ser un asistente de uso interno que por ejemplo lo use a modo de recordatorios, conectar con sus sistemas y poder obtener información rápidamente o un asistente que atienda a sus clientes</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Mantenimiento completo</span>
-                </div>
-              </div>
-            </Card>
-
-            {/* Partner Tech VIP */}
-            <Card className="card-minimal relative p-8">
-              <div className="mb-6">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-                  Partner Tech VIP
-                </h3>
-                <div className="text-3xl font-bold text-blue-600 mb-4">
-                  $750.000
-                  <span className="text-lg font-normal text-gray-600">/mes</span>
-                </div>
-              </div>
-              <div className="space-y-3 mb-8">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Todo lo del Basic e Intermediate</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Sistema de generación de artículos ilimitados</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Desarrollo de automatizaciones ilimitadas</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-600">Desarrollo de hasta 1 sistema durante la contratación</span>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button type="button" className="inline-flex">
-                          <HelpCircle className="h-4 w-4 text-gray-400 hover:text-gray-600" />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="max-w-xs">Durante el tiempo de contratación se podrá desarrollar hasta 1 herramienta o app que necesite para uso interno, por ejemplo un CRM o similar</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Asesoramiento en publicidad</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-600">Hasta dos sesiones mensuales de 1 hora para aprender IA</span>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button type="button" className="inline-flex">
-                          <HelpCircle className="h-4 w-4 text-gray-400 hover:text-gray-600" />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="max-w-xs">Capacitamos a su equipo en el uso de herramientas de IA para mayor eficiencia en el trabajo y autonomía</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </div>
-
-          {/* Contract Terms */}
-          <div className="mt-12 p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <div className="flex items-start gap-3">
-              <div className="w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-yellow-800 text-sm font-bold">!</span>
-              </div>
+            {/* Sistema de Automatización de Facturas - Billence */}
+            <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <h4 className="font-semibold text-yellow-800 mb-2">Términos de Contratación</h4>
-                <p className="text-yellow-700">
-                  <strong>Tiempo mínimo de contratación:</strong> 3 meses. En caso de querer rescindir 
-                  antes de ese tiempo se deberá pagar el equivalente a un mes del plan contratado.
+                <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+                  Sistema de Automatización de Facturas y Gastos
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Desarrollamos Billence, un sistema que permite a las PYMES y negocios poder 
+                  automatizar la gestión de sus facturas de proveedores en segundos conectando 
+                  su email o utilizando Whatsapp. Este sistema extrae la información de las 
+                  facturas y lo ordena para luego poder exportar en csv o integrar con sistemas 
+                  de terceros.
                 </p>
+                <ul className="space-y-2 text-gray-600">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    Extracción automática de datos de facturas
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    Integración con email y WhatsApp
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    Exportación a CSV y sistemas de terceros
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    Organización y categorización inteligente
+                  </li>
+                </ul>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Video Section */}
-      <section className="py-20 bg-white">
-        <div className="container-narrow">
-          <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-3xl font-semibold text-gray-900 mb-4">
-              Conoce más sobre cómo podemos ayudarte
-            </h3>
-            <p className="text-lg text-gray-600 mb-8">
-              Mira este video donde te explico en detalle nuestro proceso y cómo podemos transformar tu negocio
-            </p>
-            <div className="relative rounded-2xl overflow-hidden shadow-lg bg-gray-100">
-              <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                <iframe 
-                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }} 
-                  src="https://www.tella.tv/video/cmfqwbw0y000u0bi57nvafgrr/embed?b=0&title=0&a=1&loop=0&autoPlay=true&t=0&muted=1&wt=0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen={true}
-                  title="Video presentación - Cómo podemos ayudarte"
+              <div className="bg-gray-100 rounded-xl p-4 text-center">
+                <img 
+                  src="/assets/icons/procesos.png" 
+                  alt="Billence - Sistema de automatización de facturas y gastos"
+                  className="w-full h-auto rounded-lg shadow-sm"
                 />
               </div>
             </div>
@@ -749,7 +656,7 @@ const NuestraPropuestaConPrecios = () => {
         <div className="container-narrow">
           <div className="max-w-3xl mx-auto text-center">
             <img
-              src="https://media.licdn.com/dms/image/v2/D4D03AQGUSYi1kuY81w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1695825782350?e=1760572800&v=beta&t=Q9puM4cASq1wec1rTtSZv9Rc_PyjFHstM9MDhKIA23o"
+              src="https://media.licdn.com/dms/image/v2/D4D03AQGUSYi1kuY81w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1695825782350?e=1764201600&v=beta&t=2TS8rCloE1yLn14Zn5TptSygbyI1nevs2xEjFop6_Dg"
               alt="Gino Gentile"
               className="w-40 h-40 rounded-full mx-auto mb-6 object-cover shadow-md"
             />
@@ -764,7 +671,7 @@ const NuestraPropuestaConPrecios = () => {
             </p>
             <div className="flex justify-center gap-4">
               <Button
-                className="btn-primary"
+                className="btn-primary text-black"
                 onClick={() =>
                   window.open(
                     "https://calendar.app.google/XXwTHc1qvikRrd2f6",
@@ -873,6 +780,71 @@ const NuestraPropuestaConPrecios = () => {
           </Button>
         </div>
       </section>
+
+      {/* Sticky CTA for Mobile */}
+      {showStickyButton && (
+        <div 
+          className="fixed bottom-0 left-0 right-0 md:hidden z-50 bg-white shadow-lg border-t border-gray-200 p-4 transition-all duration-300 ease-in-out"
+          style={{
+            transform: showStickyButton ? 'translateY(0)' : 'translateY(100%)',
+            opacity: showStickyButton ? 1 : 0
+          }}
+        >
+          <div className="flex gap-3">
+            <Button
+              className="flex-1 btn-primary py-3 text-sm font-medium text-black"
+              onClick={() => {
+                // Track for Meta Pixel - Sticky CTA
+                if (typeof window !== 'undefined' && window.fbq) {
+                  window.fbq('track', 'Lead', {
+                    content_name: 'Consulta gratuita',
+                    button_type: 'primary',
+                    button_location: 'sticky_mobile'
+                  });
+
+                  window.fbq('trackCustom', 'sticky_cta_agenda', {
+                    device_type: 'mobile',
+                    cta_type: 'sticky_bottom'
+                  });
+                }
+
+                window.open(
+                  "https://calendar.app.google/XXwTHc1qvikRrd2f6",
+                  "_blank"
+                );
+              }}
+            >
+              Consulta gratuita <ArrowRight className="ml-1 h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="flex-1 border-gray-300 hover:bg-gray-50 py-3 text-sm font-medium"
+              onClick={() => {
+                // Track for Meta Pixel - Sticky CTA WhatsApp
+                if (typeof window !== 'undefined' && window.fbq) {
+                  window.fbq('track', 'InitiateCheckout', {
+                    content_name: 'WhatsApp',
+                    button_type: 'secondary',
+                    button_location: 'sticky_mobile'
+                  });
+
+                  window.fbq('trackCustom', 'sticky_cta_whatsapp', {
+                    device_type: 'mobile',
+                    cta_type: 'sticky_bottom'
+                  });
+                }
+
+                window.open(
+                  "https://wa.me/5491168626336?text=Hola!%20Me%20interesa%20conocer%20más%20sobre%20sus%20servicios",
+                  "_blank"
+                );
+              }}
+            >
+              WhatsApp <MessageCircle className="ml-1 h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
