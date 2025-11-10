@@ -240,6 +240,91 @@ const AutomatizarFacturas = () => {
               </Card>
             </div>
 
+            {/* Caso de éxito: Billence */}
+            <div className="bg-blue-50 p-8 rounded-xl mb-12 border border-blue-200">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="bg-blue-600 p-3 rounded-lg">
+                  <FileText className="h-8 w-8 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+                    💡 Caso de éxito real: Billence
+                  </h3>
+                  <p className="text-lg text-gray-600">
+                    Un ejemplo perfecto de lo que explicamos en esta guía
+                  </p>
+                </div>
+              </div>
+              
+              <p className="text-lg text-gray-700 mb-6">
+                <strong>Billence</strong> es una herramienta que desarrollamos específicamente para automatizar 
+                la gestión de facturas de proveedores. Permite a las PYMES procesar facturas automáticamente 
+                vía email o WhatsApp, extraer todos los datos importantes y organizarlos para exportar 
+                o integrar directamente con sistemas contables.
+              </p>
+              
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-3">Funcionalidades principales:</h4>
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-3">
+                      <CheckCircle className="h-4 w-4 text-green-600 mt-1 flex-shrink-0" />
+                      <span className="text-gray-700">Extracción automática de datos de facturas</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle className="h-4 w-4 text-green-600 mt-1 flex-shrink-0" />
+                      <span className="text-gray-700">Integración con email y WhatsApp</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle className="h-4 w-4 text-green-600 mt-1 flex-shrink-0" />
+                      <span className="text-gray-700">Exportación a CSV y sistemas de terceros</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle className="h-4 w-4 text-green-600 mt-1 flex-shrink-0" />
+                      <span className="text-gray-700">Categorización inteligente automática</span>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-3">Resultados obtenidos:</h4>
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-3">
+                      <TrendingUp className="h-4 w-4 text-blue-600 mt-1 flex-shrink-0" />
+                      <span className="text-gray-700">Reducción del 90% en tiempo de procesamiento</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <TrendingUp className="h-4 w-4 text-blue-600 mt-1 flex-shrink-0" />
+                      <span className="text-gray-700">Eliminación total de errores de carga manual</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <TrendingUp className="h-4 w-4 text-blue-600 mt-1 flex-shrink-0" />
+                      <span className="text-gray-700">Integración directa con contadores</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <TrendingUp className="h-4 w-4 text-blue-600 mt-1 flex-shrink-0" />
+                      <span className="text-gray-700">Escalabilidad para miles de facturas</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
+                  onClick={() => window.open("https://billence.me", "_blank", "noopener,noreferrer")}
+                >
+                  Ver Billence en acción <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  className="border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-3"
+                  onClick={() => window.open("https://calendar.app.google/XXwTHc1qvikRrd2f6", "_blank")}
+                >
+                  Consultar por tu proyecto
+                </Button>
+              </div>
+            </div>
+
             <h2 className="text-3xl font-semibold text-gray-900 mb-6">Errores comunes al automatizar facturas</h2>
             
             <div className="space-y-3 mb-12">

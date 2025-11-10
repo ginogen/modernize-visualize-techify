@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle, ExternalLink, Code2, Zap, Bot, HelpCircle, Mes
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -899,6 +900,127 @@ const NuestraPropuestaConPrecios = () => {
                 </div>
                 <span className="text-sm text-gray-600">España</span>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 border-t border-gray-100">
+        <div className="container-narrow">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-16">
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <HelpCircle className="h-8 w-8 text-blue-600" />
+                <h2 className="text-4xl font-semibold text-gray-900">
+                  Preguntas Frecuentes
+                </h2>
+              </div>
+              <p className="text-lg text-gray-600">
+                Resolvemos las dudas más comunes sobre nuestros servicios de desarrollo de software
+              </p>
+            </div>
+
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1" className="border-gray-200">
+                <AccordionTrigger className="text-left text-lg font-medium text-gray-900 hover:text-blue-600">
+                  ¿Cuánto tiempo demora el desarrollo de un proyecto?
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 text-base leading-relaxed">
+                  Depende de la complejidad del proyecto. Un bot de WhatsApp simple puede estar listo en 2-4 semanas, 
+                  mientras que un CRM completo puede tomar 2-4 meses. Durante la consulta inicial evaluamos tu proyecto 
+                  específico y te damos un timeline preciso con hitos claros.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-2" className="border-gray-200">
+                <AccordionTrigger className="text-left text-lg font-medium text-gray-900 hover:text-blue-600">
+                  ¿Qué tecnologías utilizan para el desarrollo?
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 text-base leading-relaxed">
+                  Utilizamos tecnologías modernas y probadas como React, Node.js, Python, y bases de datos seguras. 
+                  Para bots usamos APIs oficiales de WhatsApp, Meta, e integraciones con IA como OpenAI. 
+                  Todo nuestro código es escalable, seguro y está documentado.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-3" className="border-gray-200">
+                <AccordionTrigger className="text-left text-lg font-medium text-gray-900 hover:text-blue-600">
+                  ¿Ofrecen mantenimiento y soporte después del desarrollo?
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 text-base leading-relaxed">
+                  Sí, ofrecemos diferentes planes de mantenimiento que incluyen actualizaciones, monitoreo, 
+                  resolución de errores y mejoras. También te entregamos la documentación completa para que 
+                  puedas gestionar aspectos básicos de forma independiente si lo prefieres.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-4" className="border-gray-200">
+                <AccordionTrigger className="text-left text-lg font-medium text-gray-900 hover:text-blue-600">
+                  ¿Trabajan con empresas de diferentes tamaños?
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 text-base leading-relaxed">
+                  Absolutamente. Hemos trabajado desde emprendedores individuales hasta empresas con más de 100 empleados. 
+                  Adaptamos nuestra propuesta a tu presupuesto y necesidades específicas, ya sea que necesites 
+                  una solución simple o un sistema empresarial complejo.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-5" className="border-gray-200">
+                <AccordionTrigger className="text-left text-lg font-medium text-gray-900 hover:text-blue-600">
+                  ¿Puedo modificar el proyecto durante el desarrollo?
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 text-base leading-relaxed">
+                  Sí, trabajamos con metodología ágil que permite ajustes durante el desarrollo. 
+                  Te mostramos avances cada 1-2 semanas para que puedas sugerir cambios. 
+                  Los cambios menores están incluidos, mientras que modificaciones importantes se evalúan por separado.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-6" className="border-gray-200">
+                <AccordionTrigger className="text-left text-lg font-medium text-gray-900 hover:text-blue-600">
+                  ¿Qué incluye exactamente la consulta gratuita?
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 text-base leading-relaxed">
+                  En 30-60 minutos analizamos tu negocio, identificamos oportunidades de automatización, 
+                  definimos alcance del proyecto, te damos una propuesta técnica detallada con timeline y presupuesto. 
+                  También te mostramos casos similares y resolvemos todas tus dudas. Sin compromiso.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-7" className="border-gray-200">
+                <AccordionTrigger className="text-left text-lg font-medium text-gray-900 hover:text-blue-600">
+                  ¿Pueden integrar con nuestros sistemas existentes?
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 text-base leading-relaxed">
+                  Sí, tenemos experiencia integrando con CRMs (Salesforce, HubSpot), sistemas de facturación (AFIP, Mercado Pago), 
+                  e-commerce (Shopify, WooCommerce), ERPs, y APIs personalizadas. 
+                  Evaluamos la compatibilidad en la consulta inicial.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-8" className="border-gray-200">
+                <AccordionTrigger className="text-left text-lg font-medium text-gray-900 hover:text-blue-600">
+                  ¿Cuál es el rango de inversión aproximado?
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 text-base leading-relaxed">
+                  Los proyectos van desde USD 1,500 hasta USD 10,000+ para sistemas complejos. 
+                  La mayoría de nuestros clientes invierten entre USD 2,000-6,000. Ofrecemos planes de pago flexibles en muchos meses 
+                  y el ROI suele recuperarse en 3-6 meses por el ahorro en costos operativos.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+
+            <div className="text-center mt-12">
+              <p className="text-gray-600 mb-6">
+                ¿Tenés alguna otra pregunta? Hablemos directamente.
+              </p>
+              <Button
+                className="btn-primary px-8 py-3 text-lg text-black"
+                onClick={() => window.open("https://calendar.app.google/XXwTHc1qvikRrd2f6", "_blank")}
+              >
+                Hacer una pregunta <MessageCircle className="ml-2 h-5 w-5" />
+              </Button>
             </div>
           </div>
         </div>
