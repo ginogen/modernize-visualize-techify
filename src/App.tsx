@@ -69,6 +69,7 @@ import FunkyArt from "./pages/FunkyArt";
 import PropuestaServiciosISO from "./pages/PropuestaServiciosISO";
 import PropuestaSaintGobain from "./pages/PropuestaSaintGobain";
 import PropuestaZona93 from "./pages/PropuestaZona93";
+import LandingSebastianBisio from "./pages/LandingSebastianBisio";
 
 const queryClient = new QueryClient();
 
@@ -302,6 +303,10 @@ function App() {
                   <Route
                     path="/propuesta-zona-93"
                     element={<PropuestaZona93 />}
+                  />
+                  <Route
+                    path="/propuesta-sebastian-bisio"
+                    element={<LandingSebastianBisio />}
                   />
 
                   {/* Rutas protegidas que requieren autenticación */}
