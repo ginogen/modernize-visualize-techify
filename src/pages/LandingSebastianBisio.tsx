@@ -131,14 +131,6 @@ const LandingSebastianBisio = () => {
                   Ver Propuesta
                 </Button>
               </div>
-              
-              {/* Special Offer Badge */}
-              <div className="flex items-center gap-2 bg-neonGreen/10 px-4 py-2 rounded-full border border-neonGreen/30">
-                <Gift className="h-4 w-4 text-neonGreen" />
-                <span className="text-neonGreen font-semibold text-sm">
-                  20% de Descuento por Referido de OpenWings
-                </span>
-              </div>
             </motion.div>
           </div>
         </div>
@@ -268,23 +260,6 @@ const LandingSebastianBisio = () => {
                     </p>
                   </div>
 
-                  {/* Special Discount */}
-                  <div className="bg-neonGreen/5 rounded-lg p-6 border border-neonGreen/20 mb-8">
-                    <div className="flex items-center justify-center gap-3 mb-3">
-                      <Gift className="h-6 w-6 text-neonGreen" />
-                      <h4 className="text-xl font-semibold text-neonGreen">
-                        Descuento Especial OpenWings
-                      </h4>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-2xl font-bold text-white mb-2">
-                        20% de Descuento = <span className="text-neonGreen">$90.000 de ahorro</span>
-                      </p>
-                      <p className="text-muted-foreground">
-                        Precio final: <span className="text-white font-semibold">$360.000</span>
-                      </p>
-                    </div>
-                  </div>
 
                   <div className="grid md:grid-cols-2 gap-8 mb-8">
                     {/* Implementation Time */}
@@ -438,8 +413,6 @@ const LandingSebastianBisio = () => {
             </h2>
             <p className="text-xl text-white/80 mb-8 max-w-3xl mx-auto">
               En solo 2 semanas tendrás tu chatbot funcionando completamente conectado con OpenWings.
-              <br />
-              <span className="text-neonGreen font-semibold">¡Con 20% de descuento por ser referido!</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -463,14 +436,6 @@ const LandingSebastianBisio = () => {
               >
                 Agendar Videollamada
               </Button>
-            </div>
-            <div className="mt-8 flex justify-center">
-              <div className="flex items-center gap-2 bg-neonGreen/10 px-4 py-2 rounded-full border border-neonGreen/20">
-                <Gift className="h-4 w-4 text-neonGreen" />
-                <span className="text-sm text-neonGreen font-medium">
-                  Oferta válida por tiempo limitado - Descuento OpenWings 20%
-                </span>
-              </div>
             </div>
           </motion.div>
         </div>
