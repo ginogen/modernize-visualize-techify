@@ -71,6 +71,7 @@ import PropuestaSaintGobain from "./pages/PropuestaSaintGobain";
 import PropuestaZona93 from "./pages/PropuestaZona93";
 import PropuestaRosarioPack from "./pages/PropuestaRosarioPack";
 import LandingSebastianBisio from "./pages/LandingSebastianBisio";
+import BotPrueba from "./pages/BotPrueba";
 
 const queryClient = new QueryClient();
 
@@ -313,6 +314,7 @@ function App() {
                     path="/propuesta-sebastian-bisio"
                     element={<LandingSebastianBisio />}
                   />
+                  <Route path="/bot-prueba" element={<BotPrueba />} />
 
                   {/* Rutas protegidas que requieren autenticación */}
                   <Route
