@@ -70,6 +70,7 @@ import PropuestaServiciosISO from "./pages/PropuestaServiciosISO";
 import PropuestaSaintGobain from "./pages/PropuestaSaintGobain";
 import PropuestaZona93 from "./pages/PropuestaZona93";
 import PropuestaRosarioPack from "./pages/PropuestaRosarioPack";
+import PropuestaLuco from "./pages/PropuestaLuco";
 import LandingSebastianBisio from "./pages/LandingSebastianBisio";
 import BotPrueba from "./pages/BotPrueba";
 
@@ -309,6 +310,10 @@ function App() {
                   <Route
                     path="/propuesta-rosario-pack"
                     element={<PropuestaRosarioPack />}
+                  />
+                  <Route
+                    path="/propuesta-luco"
+                    element={<PropuestaLuco />}
                   />
                   <Route
                     path="/propuesta-sebastian-bisio"
