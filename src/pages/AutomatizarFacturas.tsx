@@ -262,6 +262,38 @@ const AutomatizarFacturas = () => {
                 vía email o WhatsApp, extraer todos los datos importantes y organizarlos para exportar 
                 o integrar directamente con sistemas contables.
               </p>
+
+              {/* Pricing Options */}
+              <div className="bg-white p-6 rounded-lg mb-6 border border-gray-200">
+                <h4 className="text-xl font-semibold text-gray-900 mb-4 text-center">Planes de Facturación Billence</h4>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="border-2 border-blue-200 rounded-lg p-4 hover:border-blue-400 transition-colors">
+                    <h5 className="text-lg font-bold text-blue-600 mb-2">Opción 1</h5>
+                    <div className="text-center mb-3">
+                      <div className="text-2xl font-bold text-gray-900">U$D 150</div>
+                      <div className="text-sm text-gray-600">por mes</div>
+                    </div>
+                    <div className="text-center mb-4">
+                      <div className="text-lg text-gray-700">Hasta 200 Facturas/Comprobantes</div>
+                      <div className="text-sm text-blue-600 font-medium">Costo unitario: U$D 0.75 por factura</div>
+                    </div>
+                    <div className="text-xs text-gray-500 text-center">Ideal para pequeñas empresas</div>
+                  </div>
+                  
+                  <div className="border-2 border-green-200 rounded-lg p-4 hover:border-green-400 transition-colors">
+                    <h5 className="text-lg font-bold text-green-600 mb-2">Opción 2</h5>
+                    <div className="text-center mb-3">
+                      <div className="text-2xl font-bold text-gray-900">U$D 250</div>
+                      <div className="text-sm text-gray-600">por mes</div>
+                    </div>
+                    <div className="text-center mb-4">
+                      <div className="text-lg text-gray-700">De 201 a 350 Facturas/Comprobantes</div>
+                      <div className="text-sm text-green-600 font-medium">Costo unitario: U$D 0.71 por factura</div>
+                    </div>
+                    <div className="text-xs text-gray-500 text-center">Mejor valor para medianas empresas</div>
+                  </div>
+                </div>
+              </div>
               
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div>
