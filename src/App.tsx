@@ -74,6 +74,7 @@ import PropuestaLuco from "./pages/PropuestaLuco";
 import PropuestaFriorep from "./pages/PropuestaFriorep";
 import LandingSebastianBisio from "./pages/LandingSebastianBisio";
 import BotPrueba from "./pages/BotPrueba";
+import BotBisio from "./pages/BotBisio";
 
 const queryClient = new QueryClient();
 
@@ -325,6 +326,7 @@ function App() {
                     element={<LandingSebastianBisio />}
                   />
                   <Route path="/bot-prueba" element={<BotPrueba />} />
+                  <Route path="/bot-bisio" element={<BotBisio />} />
 
                   {/* Rutas protegidas que requieren autenticación */}
                   <Route
