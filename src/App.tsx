@@ -74,6 +74,7 @@ import PropuestaLuco from "./pages/PropuestaLuco";
 import PropuestaFriorep from "./pages/PropuestaFriorep";
 import PropuestaMartinSlutzky from "./pages/PropuestaMartinSlutzky";
 import LandingSebastianBisio from "./pages/LandingSebastianBisio";
+import LandingMGGroup from "./pages/LandingMGGroup";
 import BotPrueba from "./pages/BotPrueba";
 import BotBisio from "./pages/BotBisio";
 
@@ -329,6 +330,10 @@ function App() {
                   <Route
                     path="/propuesta-sebastian-bisio"
                     element={<LandingSebastianBisio />}
+                  />
+                  <Route
+                    path="/propuesta-mg-group"
+                    element={<LandingMGGroup />}
                   />
                   <Route path="/bot-prueba" element={<BotPrueba />} />
                   <Route path="/bot-bisio" element={<BotBisio />} />
