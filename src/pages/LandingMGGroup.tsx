@@ -526,6 +526,188 @@ const LandingMGGroup = () => {
         </div>
       </section>
 
+      {/* AI Costs Section */}
+      <section className="py-20 bg-muted/30 section-enhanced-bg">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="text-center mb-16"
+          >
+            <Badge className="mb-4 bg-neonGreen/10 text-neonGreen border-neonGreen/20">
+              <DollarSign className="h-4 w-4 mr-2" />
+              Costos Estimados IA
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Costos de <span className="text-neonGreen">Inteligencia Artificial</span>
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Transparencia total en los costos del motor de IA (OpenAI API)
+            </p>
+          </motion.div>
+
+          <div className="max-w-5xl mx-auto space-y-8">
+            {/* Cost per conversation */}
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-bold mb-4 text-center">Costo por Conversación</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-border">
+                          <th className="text-left p-3 font-semibold">Modelo</th>
+                          <th className="text-center p-3 font-semibold">Input (3k tokens)</th>
+                          <th className="text-center p-3 font-semibold">Output (1k tokens)</th>
+                          <th className="text-center p-3 font-semibold">Costo/conversación</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b border-border/50">
+                          <td className="p-3 font-medium">GPT-4.1</td>
+                          <td className="p-3 text-center text-muted-foreground">$0.006</td>
+                          <td className="p-3 text-center text-muted-foreground">$0.008</td>
+                          <td className="p-3 text-center font-bold text-neonGreen">$0.014 USD</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 font-medium">GPT-4.1 nano</td>
+                          <td className="p-3 text-center text-muted-foreground">$0.00030</td>
+                          <td className="p-3 text-center text-muted-foreground">$0.00040</td>
+                          <td className="p-3 text-center font-bold text-neonGreen">$0.00070 USD</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Monthly scenarios */}
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h3 className="text-xl font-bold mb-4 text-center">Costos Mensuales Estimados</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Scenario A */}
+                <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-neonGreen/30 transition-all duration-300">
+                  <CardContent className="p-6">
+                    <h4 className="text-lg font-bold mb-4 text-center">
+                      Escenario A: <span className="text-neonGreen">10,000 contactos/mes</span>
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                        <span className="font-medium">GPT-4.1</span>
+                        <span className="font-bold text-lg">~$140 USD/mes</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-neonGreen/10 rounded-lg border border-neonGreen/30">
+                        <span className="font-medium">GPT-4.1 nano</span>
+                        <span className="font-bold text-lg text-neonGreen">~$7 USD/mes</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Scenario B */}
+                <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-neonGreen/30 transition-all duration-300">
+                  <CardContent className="p-6">
+                    <h4 className="text-lg font-bold mb-4 text-center">
+                      Escenario B: <span className="text-neonGreen">15,000 contactos/mes</span>
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                        <span className="font-medium">GPT-4.1</span>
+                        <span className="font-bold text-lg">~$210 USD/mes</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-neonGreen/10 rounded-lg border border-neonGreen/30">
+                        <span className="font-medium">GPT-4.1 nano</span>
+                        <span className="font-bold text-lg text-neonGreen">~$10.50 USD/mes</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </motion.div>
+
+            {/* Model comparison */}
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-bold mb-4 text-center">Comparativa de Modelos</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-border">
+                          <th className="text-left p-3 font-semibold">Aspecto</th>
+                          <th className="text-center p-3 font-semibold">GPT-4.1</th>
+                          <th className="text-center p-3 font-semibold">GPT-4.1 nano</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b border-border/50">
+                          <td className="p-3 font-medium">Calidad de razonamiento</td>
+                          <td className="p-3 text-center">
+                            <div className="flex justify-center gap-0.5">
+                              {[1,2,3,4,5].map((i) => (
+                                <Star key={i} className="h-4 w-4 fill-neonGreen text-neonGreen" />
+                              ))}
+                            </div>
+                          </td>
+                          <td className="p-3 text-center">
+                            <div className="flex justify-center gap-0.5">
+                              {[1,2,3].map((i) => (
+                                <Star key={i} className="h-4 w-4 fill-neonGreen text-neonGreen" />
+                              ))}
+                              {[4,5].map((i) => (
+                                <Star key={i} className="h-4 w-4 text-muted-foreground" />
+                              ))}
+                            </div>
+                          </td>
+                        </tr>
+                        <tr className="border-b border-border/50">
+                          <td className="p-3 font-medium">Manejo de contexto largo</td>
+                          <td className="p-3 text-center text-neonGreen font-semibold">Excelente</td>
+                          <td className="p-3 text-center text-muted-foreground">Bueno</td>
+                        </tr>
+                        <tr className="border-b border-border/50">
+                          <td className="p-3 font-medium">Velocidad</td>
+                          <td className="p-3 text-center text-muted-foreground">Buena</td>
+                          <td className="p-3 text-center text-neonGreen font-semibold">Muy alta</td>
+                        </tr>
+                        <tr className="border-b border-border/50">
+                          <td className="p-3 font-medium">Ideal para</td>
+                          <td className="p-3 text-center text-sm">Casos complejos, ventas, legal</td>
+                          <td className="p-3 text-center text-sm">Alto volumen, WhatsApp, atención</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 font-medium">Costo relativo</td>
+                          <td className="p-3 text-center text-amber-600 font-semibold">Alto</td>
+                          <td className="p-3 text-center text-neonGreen font-semibold">Muy bajo</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section className="py-20 bg-gradient-to-r from-darkBlue to-darkBlue/90 text-white">
         <div className="container mx-auto px-4 text-center">
