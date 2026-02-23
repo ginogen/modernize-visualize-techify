@@ -450,7 +450,7 @@ const PropuestaFriorep = () => {
         {/* Card 2: Fee mensual - Opción 1 */}
         <Card className="card-minimal p-6 bg-green-50 border-green-200">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">💵 Opción 1 - Fee Mensual</h3>
-          <p className="text-2xl font-bold text-green-700 mb-2">$190.000</p>
+          <p className="text-2xl font-bold text-green-700 mb-2">$245.000</p>
           <div className="mb-4">
             <h4 className="font-semibold text-gray-800 mb-2">Incluye:</h4>
             <ul className="space-y-1 text-gray-700 text-sm">
@@ -470,7 +470,7 @@ const PropuestaFriorep = () => {
         {/* Card 3: Fee mensual - Opción 2 */}
         <Card className="card-minimal p-6 bg-blue-50 border-blue-200">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">💵 Opción 2 - Fee Mensual</h3>
-          <p className="text-2xl font-bold text-blue-700 mb-2">$370.000</p>
+          <p className="text-2xl font-bold text-blue-700 mb-2">$415.000</p>
           <div className="mb-4">
             <h4 className="font-semibold text-gray-800 mb-2">Incluye:</h4>
             <ul className="space-y-1 text-gray-700 text-sm">
