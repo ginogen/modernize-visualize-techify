@@ -516,7 +516,7 @@ const LandingEVContadores = () => {
                     </div>
                     <h3 className="text-3xl font-bold mb-4">Desarrollo del Sistema</h3>
                     <div className="flex items-center justify-center gap-4 mb-4">
-                      <span className="text-5xl font-bold text-neonGreen">$1.200.000</span>
+                      <span className="text-5xl font-bold text-neonGreen">$750.000</span>
                       <Badge className="bg-slate-100 text-slate-700 border-slate-300">
                         ARS
                       </Badge>
