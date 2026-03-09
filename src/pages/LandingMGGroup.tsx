@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   MessageSquare,
@@ -31,16 +31,69 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 
 const LandingMGGroup = () => {
   const { toast } = useToast();
+  const [password, setPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === "MG2026!") {
+      setIsAuthenticated(true);
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-darkBlue via-slate-900 to-black">
+        <Card className="w-full max-w-md mx-4 bg-card/50 backdrop-blur-sm border-neonGreen/30">
+          <CardContent className="p-8">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-neonGreen/10 rounded-xl mb-4">
+                <Shield className="h-8 w-8 text-neonGreen" />
+              </div>
+              <h1 className="text-2xl font-bold text-white mb-2">MG GROUP</h1>
+              <p className="text-white/60">Ingresá la contraseña para ver la propuesta</p>
+            </div>
+            <form onSubmit={handlePasswordSubmit} className="space-y-4">
+              <Input
+                type="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordError(false);
+                }}
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              />
+              {passwordError && (
+                <p className="text-red-400 text-sm">Contraseña incorrecta. Intentá de nuevo.</p>
+              )}
+              <Button
+                type="submit"
+                className="w-full bg-neonGreen text-darkBlue hover:bg-neonGreen/90 font-semibold"
+              >
+                Acceder
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
@@ -305,28 +358,56 @@ const LandingMGGroup = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <Card className="bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border-2 border-neonGreen/30 shadow-xl shadow-neonGreen/10">
-                <CardContent className="p-12">
-                  <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-20 h-20 bg-neonGreen/10 rounded-xl mb-6">
-                      <DollarSign className="h-10 w-10 text-neonGreen" />
+              <h3 className="text-2xl font-bold text-center mb-6">Costo de Implementación</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Propuesta 1 */}
+                <Card className="bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border-2 border-neonGreen/30 shadow-xl shadow-neonGreen/10">
+                  <CardContent className="p-8">
+                    <div className="text-center">
+                      <div className="inline-flex items-center justify-center w-16 h-16 bg-neonGreen/10 rounded-xl mb-4">
+                        <DollarSign className="h-8 w-8 text-neonGreen" />
+                      </div>
+                      <h4 className="text-2xl font-bold mb-4">Propuesta 1</h4>
+                      <div className="flex items-center justify-center gap-3 mb-4">
+                        <span className="text-4xl font-bold text-neonGreen">$1.800.000</span>
+                        <Badge className="bg-slate-100 text-slate-700 border-slate-300">
+                          ARS
+                        </Badge>
+                      </div>
+                      <p className="text-muted-foreground mb-2">
+                        Tiempo de implementación: <span className="font-semibold text-slate-800">2 a 4 semanas</span>
+                      </p>
+                      <p className="text-muted-foreground text-sm">
+                        50% para comenzar • 50% al entregar el bot funcionando
+                      </p>
                     </div>
-                    <h3 className="text-3xl font-bold mb-4">Costo de Implementación</h3>
-                    <div className="flex items-center justify-center gap-4 mb-4">
-                      <span className="text-5xl font-bold text-neonGreen">$1.800.000</span>
-                      <Badge className="bg-slate-100 text-slate-700 border-slate-300">
-                        ARS
-                      </Badge>
+                  </CardContent>
+                </Card>
+
+                {/* Propuesta 2 */}
+                <Card className="bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border-2 border-neonGreen/30 shadow-xl shadow-neonGreen/10">
+                  <CardContent className="p-8">
+                    <div className="text-center">
+                      <div className="inline-flex items-center justify-center w-16 h-16 bg-neonGreen/10 rounded-xl mb-4">
+                        <DollarSign className="h-8 w-8 text-neonGreen" />
+                      </div>
+                      <h4 className="text-2xl font-bold mb-4">Propuesta 2</h4>
+                      <div className="flex items-center justify-center gap-3 mb-4">
+                        <span className="text-4xl font-bold text-neonGreen">$1.400.000</span>
+                        <Badge className="bg-slate-100 text-slate-700 border-slate-300">
+                          ARS
+                        </Badge>
+                      </div>
+                      <p className="text-muted-foreground mb-2">
+                        Tiempo de implementación: <span className="font-semibold text-slate-800">2 a 4 semanas</span>
+                      </p>
+                      <p className="text-muted-foreground text-sm">
+                        50% para comenzar • 50% al entregar el bot funcionando
+                      </p>
                     </div>
-                    <p className="text-muted-foreground text-lg mb-2">
-                      Tiempo de implementación: <span className="font-semibold text-slate-800">2 a 4 semanas</span>
-                    </p>
-                    <p className="text-muted-foreground">
-                      50% para comenzar • 50% al entregar el bot funcionando
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
             </motion.div>
 
             {/* Monthly Plans */}
@@ -337,11 +418,32 @@ const LandingMGGroup = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h3 className="text-2xl font-bold text-center mb-6">Planes Mensuales</h3>
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-3 gap-6">
                 {/* Plan 1 */}
                 <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-neonGreen/30 transition-all duration-300">
                   <CardContent className="p-8 text-center">
                     <h4 className="text-2xl font-bold mb-4">Plan 1</h4>
+                    <div className="mb-4">
+                      <span className="text-4xl font-bold text-neonGreen">USD 245</span>
+                      <span className="text-muted-foreground">/mes</span>
+                    </div>
+                    <div className="space-y-3 text-left">
+                      <div className="flex items-center gap-3">
+                        <CheckCircle className="h-5 w-5 text-neonGreen flex-shrink-0" />
+                        <span>Hasta <strong>10.000</strong> contactos</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <CheckCircle className="h-5 w-5 text-neonGreen flex-shrink-0" />
+                        <span>Hasta <strong>10</strong> colaboradores</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Plan 2 */}
+                <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-neonGreen/30 transition-all duration-300">
+                  <CardContent className="p-8 text-center">
+                    <h4 className="text-2xl font-bold mb-4">Plan 2</h4>
                     <div className="mb-4">
                       <span className="text-4xl font-bold text-neonGreen">USD 320</span>
                       <span className="text-muted-foreground">/mes</span>
@@ -359,10 +461,10 @@ const LandingMGGroup = () => {
                   </CardContent>
                 </Card>
 
-                {/* Plan 2 */}
+                {/* Plan 3 */}
                 <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-neonGreen/30 transition-all duration-300">
                   <CardContent className="p-8 text-center">
-                    <h4 className="text-2xl font-bold mb-4">Plan 2</h4>
+                    <h4 className="text-2xl font-bold mb-4">Plan 3</h4>
                     <div className="mb-4">
                       <span className="text-4xl font-bold text-neonGreen">USD 690</span>
                       <span className="text-muted-foreground">/mes</span>
