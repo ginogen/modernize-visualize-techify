@@ -78,6 +78,7 @@ import LandingMGGroup from "./pages/LandingMGGroup";
 import LandingEVContadores from "./pages/LandingEVContadores";
 import BotPrueba from "./pages/BotPrueba";
 import BotBisio from "./pages/BotBisio";
+import PropuestaGerman from "./pages/PropuestaGerman";
 
 const queryClient = new QueryClient();
 
@@ -342,6 +343,7 @@ function App() {
                   />
                   <Route path="/bot-prueba" element={<BotPrueba />} />
                   <Route path="/bot-bisio" element={<BotBisio />} />
+                  <Route path="/propuesta-german" element={<PropuestaGerman />} />
 
                   {/* Rutas protegidas que requieren autenticación */}
                   <Route
