@@ -75,6 +75,7 @@ import PropuestaFriorep from "./pages/PropuestaFriorep";
 import PropuestaMartinSlutzky from "./pages/PropuestaMartinSlutzky";
 import LandingSebastianBisio from "./pages/LandingSebastianBisio";
 import LandingMGGroup from "./pages/LandingMGGroup";
+import PropuestaMGGroupDataCloud from "./pages/PropuestaMGGroupDataCloud";
 import LandingEVContadores from "./pages/LandingEVContadores";
 import BotPrueba from "./pages/BotPrueba";
 import BotBisio from "./pages/BotBisio";
@@ -336,6 +337,10 @@ function App() {
                   <Route
                     path="/propuesta-mg-group"
                     element={<LandingMGGroup />}
+                  />
+                  <Route
+                    path="/propuesta-mg-group-data-cloud"
+                    element={<PropuestaMGGroupDataCloud />}
                   />
                   <Route
                     path="/ev-contadores"
